@@ -1,5 +1,5 @@
 import { Pool, PoolConfig, QueryResult, QueryResultRow } from "pg";
-import config from "../config/config.js";
+import config from "./config.js";
 
 const poolConfig: PoolConfig = {
 	user: config.pgUser,
