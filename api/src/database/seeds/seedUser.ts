@@ -1,6 +1,6 @@
-import { ensureUserTable } from "../migrations/users";
-import { createUser } from "../../models/userModel";
-import { hashPassword } from "../../utils/password";
+import { ensureUserTable } from "../migrations/users.js";
+import { createUser } from "../../models/userModel.js";
+import { hashPassword } from "../../utils/password.js";
 
 async function seedUsers() {
 	try {
