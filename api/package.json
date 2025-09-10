@@ -1,0 +1,29 @@
+{
+	"name": "store",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "dist/server.js",
+	"scripts": {
+		"dev": "tsc && node dist/server.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"typescript": "^5.9.2"
+	},
+	"dependencies": {
+		"@faker-js/faker": "^10.0.0",
+		"@types/bcryptjs": "^3.0.0",
+		"@types/cors": "^2.8.19",
+		"@types/express": "^5.0.3",
+		"@types/jsonwebtoken": "^9.0.10",
+		"@types/node": "^24.3.1",
+		"@types/nodemon": "^3.1.1",
+		"@types/pg": "^8.15.5",
+		"dotenv": "^17.2.2",
+		"express-validator": "^7.2.1"
+	}
+}
+
