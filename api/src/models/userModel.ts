@@ -44,3 +44,9 @@ export async function createUser(email: string, hashedPassword: string): Promise
 
 	return result.rows[0];
 }
+
+export async function getUserByEmail(email: string): Promise<User> {
+	const result = await query<User>("SELECT * FROM users WHERE email = $1", [email]);
+
+	return result.rows[0];
+}

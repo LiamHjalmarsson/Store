@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { query } from "../config/database.js";
-import { createUser } from "../models/userModel.js";
+import { createUser, getUserByEmail } from "../models/userModel.js";
 import { hashPassword, comparePassword } from "../utils/password.js";
 import { generateToken } from "../utils/jwt.js";
 
@@ -24,12 +24,7 @@ export const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	try {
-		const result = await query<{ id: number; email: string; password: string }>(
-			"SELECT * FROM users WHERE email = $1",
-			[email]
-		);
-
-		const user = result.rows[0];
+		const user = await getUserByEmail(email);
 
 		if (!user) {
 			return res.status(400).json({ message: "Invalid credentials" });
