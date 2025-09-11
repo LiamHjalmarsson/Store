@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { query } from "../config/database.js";
 import { createUser, getUserByEmail } from "../models/userModel.js";
 import { hashPassword, comparePassword } from "../utils/password.js";
 import { generateToken } from "../utils/jwt.js";
@@ -12,7 +11,7 @@ export const register = async (req: Request, res: Response) => {
 
 		let user = await createUser(email, hashedPassword);
 
-		const token = generateToken({ id: user.id, email: user.email });
+		const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
 		return res.status(201).json({ token });
 	} catch (error) {
@@ -36,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
 
-		const token = generateToken({ id: user.id, email: user.email });
+		const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
 		res.json({ message: "Login endpoint", token });
 	} catch (error) {
