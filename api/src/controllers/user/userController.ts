@@ -1,22 +1,28 @@
 import { Request, Response } from "express";
-import { deleteUserById, findAllUsers, findUserById, updateUserById } from "../../models/userModel.js";
+import {
+	deleteUserService,
+	getAllUsersService,
+	getUserService,
+	updateUserService,
+} from "../../services/userService.js";
 
 export const getAllUsers = async (req: Request, res: Response) => {
 	try {
-		const users = await findAllUsers();
+		const users = await getAllUsersService();
 
 		res.json({ users });
 	} catch (err) {
 		res.status(500).json({ message: "Server error", error: err });
 	}
 };
+
 export const createUser = async (req: Request, res: Response) => {};
 
 export const getUser = async (req: Request, res: Response) => {
 	try {
 		const id = Number(req.params.id);
 
-		const user = await findUserById(id);
+		const user = await getUserService(id);
 
 		if (!user) {
 			return res.status(404).json({ message: "User not found" });
@@ -32,7 +38,7 @@ export const updateUser = async (req: Request, res: Response) => {
 	try {
 		const id = Number(req.params.id);
 
-		const user = await updateUserById(id, req.body);
+		const user = await updateUserService(id, req.body);
 
 		if (!user) {
 			return res.status(404).json({ message: "User not found" });
@@ -48,7 +54,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 	try {
 		const id = Number(req.params.id);
 
-		const deleted = await deleteUserById(id);
+		const deleted = await deleteUserService(id);
 
 		if (!deleted) {
 			return res.status(404).json({ message: "User not found" });

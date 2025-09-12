@@ -1,6 +1,6 @@
-import { query } from "../config/database.js";
-import { ensureUserTable } from "../database/migrations/users.js";
-import { User } from "../types/user.js";
+import { query } from "../../config/database.js";
+import { ensureUserTable } from "../../database/migrations/users.js";
+import { User } from "../../types/user.js";
 
 export async function findAllUsers(): Promise<User[]> {
 	const result = await query<User>("SELECT * FROM users");
@@ -32,15 +32,25 @@ export async function findUserById(id: number): Promise<User | null> {
 }
 
 export async function updateUserById(id: number, data: Partial<User>): Promise<User | null> {
-	const fields = Object.keys(data);
+	const allowed: (keyof User)[] = [
+		"firstname",
+		"lastname",
+		"avatar",
+		"username",
+		"role",
+		"account_status",
+		"signed_to_newsletter",
+	];
+
+	const fields = allowed.filter((key) => data[key] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
 	}
 
-	const setSql = fields.map((field, index) => `${field} = $${index + 2}`).join(", ");
+	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
 
-	const values = [id, ...fields.map((field) => (data as any)[field])];
+	const values = [id, ...fields.map((key) => data[key])];
 
 	const result = await query<User>(`UPDATE users SET ${setSql} WHERE id = $1 RETURNING *`, values);
 

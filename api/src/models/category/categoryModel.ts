@@ -1,6 +1,7 @@
 import { query } from "../../config/database";
-import { ensureCategoryTable } from "../../database/migrations/categories";
+import { ensureCategoryTable } from "../../database/migrations/categories.js";
 import { Category } from "../../types/category";
+
 export async function findAllCategories(): Promise<Category[] | null> {
 	return null;
 }

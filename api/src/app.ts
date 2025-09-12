@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoute from "./routes/auth/authRoute.js";
 import userRoute from "./routes/user/userRoute.js";
-import profileRoute from "./routes/user/profileRoute.js";
+import profileRoute from "./routes/profile/profileRoute.js";
 import categoryRoute from "./routes/category/categoryRoute.js";
 
 const app = express();
