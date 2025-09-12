@@ -8,7 +8,7 @@ export interface AuthenticatedRequest extends Request {
 /**
  * Middleware: only allow logged in users
  */
-export default function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export default function authenicated(req: AuthenticatedRequest, res: Response, next: NextFunction) {
 	const authHeader = req.headers["authorization"];
 
 	if (!authHeader) {
