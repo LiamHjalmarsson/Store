@@ -1,9 +1,13 @@
-import { query } from "../../config/database";
+import { query } from "../../config/database.js";
 import { ensureCategoryTable } from "../../database/migrations/categories.js";
-import { Category } from "../../types/category";
+import { Category } from "../../types/category.js";
 
 export async function findAllCategories(): Promise<Category[] | null> {
-	return null;
+	await ensureCategoryTable();
+
+	const result = await query<Category>("SELECT * FROM categories");
+
+	return result.rows;
 }
 
 export async function createNewCategory(data: Omit<Category, "id" | "created_at" | "updated_at">): Promise<Category> {

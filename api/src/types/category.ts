@@ -4,4 +4,5 @@ export interface Category {
 	description?: string | null;
 	image?: string | null;
 	created_at: Date;
+	updated_at: Date;
 }

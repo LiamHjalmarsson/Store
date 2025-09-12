@@ -2,7 +2,7 @@ import { query } from "../../config/database.js";
 import { hashPassword } from "../../utils/password.js";
 import { ensureUserTable } from "../migrations/users.js";
 
-async function seedUsers() {
+export async function seedUsers() {
 	try {
 		await query("DROP TABLE IF EXISTS users CASCADE");
 
@@ -67,12 +67,9 @@ async function seedUsers() {
 
 			console.log(`Seeded user: ${user.email}`);
 		}
-
-		process.exit(0);
 	} catch (err) {
 		console.error("Error seeding users:", err);
+
 		process.exit(1);
 	}
 }
-
-seedUsers();

@@ -17,6 +17,6 @@ app.use("/api/users", userRoute);
 
 app.use("/api/profile", profileRoute);
 
-app.use("api/categories", categoryRoute);
+app.use("/api/categories", categoryRoute);
 
 export default app;
