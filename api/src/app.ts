@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoute from "./routes/auth/authRoute.js";
 import userRoute from "./routes/user/userRoute.js";
 import profileRoute from "./routes/user/profileRoute.js";
+import categoryRoute from "./routes/category/categoryRoute.js";
 
 const app = express();
 
@@ -15,5 +16,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 
 app.use("/api/profile", profileRoute);
+
+app.use("api/categories", categoryRoute);
 
 export default app;
