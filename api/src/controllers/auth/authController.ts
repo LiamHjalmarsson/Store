@@ -1,17 +1,11 @@
 import { Request, Response } from "express";
-import { createUser, getUserByEmail } from "../../models/userModel.js";
-import { hashPassword, comparePassword } from "../../utils/password.js";
-import { generateToken } from "../../utils/jwt.js";
+import { loginUser, registerUser } from "../../services/authService.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	try {
-		const hashedPassword = await hashPassword(password);
-
-		let user = await createUser(email, hashedPassword);
-
-		const token = generateToken({ id: user.id, email: user.email, role: user.role });
+		const { token, user } = await registerUser(email, password);
 
 		return res.status(201).json({ token });
 	} catch (error) {
@@ -23,19 +17,13 @@ export const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	try {
-		const user = await getUserByEmail(email);
+		const result = await loginUser(email, password);
 
-		if (!user) {
+		if (!result) {
 			return res.status(400).json({ message: "Invalid credentials" });
 		}
 
-		const isPasswordMatch = await comparePassword(password, user.password);
-
-		if (!isPasswordMatch) {
-			return res.status(400).json({ message: "Invalid credentials" });
-		}
-
-		const token = generateToken({ id: user.id, email: user.email, role: user.role });
+		const { token, user } = result;
 
 		res.json({ message: "Login endpoint", token });
 	} catch (error) {
