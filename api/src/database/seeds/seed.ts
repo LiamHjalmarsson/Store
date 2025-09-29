@@ -1,3 +1,4 @@
+import { seedProducts } from "./productSeeder.js";
 import { seedCategories } from "./seedCategory.js";
 import { seedUsers } from "./seedUser.js";
 
@@ -6,6 +7,8 @@ export async function seed() {
 		await seedUsers();
 
 		await seedCategories();
+
+		await seedProducts();
 
 		console.log("Seed completed");
 
