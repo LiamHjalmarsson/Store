@@ -1,11 +1,29 @@
+import { seedProducts } from "./seedProduct.js";
 import { seedCategories } from "./seedCategory.js";
 import { seedUsers } from "./seedUser.js";
+import { seedOrders } from "./seedOrders.js";
+import { seedOrderItems } from "./seedOrderItems.js";
+import { seedCarts } from "./seedCarts.js";
+import { seedCartItems } from "./seedCartItems.js";
+import { seedPayments } from "./seedPayments.js";
 
 export async function seed() {
 	try {
 		await seedUsers();
 
 		await seedCategories();
+
+		await seedProducts();
+
+		await seedOrders();
+
+		await seedOrderItems();
+
+		await seedCarts();
+
+		await seedCartItems();
+
+		await seedPayments();
 
 		console.log("Seed completed");
 
