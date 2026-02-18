@@ -40,7 +40,9 @@ const routes = [
 	},
 ];
 
-export const router = createRouter({
+const router = createRouter({
 	history: createWebHistory(),
 	routes,
 });
+
+export { router };

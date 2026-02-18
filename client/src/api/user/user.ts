@@ -1,3 +1,5 @@
+import api from "../axios";
+
 export type AccountStatus = "active" | "suspended" | "banned";
 
 export interface User {
@@ -14,4 +16,10 @@ export interface User {
 	created_at: Date;
 }
 
-export type PublicUser = Omit<User, "password">;
+export interface GetUsersResponse {
+	users: User[];
+}
+
+export const getUsers = () => {
+	return api.get<GetUsersResponse>("/users");
+};

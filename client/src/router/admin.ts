@@ -1,3 +1,4 @@
+import Admin from "../layouts/admin.vue";
 import Categories from "../pages/admin/categories/Categories.vue";
 import Dashboard from "../pages/admin/Dashboard.vue";
 import Order from "../pages/admin/orders/order/Order.vue";
@@ -10,6 +11,7 @@ import Users from "../pages/admin/users/Users.vue";
 
 export const adminRoutes = {
 	path: "/admin",
+	component: Admin,
 	children: [
 		{
 			path: "",
@@ -42,8 +44,8 @@ export const adminRoutes = {
 			component: Orders,
 		},
 		{
-			path: "Order",
-			name: "admin-orders",
+			path: "orders/:id",
+			name: "admin-order",
 			component: Order,
 		},
 		{

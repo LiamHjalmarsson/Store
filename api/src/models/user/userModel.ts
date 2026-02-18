@@ -1,9 +1,22 @@
 import { query } from "../../config/database.js";
 import { ensureUserTable } from "../../database/migrations/users.js";
-import { User } from "../../types/user.js";
+import { PublicUser, User } from "../../types/user.js";
 
-export async function findAllUsers(): Promise<User[]> {
-	const result = await query<User>("SELECT * FROM users");
+export async function findAllUsers(): Promise<PublicUser[]> {
+	const result = await query<PublicUser>(`
+		SELECT
+		id,
+		email,
+		firstname,
+		lastname,
+		avatar,
+		username,
+		role,
+		account_status,
+		signed_to_newsletter,
+		created_at
+		FROM users
+	`);
 
 	return result.rows;
 }
