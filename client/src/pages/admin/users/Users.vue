@@ -12,8 +12,8 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="container mx-auto p-6">
-		<div class="grid grid-cols-2 gap-6">
+	<div class="container mx-auto">
+		<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-3 lg:gap-6">
 			<div v-for="user in users" :key="user.id" class="p-1.5 space-y-8 shadow rounded-4xl">
 				<div class="h-32 w-full bg-black/80 relative rounded-3xl">
 					<div class="absolute left-5 -bottom-4 w-16 h-16 rounded-full">
