@@ -5,28 +5,34 @@ import Register from "../pages/auth/Register.vue";
 import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import { adminRoutes } from "./admin";
 import { userRoutes } from "./user";
+import Default from "../layouts/default.vue";
 
 const routes = [
 	{
-		path: "/login",
-		component: Login,
-		name: "login",
-	},
-	{
-		path: "/register",
-		component: Register,
-		name: "register",
-	},
-	{
-		path: "/forgot-password",
-		component: ForgotPassword,
-		name: "forgot-password",
-	},
-
-	{
 		path: "/",
-		name: "home",
-		component: Home,
+		component: Default,
+		children: [
+			{
+				path: "",
+				name: "home",
+				component: Home,
+			},
+			{
+				path: "login",
+				name: "login",
+				component: Login,
+			},
+			{
+				path: "register",
+				name: "register",
+				component: Register,
+			},
+			{
+				path: "forgot-password",
+				name: "forgot-password",
+				component: ForgotPassword,
+			},
+		],
 	},
 
 	adminRoutes,

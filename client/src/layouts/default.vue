@@ -1,26 +1,31 @@
 <script setup lang="ts">
 const links = [
 	{
-		label: "Images",
-		href: "/images",
+		label: "Marketplace",
+		href: "/marketplace",
 		icon: "",
 	},
 	{
-		label: "Men",
-		href: "/illustrations",
+		label: "Bank",
+		href: "/bank",
 		icon: "",
 	},
 ];
 </script>
 
 <template>
-	<nav class="bg-black text-white w-full flex-1 fixed">
-		<ul class="space-y-12 py-10 px-20">
-			<li v-for="link in links" :key="link.label" class="font-bold text-lg capitalize">
+	<nav class="bg-black text-white w-full fixed flex justify-between items-center px-20">
+		<div>MophyPlace</div>
+		<ul class="space-x-12 py-6 flex">
+			<li v-for="link in links" :key="link.label" class="font-bold capitalize">
 				<RouterLink class="" :to="link.href">
 					{{ link.label }}
 				</RouterLink>
 			</li>
 		</ul>
 	</nav>
+
+	<main class="">
+		<RouterView />
+	</main>
 </template>
