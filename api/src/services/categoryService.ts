@@ -1,4 +1,4 @@
-import { findAllCategories } from "../models/category/categoryModel.js";
+import { findAllCategories, findCategoryById } from "../models/category/categoryModel.js";
 import { Category } from "../types/category.js";
 
 export const getAllCategoriesService = async () => {
@@ -7,11 +7,13 @@ export const getAllCategoriesService = async () => {
 
 export const createCategoryService = async (data: Partial<Omit<Category, "id" | "created_at" | "updated_at">>) => {};
 
-export const getCategoryService = async (categoryId: number) => {};
+export const getCategoryService = async (categoryId: number) => {
+	return await findCategoryById(categoryId);
+};
 
 export const updateCategoryService = async (
 	categoryId: number,
-	data: Partial<Omit<Category, "id" | "created_at" | "updated_at">>
+	data: Partial<Omit<Category, "id" | "created_at" | "updated_at">>,
 ) => {};
 
 export const deleteCategoryService = async (categoryId: number): Promise<boolean> => {

@@ -15,7 +15,7 @@ export async function createNewCategory(data: Omit<Category, "id" | "created_at"
 
 	const result = await query<Category>(
 		"INSERT INTO categories (title, description, image, create_at) VALUES ($1, $2, $3, $4) RETURNING *",
-		[]
+		[],
 	);
 
 	return result.rows[0];
@@ -24,12 +24,14 @@ export async function createNewCategory(data: Omit<Category, "id" | "created_at"
 export async function findCategoryById(id: number): Promise<Category | null> {
 	await ensureCategoryTable();
 
-	return null;
+	const result = await query<Category>("SELECT * FROM categories WHERE id = $1", [id]);
+
+	return result.rows[0];
 }
 
 export async function updateCategoryById(
 	id: number,
-	data: Partial<Omit<Category, "id" | "created_at" | "updated_at">>
+	data: Partial<Omit<Category, "id" | "created_at" | "updated_at">>,
 ) {}
 
 export async function deleteCategoryById(id: number): Promise<boolean> {
