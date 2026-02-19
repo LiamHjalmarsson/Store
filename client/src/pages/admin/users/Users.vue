@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { getUsers, type User } from "../../../api/user/user";
-import Card from "../../../components/ui/card.vue";
+import Card from "../../../components/ui/Card.vue";
 
 const users = ref<User[]>([]);
 

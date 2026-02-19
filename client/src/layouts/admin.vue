@@ -1,8 +1,14 @@
 <script setup lang="ts">
 const links = [
 	{
+		label: "Dashboard",
+		href: "/admin",
+		icon: "",
+		subLinks: [],
+	},
+	{
 		label: "Users",
-		href: "users",
+		href: "/admin/users",
 		icon: "",
 		subLinks: [],
 	},
@@ -15,6 +21,12 @@ const links = [
 	{
 		label: "Orders",
 		href: "orders",
+		icon: "",
+		subLinks: [],
+	},
+	{
+		label: "Payments",
+		href: "payments",
 		icon: "",
 		subLinks: [],
 	},

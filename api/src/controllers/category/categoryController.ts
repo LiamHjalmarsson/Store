@@ -5,7 +5,7 @@ export const getAllCategories = async (req: Request, res: Response) => {
 	try {
 		const categories = await getAllCategoriesService();
 
-		res.json(categories);
+		res.json({ categories });
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error });
 	}
