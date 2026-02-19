@@ -9,9 +9,9 @@ import {
 	ChartDownIcon,
 } from "@hugeicons/core-free-icons";
 import Icon from "../../components/ui/Icon.vue";
-import StatCard from "../../components/ui/StatCard.vue";
 import type { CompanyRow } from "../../components/table/Table.vue";
 import Table from "../../components/table/Table.vue";
+import Card from "../../components/ui/Card.vue";
 
 const rows: CompanyRow[] = [
 	{
@@ -95,7 +95,7 @@ const rows: CompanyRow[] = [
 
 <template>
 	<div class="grid grid-cols-12 gap-6">
-		<StatCard class="col-span-12 lg:col-span-8">
+		<Card class="col-span-12 lg:col-span-8">
 			<div class="flex justify-between items-center">
 				<p class="text-xl font-bold">Statics</p>
 				<p class="text-black/60">Updated 1 mouth ago</p>
@@ -139,12 +139,12 @@ const rows: CompanyRow[] = [
 					</p>
 				</div>
 			</div>
-		</StatCard>
+		</Card>
 
 		<Table :rows class="col-span-4 row-span-3"> Recent Purcahses </Table>
 
 		<div class="grid grid-cols-3 col-span-12 lg:col-span-8 gap-6">
-			<StatCard>
+			<Card>
 				<div class="flex justify-between items-center">
 					<div class="font-bold">
 						<p class="">Orders</p>
@@ -155,8 +155,8 @@ const rows: CompanyRow[] = [
 						<Icon :icon="Chart01Icon" />
 					</div>
 				</div>
-			</StatCard>
-			<StatCard>
+			</Card>
+			<Card>
 				<div class="flex justify-between items-center">
 					<div class="font-bold">
 						<p class="">Profit</p>
@@ -167,9 +167,9 @@ const rows: CompanyRow[] = [
 						<Icon :icon="ChartUpIcon" />
 					</div>
 				</div>
-			</StatCard>
+			</Card>
 
-			<StatCard>
+			<Card>
 				<div class="flex justify-between items-center">
 					<div class="font-bold">
 						<p class="">Expenses</p>
@@ -180,7 +180,7 @@ const rows: CompanyRow[] = [
 						<Icon :icon="ChartDownIcon" />
 					</div>
 				</div>
-			</StatCard>
+			</Card>
 		</div>
 
 		<Table :rows class="col-span-8"> Top </Table>

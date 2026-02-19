@@ -4,7 +4,7 @@ import config from "../config/config.js";
 export interface JwtPayload {
 	id: number;
 	email: string;
-	role: "user" | "admin";
+	role: "user" | "admin" | "creator";
 }
 
 /**

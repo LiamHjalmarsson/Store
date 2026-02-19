@@ -8,7 +8,7 @@ export interface User {
 	lastname?: string;
 	avatar?: string;
 	username?: string;
-	role: "user" | "admin";
+	role: "user" | "admin" | "creator";
 	account_status: AccountStatus;
 	signed_to_newsletter: boolean;
 	created_at: Date;

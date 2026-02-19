@@ -1,8 +1,26 @@
 <script setup lang="ts">
-
+import { onMounted, ref } from "vue";
+import { getCategories, type Category } from "../api/category/category";
 import background from "../assets/images/bg.jpg"
-import StatCard from "../components/ui/StatCard.vue";
+import Card from "../components/ui/Card.vue";
+import { getUsers, type User } from "../api/user/user";
+import UserCard from "../components/ui/UserCard.vue";
 
+const featuredCategories = ref<Category[]>([]);
+
+const creators = ref<User[]>([]);
+
+onMounted(async () => {
+	const res = await getCategories();
+
+	const resUsers = await getUsers();
+
+	const featuerd = res.data.categories.filter((category) => category.is_featured);
+
+	creators.value = resUsers.data.users.filter((user) => user.role === 'creator');
+
+	featuredCategories.value = featuerd;
+});
 </script>
 
 <template>
@@ -55,7 +73,7 @@ import StatCard from "../components/ui/StatCard.vue";
 		</div>
 	</div>
 
-	<div class="container mx-auto space-y-14 py-20">
+	<div class="container mx-auto space-y-6 py-20">
 		<div class="space-y-3">
 			<h2 class="text-5xl font-bold">
 				How it works
@@ -70,24 +88,7 @@ import StatCard from "../components/ui/StatCard.vue";
 		</div>
 	</div>
 
-	<div class="container mx-auto space-y-14 py-20">
-		<div class="space-y-3">
-			<h2 class="text-5xl font-bold">
-				Trending
-			</h2>
-			<p class="text-black/80">
-				Checkout Our Weelky updated Trending collection
-			</p>
-		</div>
-
-		<div>
-			
-		</div>
-	</div>
-
-
 	<div class="relative w-full h-120 flex justify-end items-end px-48">
-
 		<div class=" absolute h-full w-full z-10 bg-linear-to-b/decreasing from-black/20 to-black/40 inset-0">
 
 		</div>
@@ -110,19 +111,19 @@ import StatCard from "../components/ui/StatCard.vue";
 					</div>
 				</div>
 				<div class=" p-6 rounded-2xl bg-black/10 fill-transparent backdrop-blur-lg space-y-12">
-					<h3>New sale in:</h3>
+					<h3>New relase in:</h3>
 					<div class="flex space-x-12">
-						<div class="">
-							<p>59</p>
-							<p>hours</p>
+						<div class="font-semibold">
+							<p class="text-3xl">59</p>
+							<p class="">hours</p>
 						</div>
-						<div class="">
-							<p>59</p>
-							<p>minits</p>
+						<div class="font-semibold">
+							<p class="text-3xl">59</p>
+							<p class="">minits</p>
 						</div>
-						<div class="">
-							<p>59</p>
-							<p>minits</p>
+						<div class="font-semibold">
+							<p class="text-3xl">59</p>
+							<p class="">secounds</p>
 						</div>
 					</div>
 				</div>
@@ -130,8 +131,8 @@ import StatCard from "../components/ui/StatCard.vue";
 		</div>
 	</div>
 
-		<div class="container mx-auto space-y-14 py-20">
-		<div class="space-y-3">
+	<div class="container mx-auto space-y-6 py-20">
+		<div class="space-y-6">
 			<h2 class="text-5xl font-bold">
 				Categories
 			</h2>
@@ -140,13 +141,15 @@ import StatCard from "../components/ui/StatCard.vue";
 			</p>
 		</div>
 
-		<div>
-
+		<div class="grid grid-cols-3">
+			<Card v-for="category in featuredCategories" :key="category.id">
+				{{ category.title }}
+			</Card>
 		</div>
 	</div>
 
-	<div class="container mx-auto space-y-14 py-20">
-		<div class="space-y-3">
+	<div class="container mx-auto space-y-6 py-20">
+		<div class="space-y-6">
 			<h2 class="text-5xl font-bold">
 				Creators
 			</h2>
@@ -155,12 +158,12 @@ import StatCard from "../components/ui/StatCard.vue";
 			</p>
 		</div>
 
-		<div>
-			
+		<div class=" grid grid-cols-3 space-x-6">
+			<UserCard v-for="creator in creators" :key="creator.id" :user="creator" />
 		</div>
 	</div>
 
-	<StatCard class="container mx-auto mb-48">
+	<Card class="container mx-auto mb-48">
 		<div class="flex items-center space-x-28 ">
 			<div class="flex-1">
 				<img :src="background" alt="" class=" rounded-2xl"></img>
@@ -185,6 +188,6 @@ import StatCard from "../components/ui/StatCard.vue";
 				</div>
 			</div>
 		</div>
-	</StatCard>
+	</Card>
 
 </template>

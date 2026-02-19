@@ -38,7 +38,7 @@ export async function seedUsers() {
 				lastname: "Karlsson",
 				avatar: "https://i.pravatar.cc/150?img=3",
 				username: "mariak",
-				role: "user",
+				role: "creator",
 				account_status: "suspended",
 				signed_to_newsletter: true,
 			},
@@ -62,7 +62,7 @@ export async function seedUsers() {
 					user.role,
 					user.account_status,
 					user.signed_to_newsletter,
-				]
+				],
 			);
 
 			console.log(`Seeded user: ${user.email}`);
