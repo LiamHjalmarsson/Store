@@ -7,6 +7,7 @@ export async function ensureCategoryTable() {
             title TEXT UNIQUE NOT NULL,
             description TEXT,
             image TEXT,
+            is_featured BOOLEAN DEFAULT false,
             created_at TIMESTAMP DEFAULT now()
         )
     `);

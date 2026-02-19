@@ -12,6 +12,7 @@ export async function seedCategories() {
 				title: "Electronics",
 				description: "Gadgets and devices",
 				image: "electronics.jpg",
+				is_featured: true,
 			},
 			{
 				title: "Books",
@@ -28,10 +29,10 @@ export async function seedCategories() {
 		for (const category of categories) {
 			await query(
 				`INSERT INTO categories 
-                (title, description, image)
-                VALUES ($1,$2,$3)
+                (title, description, image, is_featured)
+                VALUES ($1,$2,$3, $4)
 				ON CONFLICT (title) DO NOTHING`,
-				[category.title, category.description, category.image]
+				[category.title, category.description, category.image, category.is_featured ?? false],
 			);
 
 			console.log(`Inserted category: ${category.title}`);

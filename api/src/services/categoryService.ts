@@ -16,6 +16,7 @@ export const createCategoryService = async (data: Partial<Omit<Category, "id" | 
 		title: data.title ?? "",
 		description: data.description ?? null,
 		image: data.image ?? null,
+		is_featured: data.is_featured ?? false,
 	});
 };
 

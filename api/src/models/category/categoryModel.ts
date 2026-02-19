@@ -14,10 +14,10 @@ export async function createNewCategory(data: Omit<Category, "id" | "created_at"
 	await ensureCategoryTable();
 
 	const result = await query<Category>(
-		`INSERT INTO categories (title, description, image)
-		VALUES ($1, $2, $3)
+		`INSERT INTO categories (title, description, image, is_featured)
+		VALUES ($1, $2, $3, $4)
      	RETURNING *`,
-		[data.title, data.description, data.image],
+		[data.title, data.description, data.image, data.is_featured ?? false],
 	);
 
 	return result.rows[0];
