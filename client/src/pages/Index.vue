@@ -24,51 +24,52 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="py-24 px-48 min-h-screen flex justify-center items-center">
-		<div class="container space-y-48">
-			<div class="flex space-x-48 items-center">
-				<div class="flex-1 space-y-12">
-					<h1 class="text-7xl font-bold">
-						Discover digital products
-					</h1>
-					<p>
-						Crated to find digital products in diffrent categroeis 
-					</p>
+	<div class="min-h-[85vh] relative">
+		<div class="min-h-[75vh] w-full h-full bg-black/20 py-24 px-48 flex justify-center items-center">
+			<div class="container space-y-48 m-auto">
+				<div class="flex space-x-48 items-center">
+					<div class="flex-1 space-y-12">
+						<h1 class="text-7xl font-bold">
+							Discover digital products
+						</h1>
+						<p>
+							Crated to find digital products in diffrent categroeis 
+						</p>
 
-					<button class="px-12 py-3 bg-indigo-500 font-bold text-white rounded-2xl">
-						Get started 
-					</button>
-				</div>
-				<div class="h-full">
-					<img :src="background" alt="" class=" rounded-2xl"></img>
+						<button class="px-12 py-3 bg-indigo-500 font-bold text-white rounded-2xl">
+							Get started 
+						</button>
+					</div>
+					<div class="h-full">
+						<img :src="background" alt="" class=" rounded-2xl"></img>
+					</div>
 				</div>
 			</div>
-
-			<div class="flex w-1/2 mx-auto justify-between items-center">
-				<div>
-					<p>
-						240k+
-					</p>
-					<p>
-						Total Sale
-					</p>
-				</div>
-				<div>
-					<p>
-						240k+
-					</p>
-					<p>
-						Total Sale
-					</p>
-				</div>
-				<div>
-					<p>
-						240k+
-					</p>
-					<p>
-						Total Sale
-					</p>
-				</div>
+		</div>
+		<div class="-mt-12 bg-white flex w-1/2 px-12 py-6 mx-auto justify-between items-center rounded-2xl shadow">
+			<div>
+				<p>
+					240k+
+				</p>
+				<p>
+					Total Sale
+				</p>
+			</div>
+			<div>
+				<p>
+					240k+
+				</p>
+				<p>
+					Total Sale
+				</p>
+			</div>
+			<div>
+				<p>
+					240k+
+				</p>
+				<p>
+					Total Sale
+				</p>
 			</div>
 		</div>
 	</div>
