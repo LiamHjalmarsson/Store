@@ -25,7 +25,7 @@ export const login = async (req: Request, res: Response) => {
 
 		const { token, user } = result;
 
-		res.json({ message: "Login endpoint", token });
+		res.json({ token, user });
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error });
 	}
