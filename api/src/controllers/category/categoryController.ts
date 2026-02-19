@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
-import { getAllCategoriesService, getCategoryService } from "../../services/categoryService.js";
+import {
+	createCategoryService,
+	deleteCategoryService,
+	getAllCategoriesService,
+	getCategoryService,
+	updateCategoryService,
+} from "../../services/categoryService.js";
 
 export const getAllCategories = async (req: Request, res: Response) => {
 	try {
@@ -11,7 +17,15 @@ export const getAllCategories = async (req: Request, res: Response) => {
 	}
 };
 
-export const createCategory = async (req: Request, res: Response) => {};
+export const createCategory = async (req: Request, res: Response) => {
+	try {
+		const category = await createCategoryService(req.body);
+
+		res.json({ category });
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error });
+	}
+};
 
 export const getCategory = async (req: Request, res: Response) => {
 	try {
@@ -29,6 +43,36 @@ export const getCategory = async (req: Request, res: Response) => {
 	}
 };
 
-export const updateCategory = async (req: Request, res: Response) => {};
+export const updateCategory = async (req: Request, res: Response) => {
+	try {
+		const id = Number(req.params.id);
 
-export const deleteCategory = async (req: Request, res: Response) => {};
+		console.log(req.body);
+
+		const updated = await updateCategoryService(id, req.body);
+
+		if (!updated) {
+			return res.status(404).json({ message: "Category not found" });
+		}
+
+		res.json({ category: updated });
+	} catch {
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
+export const deleteCategory = async (req: Request, res: Response) => {
+	try {
+		const id = Number(req.params.id);
+
+		const deleted = await deleteCategoryService(id);
+
+		if (!deleted) {
+			return res.status(404).json({ message: "Category not found" });
+		}
+
+		res.json({ message: "Category deleted" });
+	} catch {
+		res.status(500).json({ message: "Server error" });
+	}
+};
