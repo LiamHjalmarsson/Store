@@ -17,22 +17,23 @@ const routes = [
 				name: "home",
 				component: Home,
 			},
-			{
-				path: "login",
-				name: "login",
-				component: Login,
-			},
-			{
-				path: "register",
-				name: "register",
-				component: Register,
-			},
-			{
-				path: "forgot-password",
-				name: "forgot-password",
-				component: ForgotPassword,
-			},
 		],
+	},
+
+	{
+		path: "/login",
+		name: "login",
+		component: Login,
+	},
+	{
+		path: "/register",
+		name: "register",
+		component: Register,
+	},
+	{
+		path: "/forgot-password",
+		name: "forgot-password",
+		component: ForgotPassword,
 	},
 
 	adminRoutes,
