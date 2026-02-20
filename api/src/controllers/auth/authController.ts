@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { loginUser, registerUser } from "../../services/authService.js";
+import { findUserById } from "../../models/user/userModel.js";
+import { AuthenticatedRequest } from "../../middlewares/authenicated.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
@@ -33,4 +35,28 @@ export const login = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
 	res.json({ message: "Logout was successfull" });
+};
+
+export const me = async (req: AuthenticatedRequest, res: Response) => {
+	if (!req.user?.id) {
+		return res.status(401).json({ message: "Unauthorized" });
+	}
+
+	const user = await findUserById(req.user.id);
+
+	if (!user) {
+		return res.status(404).json({ message: "User not found" });
+	}
+
+	const safeUser = {
+		id: user.id,
+		email: user.email,
+		firstname: user.firstname,
+		lastname: user.lastname,
+		avatar: user.avatar,
+		username: user.username,
+		role: user.role,
+	};
+
+	return res.json({ user: safeUser });
 };

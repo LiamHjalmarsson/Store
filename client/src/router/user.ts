@@ -1,3 +1,5 @@
+import UserLayout from "../layouts/UserLayout.vue";
+import Settings from "../pages/admin/settings/Settings.vue";
 import Dashboard from "../pages/profile/Dashboard.vue";
 import Order from "../pages/profile/Order.vue";
 import Orders from "../pages/profile/Orders.vue";
@@ -6,11 +8,17 @@ import Wishlist from "../pages/profile/Wishlist.vue";
 
 export const userRoutes = {
 	path: "/user",
+	component: UserLayout,
 	children: [
 		{
 			path: "",
 			name: "dashboard",
 			component: Dashboard,
+		},
+		{
+			path: "settings",
+			name: "settings",
+			component: Settings,
 		},
 		{
 			path: "orders",

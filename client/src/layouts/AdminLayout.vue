@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Sidebar from "../components/layout/Sidebar.vue";
+
 const links = [
 	{
 		label: "Dashboard",
@@ -52,15 +54,7 @@ const links = [
 </script>
 
 <template>
-	<nav class="bg-indigo-600 w-fit flex-1 fixed h-full">
-		<ul class="space-y-12 py-10 px-20">
-			<li v-for="link in links" :key="link.label" class="font-bold text-lg text-white capitalize">
-				<RouterLink class="" :to="link.href">
-					{{ link.label }}
-				</RouterLink>
-			</li>
-		</ul>
-	</nav>
+	<Sidebar :links />
 
 	<main class="ml-64 flex-1 p-8">
 		<RouterView />

@@ -5,12 +5,12 @@ import Register from "../pages/auth/Register.vue";
 import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import { adminRoutes } from "./admin";
 import { userRoutes } from "./user";
-import Default from "../layouts/default.vue";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
 
 const routes = [
 	{
 		path: "/",
-		component: Default,
+		component: DefaultLayout,
 		children: [
 			{
 				path: "",

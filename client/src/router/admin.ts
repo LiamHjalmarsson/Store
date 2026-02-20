@@ -1,4 +1,4 @@
-import Admin from "../layouts/admin.vue";
+import AdminLayout from "../layouts/AdminLayout.vue";
 import Categories from "../pages/admin/categories/Categories.vue";
 import Dashboard from "../pages/admin/Dashboard.vue";
 import Order from "../pages/admin/orders/order/Order.vue";
@@ -11,7 +11,7 @@ import Users from "../pages/admin/users/Users.vue";
 
 export const adminRoutes = {
 	path: "/admin",
-	component: Admin,
+	component: AdminLayout,
 	children: [
 		{
 			path: "",

@@ -1,5 +1,14 @@
 import api from "../axios";
-import type { User } from "../user/user";
+
+interface User {
+	id: number;
+	email: string;
+	firstname?: string;
+	lastname?: string;
+	avatar?: string;
+	username?: string;
+	role: "user" | "admin" | "creator";
+}
 
 interface loginRequest {
 	email: string;
@@ -11,6 +20,14 @@ interface loginResponse {
 	user: User;
 }
 
-export const login = (payload: loginRequest) => {
+export const loginApi = (payload: loginRequest) => {
 	return api.post<loginResponse>("auth/login", payload);
+};
+
+export const logoutApi = () => {
+	return api.post("auth/logout");
+};
+
+export const getUserApi = () => {
+	return api.get<{ user: User }>("auth/me");
 };

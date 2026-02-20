@@ -1,19 +1,14 @@
 <script setup lang="ts">
 defineProps<{
 	type?: "button" | "submit" | "reset";
-	variant?: "primary" | "secondary";
+	variant?: "primary" | "secondary" | "white" | "black";
 }>();
 </script>
 
 <template>
 	<button
 		:type="type || 'button'"
-		:class="[
-			'w-full py-3 rounded-2xl font-semibold transition',
-			variant === 'secondary'
-				? 'bg-gray-200 text-black hover:bg-gray-300'
-				: 'bg-black/80 text-white hover:bg-black',
-		]">
+		class="w-full py-1.5 px-12 rounded-2xl font-semibold transition flex items-center text-center justify-center space-x-3 cursor-pointer">
 		<slot />
 	</button>
 </template>

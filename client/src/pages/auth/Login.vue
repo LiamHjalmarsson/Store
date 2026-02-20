@@ -4,30 +4,26 @@ import AuthCard from "../../components/auth/AuthCard.vue";
 import AuthLayout from "../../components/auth/AuthLayout.vue";
 import Button from "../../components/ui/Button.vue";
 import Input from "../../components/ui/Input.vue";
-import { login } from "../../api/auth/Auth";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../../store/auth";
+
+const { login } = useAuthStore();
 
 const router = useRouter();
 
-const email = ref("");
+const email = ref("liam@example.com");
 
-const password = ref("");
+const password = ref("secret456");
 
 async function handleLogin() {
-	try {
-		const payload = {
-			email: email.value,
-			password: password.value,
-		};
+	const success = await login({
+		email: email.value,
+		password: password.value,
+	});
 
-		const res = await login(payload);
-
-		const token = res.data.token;
-
-		localStorage.setItem("token", token);
-
+	if (success) {
 		router.push({ name: "home" });
-	} catch (error) {}
+	}
 }
 </script>
 
@@ -43,7 +39,7 @@ async function handleLogin() {
 					<RouterLink :to="{ name: 'forgot-password' }"> Forgot Password? </RouterLink>
 				</div>
 
-				<Button type="submit"> Sign in </Button>
+				<Button type="submit" class="bg-black/10 py-3"> Sign in </Button>
 			</form>
 
 			<template #footer>

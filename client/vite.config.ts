@@ -3,9 +3,10 @@ import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import vueDevTools from "vite-plugin-vue-devtools";
 
 export default defineConfig({
-	plugins: [vue(), tailwindcss(), tsconfigPaths()],
+	plugins: [vue(), tailwindcss(), tsconfigPaths(), vueDevTools()],
 
 	resolve: {
 		alias: {

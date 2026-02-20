@@ -9,7 +9,17 @@ export async function registerUser(email: string, password: string) {
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
-	return { user, token };
+	const safeUser = {
+		id: user.id,
+		email: user.email,
+		firstname: user.firstname,
+		lastname: user.lastname,
+		avatar: user.avatar,
+		username: user.username,
+		role: user.role,
+	};
+
+	return { user: safeUser, token };
 }
 
 export async function loginUser(email: string, password: string) {
@@ -27,5 +37,15 @@ export async function loginUser(email: string, password: string) {
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
-	return { user, token };
+	const safeUser = {
+		id: user.id,
+		email: user.email,
+		firstname: user.firstname,
+		lastname: user.lastname,
+		avatar: user.avatar,
+		username: user.username,
+		role: user.role,
+	};
+
+	return { user: safeUser, token };
 }

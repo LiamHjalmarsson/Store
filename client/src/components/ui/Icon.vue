@@ -4,7 +4,7 @@ import { HugeiconsIcon } from "@hugeicons/vue";
 const props = defineProps({
 	icon: {
 		type: Object,
-		required: true,
+		default: null,
 	},
 	altIcon: {
 		type: Object,
