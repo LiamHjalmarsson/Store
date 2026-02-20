@@ -1,11 +1,13 @@
-import { createUser, getUserByEmail } from "../models/user/userModel.js";
+import { createUser, CreateUserPayload, getUserByEmail } from "../models/user/userModel.js";
 import { generateToken } from "../utils/jwt.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
 
-export async function registerUser(email: string, password: string) {
+export async function registerUser(payload: CreateUserPayload) {
+	const { password, email, username } = payload;
+
 	const hashedPassword = await hashPassword(password);
 
-	const user = await createUser(email, hashedPassword);
+	const user = await createUser({ email, password: hashedPassword, username });
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 

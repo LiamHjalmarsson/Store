@@ -1,15 +1,8 @@
-import { findUserById, updateUserById, deleteUserById, createUser, findAllUsers } from "../models/user/userModel.js";
+import { findUserById, updateUserById, deleteUserById, findAllUsers } from "../models/user/userModel.js";
 import { PublicUser, User } from "../types/user.js";
-import { hashPassword } from "../utils/password.js";
 
 export async function getAllUsersService(): Promise<PublicUser[]> {
 	return await findAllUsers();
-}
-
-export async function createUserService(email: string, password: string): Promise<User | null> {
-	const hashedPassword = await hashPassword(password);
-
-	return await createUser(email, hashedPassword);
 }
 
 export async function getUserService(userId: number): Promise<User | null> {

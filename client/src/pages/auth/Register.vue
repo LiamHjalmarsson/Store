@@ -1,40 +1,46 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import AuthCard from "../../components/auth/AuthCard.vue";
 import AuthLayout from "../../components/auth/AuthLayout.vue";
 import Button from "../../components/ui/Button.vue";
+import { useAuthStore } from "../../store/auth";
+import { ref } from "vue";
+import Input from "../../components/ui/Input.vue";
+
+const { register } = useAuthStore();
+
+const router = useRouter();
+
+const email = ref();
+
+const password = ref();
+
+const username = ref();
+
+async function handleRegister() {
+	const success = await register({
+		email: email.value,
+		username: username.value,
+		password: password.value,
+	});
+
+	if (success) {
+		router.push({ name: "home" });
+	}
+}
 </script>
 
 <template>
 	<AuthLayout>
 		<AuthCard title="Create an account" subtitle="Motivation">
-			<form class="space-y-6">
-				<div class="relative">
-					<label for="" class="absolute top-3 left-6 hidden"></label>
-					<input
-						placeholder="Username"
-						class="px-6 py-3 border border-black/10 w-full rounded-xl outline-0" />
-				</div>
+			<form @submit.prevent="handleRegister" class="space-y-6">
+				<Input v-model="username" label="Username" required />
 
-				<div class="relative">
-					<label for="" class="absolute top-3 left-6 hidden"></label>
-					<input placeholder="Email" class="px-6 py-3 border border-black/10 w-full rounded-xl outline-0" />
-				</div>
+				<Input v-model="email" label="Email address" placeholder="Enter your email" required />
 
-				<div class="relative">
-					<label for="" class="absolute top-3 left-6 hidden"></label>
-					<input
-						placeholder="Password"
-						class="px-6 py-3 border border-black/10 w-full rounded-xl outline-0" />
-				</div>
+				<Input v-model="password" type="password" label="Password" required />
 
-				<div class="relative">
-					<label for="" class="absolute top-3 left-6 hidden"></label>
-					<input
-						placeholder="Confirm Password"
-						class="px-6 py-3 border border-black/10 w-full rounded-xl outline-0" />
-				</div>
-
-				<Button type="submit"> Register account </Button>
+				<Button type="submit" class="bg-black text-white py-3"> Register account </Button>
 			</form>
 
 			<template #footer>

@@ -1,22 +1,15 @@
 import { defineStore } from "pinia";
-import { computed, ref, watch } from "vue";
-import { getUserApi, loginApi, logoutApi } from "../api/auth/Auth";
+import { computed, ref } from "vue";
+import {
+	getUserApi,
+	loginApi,
+	logoutApi,
+	registerApi,
+	type AuthUser,
+	type loginRequest,
+	type registerRequest,
+} from "../api/auth/Auth";
 import api from "../api/axios";
-
-interface LoginPayload {
-	email: string;
-	password: string;
-}
-
-interface AuthUser {
-	id: number;
-	email: string;
-	firstname?: string;
-	lastname?: string;
-	avatar?: string;
-	username?: string;
-	role: "user" | "admin" | "creator";
-}
 
 export const useAuthStore = defineStore(
 	"auth",
@@ -29,7 +22,7 @@ export const useAuthStore = defineStore(
 
 		const isAdmin = computed(() => user.value?.role === "admin");
 
-		async function login(payload: LoginPayload) {
+		async function login(payload: loginRequest) {
 			try {
 				const { data } = await loginApi(payload);
 
@@ -46,7 +39,21 @@ export const useAuthStore = defineStore(
 			}
 		}
 
-		async function regeister() {}
+		async function register(payload: registerRequest) {
+			try {
+				const { data } = await registerApi(payload);
+
+				token.value = data.token;
+
+				console.log(data);
+
+				api.defaults.headers.common["Authorization"] = `Bearer ${token.value}`;
+
+				await fetchUser();
+
+				return true;
+			} catch (error) {}
+		}
 
 		async function fetchUser() {
 			if (!token.value) return;
@@ -59,7 +66,7 @@ export const useAuthStore = defineStore(
 		}
 
 		async function logout() {
-			const data = await logoutApi();
+			await logoutApi();
 
 			user.value = null;
 
@@ -76,6 +83,7 @@ export const useAuthStore = defineStore(
 			isAdmin,
 
 			login,
+			register,
 			logout,
 		};
 	},

@@ -4,12 +4,12 @@ import { findUserById } from "../../models/user/userModel.js";
 import { AuthenticatedRequest } from "../../middlewares/authenicated.js";
 
 export const register = async (req: Request, res: Response) => {
-	const { email, password } = req.body;
+	const { email, password, username } = req.body;
 
 	try {
-		const { token, user } = await registerUser(email, password);
+		const { token, user } = await registerUser({ email, password, username });
 
-		return res.status(201).json({ token });
+		return res.status(201).json({ token, user });
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error });
 	}

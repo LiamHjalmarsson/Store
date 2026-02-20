@@ -2,6 +2,12 @@ import { query } from "../../config/database.js";
 import { ensureUserTable } from "../../database/migrations/users.js";
 import { PublicUser, User } from "../../types/user.js";
 
+export interface CreateUserPayload {
+	email: string;
+	password: string;
+	username?: string;
+}
+
 export async function findAllUsers(): Promise<PublicUser[]> {
 	const result = await query<PublicUser>(`
 		SELECT
@@ -21,12 +27,15 @@ export async function findAllUsers(): Promise<PublicUser[]> {
 	return result.rows;
 }
 
-export async function createUser(email: string, password: string): Promise<User> {
+export async function createUser(payload: CreateUserPayload): Promise<User> {
+	const { password, email, username } = payload;
+
 	await ensureUserTable();
 
-	const result = await query<User>("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *", [
+	const result = await query<User>("INSERT INTO users (email, password, username) VALUES ($1, $2, $3) RETURNING *", [
 		email,
 		password,
+		username,
 	]);
 
 	return result.rows[0];

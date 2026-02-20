@@ -39,7 +39,7 @@ async function handleLogin() {
 					<RouterLink :to="{ name: 'forgot-password' }"> Forgot Password? </RouterLink>
 				</div>
 
-				<Button type="submit" class="bg-black/10 py-3"> Sign in </Button>
+				<Button type="submit" class="bg-black text-white py-3"> Sign in </Button>
 			</form>
 
 			<template #footer>

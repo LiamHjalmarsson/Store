@@ -59,7 +59,7 @@ async function handleLogout() {
 					</div>
 					<Icon v-else :icon="UserIcon" :size="24" />
 					<p>
-						{{ user?.firstname }}
+						{{ user?.username }}
 					</p>
 				</Button>
 			</div>

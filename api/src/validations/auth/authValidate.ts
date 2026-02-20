@@ -8,7 +8,5 @@ export const loginValidation = [
 export const registerValidation = [
 	body("email").isEmail().withMessage("A valid email is required"),
 	body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters"),
-	body("firstname").optional().isString(),
-	body("lastname").optional().isString(),
-	body("username").optional().isString(),
+	body("username").isString().isLength({ min: 3 }).withMessage("Username must be at least 3 characters"),
 ];
