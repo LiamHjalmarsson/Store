@@ -15,25 +15,3 @@ export const navigationLinks = [
 		name: "",
 	},
 ];
-
-export const accountLinksDropdown = [
-	{
-		label: "Dashboard",
-		href: "/dashboard",
-		name: "dashboard",
-	},
-	{
-		label: "Settings",
-		href: "/settings",
-		name: "settings",
-	},
-];
-
-export const accountLinks = [
-	{
-		label: "Dashboard",
-		href: "/",
-		name: "dashboard",
-		icon: "",
-	},
-];

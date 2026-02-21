@@ -71,7 +71,10 @@ async function handleLogout() {
 
 			<Dropdown v-if="showDropdown">
 				<div class="space-y-3">
-					<div v-for="link in accountLinks" :key="link.label" class="font-medium">
+					<div v-if="isAdmin" class="font-medium">
+						<RouterLink :to="{ name: 'admin' }"> Admin </RouterLink>
+					</div>
+					<div v-for="link in accountLinks" :key="link.name" class="font-medium">
 						<RouterLink :to="{ name: link.name }">
 							{{ link.label }}
 						</RouterLink>

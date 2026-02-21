@@ -6,6 +6,9 @@ import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import { adminRoutes } from "./admin";
 import { userRoutes } from "./user";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
+import Marketplace from "../pages/shop/Marketplace.vue";
+import Categories from "../pages/shop/Categories.vue";
+import Category from "../pages/shop/Category.vue";
 
 const routes = [
 	{
@@ -16,6 +19,21 @@ const routes = [
 				path: "",
 				name: "home",
 				component: Home,
+			},
+			{
+				path: "/marketplace",
+				name: "marketplace",
+				component: Marketplace,
+			},
+			{
+				path: "/categories",
+				name: "categories",
+				component: Categories,
+			},
+			{
+				path: "/categories/:id",
+				name: "category",
+				component: Category,
 			},
 		],
 	},

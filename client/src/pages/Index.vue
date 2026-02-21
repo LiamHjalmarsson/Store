@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getCategories, type Category } from "../api/category/category";
+import { getCategories } from "../api/category/category";
 import background from "../assets/images/bg.jpg"
 import Card from "../components/ui/Card.vue";
 import { getUsers, type User } from "../api/user/user";
 import UserCard from "../components/ui/UserCard.vue";
+import type { Category } from "../types/category";
 
 const featuredCategories = ref<Category[]>([]);
 
@@ -25,9 +26,9 @@ onMounted(async () => {
 
 <template>
 	<div class="min-h-[85vh] relative">
-		<div class="min-h-[75vh] w-full h-full bg-black/20 py-24 px-48 flex justify-center items-center">
-			<div class="container space-y-48 m-auto">
-				<div class="flex space-x-48 items-center">
+		<div class="min-h-[75vh] bg-slate-100 w-full h-full  py-24 p-24 flex justify-center items-center">
+			<div class="space-y-48 m-auto">
+				<div class="flex space-x-20 xl:space-x-48 items-center">
 					<div class="flex-1 space-y-12">
 						<h1 class="text-7xl font-bold">
 							Discover digital products
@@ -40,34 +41,37 @@ onMounted(async () => {
 							Get started 
 						</button>
 					</div>
-					<div class="h-full">
-						<img :src="background" alt="" class=" rounded-2xl"></img>
+					<div class="grid grid-cols-2 grid-rows-3 gap-3 min-w-120 max-w-162 max-h-160">
+						<img :src="background" alt="" class="rounded-2xl h-full w-full object-cover col-span-1 row-span-1"></img>
+						<img :src="background" alt="" class="rounded-2xl h-full w-full object-cover col-span-1 row-span-2"></img>
+						<img :src="background" alt="" class="rounded-2xl h-full w-full object-cover col-span-1 row-span-2"></img>
+						<img :src="background" alt="" class="rounded-2xl h-full w-full object-cover col-span-1 row-span-1"></img>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="-mt-12 bg-white flex w-1/2 px-12 py-6 mx-auto justify-between items-center rounded-2xl shadow">
-			<div>
-				<p>
+		<div class="-mt-12 bg-white/10 fill-transparent backdrop-blur-lg flex w-1/2 px-12 py-6 mx-auto justify-between items-center rounded-2xl shadow">
+			<div class="text-center">
+				<p class=" text-2xl font-bold">
 					240k+
 				</p>
-				<p>
-					Total Sale
+				<p class=" font-light">
+					Items
 				</p>
 			</div>
-			<div>
-				<p>
+			<div class="text-center">
+				<p class=" text-2xl font-bold">
 					240k+
 				</p>
-				<p>
-					Total Sale
+				<p class=" font-light">
+					Customers
 				</p>
 			</div>
-			<div>
-				<p>
+			<div class="text-center">
+				<p class=" text-2xl font-bold">
 					240k+
 				</p>
-				<p>
+				<p class=" font-light">
 					Total Sale
 				</p>
 			</div>
@@ -164,7 +168,7 @@ onMounted(async () => {
 		</div>
 	</div>
 
-	<Card class="container mx-auto mb-48">
+	<Card class="container mx-auto">
 		<div class="flex items-center space-x-28 ">
 			<div class="flex-1">
 				<img :src="background" alt="" class=" rounded-2xl"></img>
@@ -190,5 +194,4 @@ onMounted(async () => {
 			</div>
 		</div>
 	</Card>
-
 </template>
