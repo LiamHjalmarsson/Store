@@ -12,7 +12,7 @@ defineProps<{ category: Category }>();
 			<img :src="category.image" :alt="category.title" class="absolute w-full h-full object-cover opacity-85" />
 		</div>
 
-		<div class="absolute bottom-0 flex flex-col justify-between px-6 py-12 z-20">
+		<div class="absolute bottom-0 flex flex-col justify-between px-6 py-8 z-20">
 			<h1 class="font-extrabold text-white">
 				{{ category.title }}
 			</h1>

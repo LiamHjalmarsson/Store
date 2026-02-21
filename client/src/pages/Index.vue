@@ -1,26 +1,27 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getCategories } from "../api/category/category";
 import background from "../assets/images/bg.jpg"
 import Card from "../components/ui/Card.vue";
-import { getUsers, type User } from "../api/user/user";
+import CategoryCard from "../components/category/CategoryCard.vue";
+import { useCategoryStore } from "../store/category";
+import { storeToRefs } from "pinia";
 import UserCard from "../components/ui/UserCard.vue";
-import type { Category } from "../types/category";
+import { getUsers, type User } from "../api/user/user";
 
-const featuredCategories = ref<Category[]>([]);
+const categoryStore = useCategoryStore();
+
+const { categories: featuredCategories} = storeToRefs(categoryStore)
+
 
 const creators = ref<User[]>([]);
 
 onMounted(async () => {
-	const res = await getCategories();
+	await categoryStore.fetchCategories();
 
 	const resUsers = await getUsers();
 
-	const featuerd = res.data.categories.filter((category) => category.is_featured);
-
+	
 	creators.value = resUsers.data.users.filter((user) => user.role === 'creator');
-
-	featuredCategories.value = featuerd;
 });
 </script>
 
@@ -87,10 +88,6 @@ onMounted(async () => {
 				Checkout Our Weelky updated Trending collection
 			</p>
 		</div>
-
-		<div>
-			
-		</div>
 	</div>
 
 	<div class="relative w-full h-120 flex justify-end items-end px-48">
@@ -146,10 +143,8 @@ onMounted(async () => {
 			</p>
 		</div>
 
-		<div class="grid grid-cols-3">
-			<Card v-for="category in featuredCategories" :key="category.id">
-				{{ category.title }}
-			</Card>
+		<div class="grid grid-cols-3 gap-3">
+			<CategoryCard v-for="category in featuredCategories" :key="category.id" :category :class="['rounded-2xl relative overflow-hidden shadow-xl min-h-56 text-3xl']" />
 		</div>
 	</div>
 
