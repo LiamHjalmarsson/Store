@@ -1,8 +1,9 @@
-import { createUser, CreateUserPayload, getUserByEmail } from "../models/user/userModel.js";
-import { generateToken } from "../utils/jwt.js";
-import { comparePassword, hashPassword } from "../utils/password.js";
+import { findUserWithPasswordByEmail } from "../../models/auth/authModel.js";
+import { createUser, CreateUserPayload, findUserById } from "../../models/user/userModel.js";
+import { generateToken } from "../../utils/jwt.js";
+import { comparePassword, hashPassword } from "../../utils/password.js";
 
-export async function registerUser(payload: CreateUserPayload) {
+export async function registerUserService(payload: CreateUserPayload) {
 	const { password, email, username } = payload;
 
 	const hashedPassword = await hashPassword(password);
@@ -11,21 +12,11 @@ export async function registerUser(payload: CreateUserPayload) {
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		firstname: user.firstname,
-		lastname: user.lastname,
-		avatar: user.avatar,
-		username: user.username,
-		role: user.role,
-	};
-
-	return { user: safeUser, token };
+	return { user, token };
 }
 
-export async function loginUser(email: string, password: string) {
-	const user = await getUserByEmail(email);
+export async function loginUserService(email: string, password: string) {
+	const user = await findUserWithPasswordByEmail(email);
 
 	if (!user) {
 		return null;
@@ -50,4 +41,8 @@ export async function loginUser(email: string, password: string) {
 	};
 
 	return { user: safeUser, token };
+}
+
+export async function meService(id: number) {
+	return await findUserById(id);
 }

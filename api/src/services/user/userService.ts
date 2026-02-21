@@ -1,5 +1,5 @@
-import { findUserById, updateUserById, deleteUserById, findAllUsers } from "../models/user/userModel.js";
-import { PublicUser, User } from "../types/user.js";
+import { findUserById, updateUserById, deleteUserById, findAllUsers } from "../../models/user/userModel.js";
+import { PublicUser, User } from "../../types/user.js";
 
 export async function getAllUsersService(): Promise<PublicUser[]> {
 	return await findAllUsers();

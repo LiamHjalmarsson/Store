@@ -5,7 +5,9 @@ defineProps<{ category: Category }>();
 </script>
 
 <template>
-	<div class="rounded-2xl relative overflow-hidden shadow-xl">
+	<RouterLink
+		:to="`categories/${category.title.toLowerCase()}`"
+		class="rounded-2xl relative overflow-hidden shadow-xl">
 		<div class="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent z-10" />
 
 		<div class="relative h-full w-full">
@@ -17,5 +19,5 @@ defineProps<{ category: Category }>();
 				{{ category.title }}
 			</h1>
 		</div>
-	</div>
+	</RouterLink>
 </template>

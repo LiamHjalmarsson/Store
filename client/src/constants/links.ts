@@ -1,7 +1,7 @@
 export const navigationLinks = [
 	{
 		label: "Marketplace",
-		href: "/marketplace",
+		href: "/",
 		name: "",
 	},
 	{

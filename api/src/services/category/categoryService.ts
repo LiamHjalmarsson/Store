@@ -4,8 +4,8 @@ import {
 	findAllCategories,
 	findCategoryById,
 	updateCategoryById,
-} from "../models/category/categoryModel.js";
-import { Category } from "../types/category.js";
+} from "../../models/category/categoryModel.js";
+import { Category } from "../../types/category.js";
 
 export const getAllCategoriesService = async () => {
 	return await findAllCategories();

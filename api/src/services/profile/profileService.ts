@@ -1,5 +1,5 @@
-import { findUserById, updateUserById, deleteUserById } from "../models/user/userModel.js";
-import { User } from "../types/user.js";
+import { findUserById, updateUserById, deleteUserById } from "../../models/user/userModel.js";
+import { User } from "../../types/user.js";
 
 export async function getProfileService(userId: number): Promise<User | null> {
 	return await findUserById(userId);

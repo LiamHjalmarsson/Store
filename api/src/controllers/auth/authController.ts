@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
-import { loginUser, registerUser } from "../../services/authService.js";
-import { findUserById } from "../../models/user/userModel.js";
+import { loginUserService, meService, registerUserService } from "../../services/auth/authService.js";
 import { AuthenticatedRequest } from "../../middlewares/authenicated.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;
 
 	try {
-		const { token, user } = await registerUser({ email, password, username });
+		const { token, user } = await registerUserService({ email, password, username });
 
 		return res.status(201).json({ token, user });
 	} catch (error) {
@@ -19,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	try {
-		const result = await loginUser(email, password);
+		const result = await loginUserService(email, password);
 
 		if (!result) {
 			return res.status(400).json({ message: "Invalid credentials" });
@@ -38,25 +37,17 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 export const me = async (req: AuthenticatedRequest, res: Response) => {
-	if (!req.user?.id) {
+	const id = req.user?.id;
+
+	if (!id) {
 		return res.status(401).json({ message: "Unauthorized" });
 	}
 
-	const user = await findUserById(req.user.id);
+	const user = await meService(id);
 
 	if (!user) {
 		return res.status(404).json({ message: "User not found" });
 	}
 
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		firstname: user.firstname,
-		lastname: user.lastname,
-		avatar: user.avatar,
-		username: user.username,
-		role: user.role,
-	};
-
-	return res.json({ user: safeUser });
+	return res.json({ user });
 };

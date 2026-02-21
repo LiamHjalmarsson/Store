@@ -1,6 +1,10 @@
 import { Response } from "express";
 import { AuthenticatedRequest } from "../../middlewares/authenicated.js";
-import { getProfileService, updateProfileService, deleteProfileService } from "../../services/profileService.js";
+import {
+	getProfileService,
+	updateProfileService,
+	deleteProfileService,
+} from "../../services/profile/profileService.js";
 
 export const getProfile = async (req: AuthenticatedRequest, res: Response) => {
 	const user = await getProfileService(req.user!.id);

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRoute from "./routes/auth/authRoute.js";
 import userRoute from "./routes/user/userRoute.js";
+import creatorRoute from "./routes/creator/creatorRoute.js";
 import profileRoute from "./routes/profile/profileRoute.js";
 import categoryRoute from "./routes/category/categoryRoute.js";
 
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 
 app.use("/api/users", userRoute);
+
+app.use("/api/creators", creatorRoute);
 
 app.use("/api/profile", profileRoute);
 

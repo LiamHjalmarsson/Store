@@ -5,7 +5,7 @@ import {
 	getAllCategoriesService,
 	getCategoryService,
 	updateCategoryService,
-} from "../../services/categoryService.js";
+} from "../../services/category/categoryService.js";
 
 export const getAllCategories = async (req: Request, res: Response) => {
 	try {

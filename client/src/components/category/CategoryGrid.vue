@@ -17,8 +17,8 @@ onMounted(async () => {
 
 <template>
 	<section class="relative">
-		<div class="container mx-auto relative z-10 space-y-6">
-			<div class="grid grid-cols-1 lg:grid-cols-3 row-span-2 gap-6">
+		<div class="container mx-auto relative z-10 space-y-3">
+			<div class="grid grid-cols-1 lg:grid-cols-3 row-span-2 gap-3">
 				<CategoryCard
 					v-for="(category, index) in categories.slice(0, 3)"
 					:key="category.id"
@@ -31,7 +31,7 @@ onMounted(async () => {
 					]" />
 			</div>
 
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
 				<CategoryCard
 					v-for="category in categories.slice(3)"
 					:key="category.id"

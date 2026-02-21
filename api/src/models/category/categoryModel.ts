@@ -5,7 +5,13 @@ import { Category } from "../../types/category.js";
 export async function findAllCategories(): Promise<Category[] | null> {
 	await ensureCategoryTable();
 
-	const result = await query<Category>("SELECT * FROM categories");
+	const result = await query<Category>(`SELECT 
+		id,
+		title,
+		description,
+		image,
+		is_featured
+		FROM categories`);
 
 	return result.rows;
 }
@@ -24,7 +30,15 @@ export async function createNewCategory(data: Omit<Category, "id" | "created_at"
 }
 
 export async function findCategoryById(id: number): Promise<Category | null> {
-	const result = await query<Category>("SELECT * FROM categories WHERE id = $1", [id]);
+	const result = await query<Category>(
+		`SELECT 		
+		id,
+		title,
+		description,
+		image,
+		is_featured FROM categories WHERE id = $1`,
+		[id],
+	);
 
 	return result.rows[0];
 }

@@ -6,9 +6,10 @@ import ForgotPassword from "../pages/auth/ForgotPassword.vue";
 import { adminRoutes } from "./admin";
 import { userRoutes } from "./user";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
-import Marketplace from "../pages/shop/Marketplace.vue";
 import Categories from "../pages/shop/Categories.vue";
 import Category from "../pages/shop/Category.vue";
+import Creators from "../pages/creators/Creators.vue";
+import Creator from "../pages/creators/Creator.vue";
 
 const routes = [
 	{
@@ -23,7 +24,7 @@ const routes = [
 			{
 				path: "/marketplace",
 				name: "marketplace",
-				component: Marketplace,
+				component: Home,
 			},
 			{
 				path: "/categories",
@@ -34,6 +35,16 @@ const routes = [
 				path: "/categories/:id",
 				name: "category",
 				component: Category,
+			},
+			{
+				path: "/creators/",
+				name: "creators",
+				component: Creators,
+			},
+			{
+				path: "/creators/:id",
+				name: "creator",
+				component: Creator,
 			},
 		],
 	},
