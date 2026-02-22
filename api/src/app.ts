@@ -8,6 +8,8 @@ import achievementRoutes from "./modules/achievements/routes/achievementRoutes.j
 import achievementAdminRoutes from "./modules/achievements/routes/achievementAdminRoutes.js";
 import categoryRoute from "./modules/category/routes/categoryRoute.js";
 import categoryAdminRoute from "./modules/category/routes/categoryAdminRoute.js";
+import subcategory from "./modules/subcategory/routes/subcategory.js";
+import subcategoryAdmin from "./modules/subcategory/routes/subcategoryAdmin.js";
 
 const app = express();
 
@@ -25,9 +27,13 @@ app.use("/api/achievements", achievementRoutes);
 
 app.use("/api/categories", categoryRoute);
 
+app.use("/api/subcategories", subcategory);
+
 app.use("/api/admin/users", userRoute);
 
 app.use("/api/admin/categories", categoryAdminRoute);
+
+app.use("/api/admin/subcategories", subcategoryAdmin);
 
 app.use("/api/admin/achievements", achievementAdminRoutes);
 

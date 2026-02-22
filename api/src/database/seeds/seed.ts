@@ -4,6 +4,7 @@ import { seedRanks } from "./seedRanks.js";
 import { seedAchievements } from "./seedAchivements.js";
 import { seedUserAchievements } from "./seedUserAchievements.js";
 import { seedCreators } from "./seedCreators.js";
+import { seedSubcategories } from "./seedSubcategories.js";
 
 export async function seed() {
 	try {
@@ -18,6 +19,8 @@ export async function seed() {
 		await seedUserAchievements();
 
 		await seedCreators();
+
+		await seedSubcategories();
 
 		console.log("Seed completed");
 
