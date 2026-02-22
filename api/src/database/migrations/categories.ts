@@ -4,7 +4,7 @@ export async function ensureCategoryTable() {
 	await query(`
         CREATE TABLE IF NOT EXISTS categories (
             id SERIAL PRIMARY KEY,
-            title TEXT UNIQUE NOT NULL UNIQUE,
+            title TEXT UNIQUE NOT NULL,
             description TEXT,
             image TEXT,
             is_featured BOOLEAN DEFAULT false,

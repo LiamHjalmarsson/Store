@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
-import authRoute from "./routes/auth/authRoute.js";
-import userRoute from "./routes/admin/user/userRoute.js";
-import creatorRoute from "./routes/creator/creatorRoute.js";
-import profileRoute from "./routes/profile/profileRoute.js";
-import categoryRoute from "./routes/category/categoryRoute.js";
-import adminCategoryRoute from "./routes/admin/category/category.js";
+import authRoute from "./modules/auth/routes/authRoute.js";
+import userRoute from "./modules/user/routes/userRoute.js";
+import creatorRoute from "./modules/creator/routes/creatorRoute.js";
+import profileRoute from "./modules/profile/routes/profileRoute.js";
+import categoryRoute from "./modules/category/routes/categoryRoute.js";
+import categoryAdminRoute from "./modules/category/routes/categoryAdminRoute.js";
 
 const app = express();
 
@@ -17,12 +17,12 @@ app.use("/api/auth", authRoute);
 
 app.use("/api/admin/users", userRoute);
 
-app.use("/api/admin/categories", adminCategoryRoute);
-
 app.use("/api/creators", creatorRoute);
 
 app.use("/api/profile", profileRoute);
 
 app.use("/api/categories", categoryRoute);
+
+app.use("/api/admin/categories", categoryAdminRoute);
 
 export default app;
