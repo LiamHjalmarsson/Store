@@ -1,24 +1,23 @@
 import { Router } from "express";
 import {
-	awardAchievement,
+	createAchievement,
 	deleteAchievement,
 	getAchievements,
 	updateAchievement,
 } from "../controller/achievementController.js";
 import authenicated from "../../../middlewares/authenicated.js";
 import { isAdmin } from "../../../middlewares/isAdmin.js";
-import { createAchievement } from "../model/achievementModel.js";
 
 const router = Router();
 
-router.get("/", authenicated, isAdmin, getAchievements);
+router.use(authenicated, isAdmin);
 
-router.post("/", authenicated, isAdmin, createAchievement);
+router.get("/", getAchievements);
 
-router.post("/award", authenicated, isAdmin, awardAchievement);
+router.post("/", createAchievement);
 
-router.put("/:id", authenicated, isAdmin, updateAchievement);
+router.put("/:id", updateAchievement);
 
-router.delete("/:id", authenicated, isAdmin, deleteAchievement);
+router.delete("/:id", deleteAchievement);
 
 export default router;

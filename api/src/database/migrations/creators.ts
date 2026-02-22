@@ -1,6 +1,6 @@
 import { query } from "../../config/database.js";
 
-export async function ensureUserAchievementsTable() {
+export async function ensureCreatorsTable() {
 	await query(`
         CREATE TABLE IF NOT EXISTS creators (
             user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,

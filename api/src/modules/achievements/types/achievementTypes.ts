@@ -3,7 +3,7 @@ export interface Achievement {
 	code: string;
 	name: string;
 	description: string | null;
-	icon_url: string | null;
+	icon: string | null;
 	xp_reward: number;
 	created_at: Date;
 }
@@ -17,7 +17,15 @@ export interface UserAchievement {
 export interface CreateAchievementPayload {
 	code: string;
 	name: string;
-	description: string | null;
-	icon_url: string | null;
+	description: string;
+	icon: string;
 	xp_reward: number;
+}
+
+export interface UpdateAchievementPayload {
+	code?: string;
+	name?: string;
+	description?: string;
+	icon?: string;
+	xp_reward?: number;
 }

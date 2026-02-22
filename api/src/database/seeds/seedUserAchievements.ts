@@ -1,7 +1,12 @@
 import { query } from "../../config/database.js";
+import { ensureUserAchievementsTable } from "../migrations/user_achievements.js";
 
 export async function seedUserAchievements() {
 	try {
+		await query("DROP TABLE IF EXISTS user_achievements CASCADE");
+
+		await ensureUserAchievementsTable();
+
 		const users = await query(`SELECT id FROM users`);
 
 		const achievements = await query(`SELECT id FROM achievements`);
