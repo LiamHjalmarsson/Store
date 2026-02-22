@@ -17,8 +17,6 @@ app.use(express.json());
 
 app.use("/api/auth", authRoute);
 
-app.use("/api/admin/users", userRoute);
-
 app.use("/api/creators", creatorRoute);
 
 app.use("/api/profile", profileRoute);
@@ -26,6 +24,8 @@ app.use("/api/profile", profileRoute);
 app.use("/api/achievements", achievementRoutes);
 
 app.use("/api/categories", categoryRoute);
+
+app.use("/api/admin/users", userRoute);
 
 app.use("/api/admin/categories", categoryAdminRoute);
 

@@ -1,11 +1,5 @@
-import { seedProducts } from "./seedProduct.js";
 import { seedCategories } from "./seedCategory.js";
 import { seedUsers } from "./seedUser.js";
-import { seedOrders } from "./seedOrders.js";
-import { seedOrderItems } from "./seedOrderItems.js";
-import { seedCarts } from "./seedCarts.js";
-import { seedCartItems } from "./seedCartItems.js";
-import { seedPayments } from "./seedPayments.js";
 import { seedRanks } from "./seedRanks.js";
 import { seedAchievements } from "./seedAchivements.js";
 import { seedUserAchievements } from "./seedUserAchievements.js";
@@ -16,18 +10,6 @@ export async function seed() {
 		await seedUsers();
 
 		await seedCategories();
-
-		await seedProducts();
-
-		await seedOrders();
-
-		await seedOrderItems();
-
-		await seedCarts();
-
-		await seedCartItems();
-
-		await seedPayments();
 
 		await seedRanks();
 
