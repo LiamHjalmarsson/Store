@@ -5,12 +5,15 @@ import { seedAchievements } from "./seedAchivements.js";
 import { seedUserAchievements } from "./seedUserAchievements.js";
 import { seedCreators } from "./seedCreators.js";
 import { seedSubcategories } from "./seedSubcategories.js";
+import { seedProducts } from "./seedProduct.js";
 
 export async function seed() {
 	try {
 		await seedUsers();
 
 		await seedCategories();
+
+		await seedSubcategories();
 
 		await seedRanks();
 
@@ -20,7 +23,7 @@ export async function seed() {
 
 		await seedCreators();
 
-		await seedSubcategories();
+		await seedProducts();
 
 		console.log("Seed completed");
 
