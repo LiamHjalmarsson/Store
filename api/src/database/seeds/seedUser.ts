@@ -19,6 +19,7 @@ export async function seedUsers() {
 				role: "user",
 				account_status: "active",
 				signed_to_newsletter: true,
+				bio: "bio",
 			},
 			{
 				email: "liam@example.com",
@@ -30,6 +31,7 @@ export async function seedUsers() {
 				role: "admin",
 				account_status: "active",
 				signed_to_newsletter: false,
+				bio: "bio",
 			},
 			{
 				email: "maria@example.com",
@@ -41,6 +43,7 @@ export async function seedUsers() {
 				role: "creator",
 				account_status: "suspended",
 				signed_to_newsletter: true,
+				bio: "bio",
 			},
 		];
 

@@ -1,5 +1,6 @@
 import { findUserWithPasswordByEmail } from "../../models/auth/authModel.js";
-import { createUser, CreateUserPayload, findUserById } from "../../models/user/userModel.js";
+import { createUser, findUserById } from "../../models/user/userModel.js";
+import { CreateUserPayload } from "../../types/user.js";
 import { generateToken } from "../../utils/jwt.js";
 import { comparePassword, hashPassword } from "../../utils/password.js";
 

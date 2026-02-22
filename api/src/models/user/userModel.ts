@@ -1,12 +1,6 @@
 import { query } from "../../config/database.js";
 import { ensureUserTable } from "../../database/migrations/users.js";
-import { PublicUser, User } from "../../types/user.js";
-
-export interface CreateUserPayload {
-	email: string;
-	password: string;
-	username?: string;
-}
+import { CreateUserPayload, PublicUser, User } from "../../types/user.js";
 
 export async function findAllUsers(): Promise<PublicUser[]> {
 	const result = await query<PublicUser>(`
@@ -27,7 +21,7 @@ export async function findAllUsers(): Promise<PublicUser[]> {
 	return result.rows;
 }
 
-export async function createUser(payload: CreateUserPayload): Promise<User> {
+export async function createUser(payload: CreateUserPayload): Promise<PublicUser> {
 	const { password, email, username } = payload;
 
 	await ensureUserTable();
@@ -37,23 +31,6 @@ export async function createUser(payload: CreateUserPayload): Promise<User> {
 			VALUES ($1, $2, $3) 
 			RETURNING id, email, username, role, avatar `,
 		[email, password, username],
-	);
-
-	return result.rows[0];
-}
-
-export async function getUserByEmail(email: string): Promise<User> {
-	const result = await query<User>(
-		`SELECT 		
-		id,
-		email,
-		firstname,
-		lastname,
-		avatar,
-		username,
-		role  
-		FROM users WHERE email = $1`,
-		[email],
 	);
 
 	return result.rows[0];
