@@ -1,6 +1,7 @@
 import { query } from "../../config/database.js";
 import { hashPassword } from "../../utils/password.js";
 import { ensureUserTable } from "../migrations/users.js";
+import { usersData } from "./data/users.js";
 
 export async function seedUsers() {
 	try {
@@ -8,44 +9,7 @@ export async function seedUsers() {
 
 		await ensureUserTable();
 
-		const users = [
-			{
-				email: "anna@example.com",
-				password: "password123",
-				firstname: "Anna",
-				lastname: "Svensson",
-				avatar: "https://i.pravatar.cc/150?img=1",
-				username: "annasv",
-				role: "user",
-				account_status: "active",
-				signed_to_newsletter: true,
-				bio: "bio",
-			},
-			{
-				email: "liam@example.com",
-				password: "secret456",
-				firstname: "Liam",
-				lastname: "Hjalmarsson",
-				avatar: "https://i.pravatar.cc/150?img=2",
-				username: "liamh",
-				role: "admin",
-				account_status: "active",
-				signed_to_newsletter: false,
-				bio: "bio",
-			},
-			{
-				email: "maria@example.com",
-				password: "welcome789",
-				firstname: "Maria",
-				lastname: "Karlsson",
-				avatar: "https://i.pravatar.cc/150?img=3",
-				username: "mariak",
-				role: "creator",
-				account_status: "suspended",
-				signed_to_newsletter: true,
-				bio: "bio",
-			},
-		];
+		const users = usersData;
 
 		for (const user of users) {
 			const hashed = await hashPassword(user.password);
@@ -53,7 +17,7 @@ export async function seedUsers() {
 			await query(
 				`INSERT INTO users 
                 (email, password, firstname, lastname, avatar, username, role, account_status, signed_to_newsletter)
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
                 ON CONFLICT (email) DO NOTHING`,
 				[
 					user.email,

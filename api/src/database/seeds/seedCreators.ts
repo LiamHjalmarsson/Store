@@ -13,7 +13,7 @@ export async function seedCreators() {
 			await query(
 				`INSERT INTO creators
 				(user_id, website, bio, verified_creator, featured, total_sales, total_earnings)
-				VALUES ($1,$2,$3,$4,$5,$6,$7)
+				VALUES ($1, $2, $3, $4, $5, $6, $7)
 				ON CONFLICT (user_id) DO NOTHING`,
 				[
 					creator.id,
