@@ -6,6 +6,8 @@ import { seedOrderItems } from "./seedOrderItems.js";
 import { seedCarts } from "./seedCarts.js";
 import { seedCartItems } from "./seedCartItems.js";
 import { seedPayments } from "./seedPayments.js";
+import { seedRanks } from "./seedRanks.js";
+import { seedAchievements } from "./seedAchivements.js";
 
 export async function seed() {
 	try {
@@ -24,6 +26,10 @@ export async function seed() {
 		await seedCartItems();
 
 		await seedPayments();
+
+		await seedRanks();
+
+		await seedAchievements();
 
 		console.log("Seed completed");
 

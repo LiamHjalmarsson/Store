@@ -4,6 +4,7 @@ import authRoute from "./modules/auth/routes/authRoute.js";
 import userRoute from "./modules/user/routes/userRoute.js";
 import creatorRoute from "./modules/creator/routes/creatorRoute.js";
 import profileRoute from "./modules/profile/routes/profileRoute.js";
+import achievementRoutes from "./modules/achievements/routes/achievementRoutes.js";
 import categoryRoute from "./modules/category/routes/categoryRoute.js";
 import categoryAdminRoute from "./modules/category/routes/categoryAdminRoute.js";
 
@@ -20,6 +21,8 @@ app.use("/api/admin/users", userRoute);
 app.use("/api/creators", creatorRoute);
 
 app.use("/api/profile", profileRoute);
+
+app.use("/api/achievements", achievementRoutes);
 
 app.use("/api/categories", categoryRoute);
 

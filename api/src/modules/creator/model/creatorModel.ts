@@ -35,7 +35,9 @@ export async function findCreatorById(id: number): Promise<PublicUser | null> {
       role,
       account_status,
       signed_to_newsletter,
-      created_at FROM users WHERE id = $1 AND role = 'creator'`,
+      created_at 
+      FROM users 
+      WHERE id = $1 AND role = 'creator'`,
 		[id],
 	);
 

@@ -10,8 +10,12 @@ export async function findUserById(id: number): Promise<PublicUser | null> {
         lastname,
         avatar,
         username,
-        role 
-        FROM users WHERE id = $1`,
+        role,
+        account_status,
+        signed_to_newsletter,
+        created_at
+        FROM users 
+		WHERE id = $1`,
 		[id],
 	);
 

@@ -11,6 +11,7 @@ export async function ensureUserTable() {
             lastname TEXT,
             avatar TEXT,
             bio TEXT,
+            xp INTEGER DEFAULT 0,
             role TEXT CHECK (role IN ('user','admin', 'creator')) DEFAULT 'user',
             account_status TEXT CHECK (account_status IN ('active','suspended','banned')) DEFAULT 'active',
             signed_to_newsletter BOOLEAN DEFAULT false,

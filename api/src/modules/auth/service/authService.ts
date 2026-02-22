@@ -36,7 +36,7 @@ export async function loginUserService(email: string, password: string) {
 		username: user.username,
 		role: user.role,
 		account_status: user.account_status,
-		signed_to_newsletter: user.account_status,
+		signed_to_newsletter: user.signed_to_newsletter,
 	};
 
 	return { user: safeUser, token };
