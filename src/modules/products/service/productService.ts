@@ -1,5 +1,5 @@
-import { allSubcategories } from "../model/productModel.js";
+import { allProductsModel } from "../model/productModel.js";
 
-export async function getAllSubcategoriesService() {
-	return await allSubcategories();
+export async function getAllProductsService() {
+	return await allProductsModel();
 }

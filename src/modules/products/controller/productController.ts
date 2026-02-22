@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { getAllSubcategoriesService } from "../service/productService.js";
+import { getAllProductsService } from "../service/productService.js";
 
-export const getAllSubcategories = async (req: Request, res: Response) => {
+export const getAllProducts = async (req: Request, res: Response) => {
 	try {
-		const subcategories = await getAllSubcategoriesService();
+		const products = await getAllProductsService();
 
-		res.json({ subcategories });
+		res.json({ products });
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error });
 	}

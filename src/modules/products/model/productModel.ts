@@ -1,10 +1,10 @@
 import { query } from "../../../config/database.js";
-import { Subcategory } from "../types/product.js";
+import { Product } from "../../../types/products.js";
 
-export async function allSubcategories() {
-	const result = await query<Subcategory>(`
+export async function allProductsModel() {
+	const result = await query<Product>(`
         SELECT * 
-        FROM subcategories 
+        FROM products 
         ORDER BY created_at DESC`);
 
 	return result.rows;

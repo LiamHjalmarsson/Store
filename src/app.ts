@@ -10,6 +10,7 @@ import categoryRoute from "./modules/category/routes/categoryRoute.js";
 import categoryAdminRoute from "./modules/category/routes/admin/categoryRoute.js";
 import subcategoryRoute from "./modules/subcategory/routes/subcategoryRoute.js";
 import subcategoryAdminRoute from "./modules/subcategory/routes/admin/subcategoryRoute.js";
+import productRoute from "./modules/products/routes/productRoute.js";
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use("/api/creators", creatorRoute);
 app.use("/api/profile", profileRoute);
 
 app.use("/api/achievements", achievementRoutes);
+
+app.use("/api/products", productRoute);
 
 app.use("/api/categories", categoryRoute);
 
