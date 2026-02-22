@@ -1,5 +1,5 @@
 import { query } from "../../../config/database.js";
-import { PublicUser, User } from "../../../shared/types/user.js";
+import { PublicUser, User } from "../../../types/user.js";
 import { CreateUserPayload } from "../types/authType.js";
 
 export async function findUserWithPasswordByEmail(email: string) {

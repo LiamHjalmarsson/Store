@@ -1,4 +1,4 @@
-import { PublicUser } from "../../../shared/types/user.js";
+import { PublicUser } from "../../../types/user.js";
 import { deleteUserById, findUserById, updateUserById } from "../model/profileModel.js";
 
 export async function getProfileService(userId: number): Promise<PublicUser | null> {

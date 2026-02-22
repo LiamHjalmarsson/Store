@@ -1,4 +1,4 @@
-import { CreateProductPayload } from "../../../shared/types/products";
+import { CreateProductPayload } from "../../../types/products";
 
 export const products: CreateProductPayload[] = [
 	{

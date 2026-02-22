@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { isAdmin } from "../../../middlewares/isAdmin.js";
-import authenicated from "../../../middlewares/authenicated.js";
 import {
 	createCategory,
 	deleteCategory,
 	getAllCategories,
 	getCategory,
 	updateCategory,
-} from "../controller/categoryController.js";
+} from "../../controller/categoryController.js";
+import authenicated from "../../../../middlewares/authenicated.js";
+import { isAdmin } from "../../../../middlewares/isAdmin.js";
 
 const router = Router();
 

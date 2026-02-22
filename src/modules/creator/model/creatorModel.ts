@@ -1,5 +1,5 @@
 import { query } from "../../../config/database.js";
-import { PublicUser } from "../../../shared/types/user.js";
+import { PublicUser } from "../../../types/user.js";
 
 export async function findAllCreators(): Promise<PublicUser[]> {
 	const result = await query<PublicUser>(`

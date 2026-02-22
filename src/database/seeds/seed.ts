@@ -1,11 +1,11 @@
-import { seedCategories } from "./seedCategory.js";
-import { seedUsers } from "./seedUser.js";
+import { seedCategories } from "./seedCategories.js";
+import { seedUsers } from "./seedUsers.js";
 import { seedRanks } from "./seedRanks.js";
 import { seedAchievements } from "./seedAchivements.js";
 import { seedUserAchievements } from "./seedUserAchievements.js";
 import { seedCreators } from "./seedCreators.js";
 import { seedSubcategories } from "./seedSubcategories.js";
-import { seedProducts } from "./seedProduct.js";
+import { seedProducts } from "./seedProducts.js";
 
 export async function seed() {
 	try {

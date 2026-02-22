@@ -1,4 +1,4 @@
-import { PublicUser } from "../../../shared/types/user.js";
+import { PublicUser } from "../../../types/user.js";
 import { findAllCreators, findCreatorById } from "../model/creatorModel.js";
 
 export async function getAllCreatorsService(): Promise<PublicUser[] | null> {

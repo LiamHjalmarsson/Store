@@ -1,4 +1,4 @@
-import { PublicUser } from "../../../shared/types/user.js";
+import { PublicUser } from "../../../types/user.js";
 import { deleteUserById, findAllUsers, findUserById, updateUserById } from "../model/userModel.js";
 
 export async function getAllUsersService(): Promise<PublicUser[]> {

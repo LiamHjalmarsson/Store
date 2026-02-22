@@ -1,5 +1,5 @@
 import { query } from "../../config/database.js";
-import { CreateProductPayload } from "../../shared/types/products.js";
+import { CreateProductPayload } from "../../types/products.js";
 import { ensureProductsTable } from "../migrations/products.js";
 import { products } from "./data/products.js";
 

@@ -4,9 +4,9 @@ import {
 	deleteAchievement,
 	getAchievements,
 	updateAchievement,
-} from "../controller/achievementController.js";
-import authenicated from "../../../middlewares/authenicated.js";
-import { isAdmin } from "../../../middlewares/isAdmin.js";
+} from "../../controller/achievementController.js";
+import authenicated from "../../../../middlewares/authenicated.js";
+import { isAdmin } from "../../../../middlewares/isAdmin.js";
 
 const router = Router();
 
