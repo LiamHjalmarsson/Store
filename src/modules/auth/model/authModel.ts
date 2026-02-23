@@ -8,7 +8,7 @@ export async function findUserWithPasswordByEmail(email: string) {
 	return result.rows[0];
 }
 
-export async function createUser(payload: CreateUserPayload) {
+export async function createNewUser(payload: CreateUserPayload) {
 	const { password, email, username } = payload;
 
 	const result = await query<PublicUser>(

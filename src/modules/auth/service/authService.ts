@@ -1,6 +1,6 @@
 import { generateToken } from "../../../utils/jwt.js";
 import { comparePassword, hashPassword } from "../../../utils/password.js";
-import { createUser, findUserById, findUserWithPasswordByEmail } from "../model/authModel.js";
+import { createNewUser, findUserById, findUserWithPasswordByEmail } from "../model/authModel.js";
 import { CreateUserPayload } from "../types/authType.js";
 
 export async function registerService(payload: CreateUserPayload) {
@@ -8,7 +8,7 @@ export async function registerService(payload: CreateUserPayload) {
 
 	const hashedPassword = await hashPassword(password);
 
-	const user = await createUser({ email, password: hashedPassword, username });
+	const user = await createNewUser({ email, password: hashedPassword, username });
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 

@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
 	createAchievement,
 	deleteAchievement,
-	getAchievements,
+	getAllAchievements,
 	updateAchievement,
 } from "../../controller/achievementController.js";
 import authenicated from "../../../../middlewares/authenicated.js";
@@ -12,7 +12,7 @@ const router = Router();
 
 router.use(authenicated, isAdmin);
 
-router.get("/", getAchievements);
+router.get("/", getAllAchievements);
 
 router.post("/", createAchievement);
 

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { awardAchievement, getAchievements, getMyAchievements } from "../controller/achievementController.js";
+import { awardAchievement, getAllAchievements, getMyAchievements } from "../controller/achievementController.js";
 import authenicated from "../../../middlewares/authenicated.js";
 
 const router = Router();
 
 router.use(authenicated);
 
-router.get("/", getAchievements);
+router.get("/", getAllAchievements);
 
 router.get("/me", getMyAchievements);
 

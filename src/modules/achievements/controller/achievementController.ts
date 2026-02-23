@@ -3,15 +3,15 @@ import {
 	awardAchievementService,
 	createAchievementService,
 	deleteAchievementService,
-	getAchivementsService,
+	getAllAchivementsService,
 	updateAchievementService,
 } from "../service/achievementService.js";
 import { AuthenticatedRequest } from "../../../middlewares/authenicated.js";
 import { getUserAchievements } from "../model/achievementModel.js";
 
-export const getAchievements = async (req: Request, res: Response) => {
+export const getAllAchievements = async (req: Request, res: Response) => {
 	try {
-		const achievements = await getAchivementsService();
+		const achievements = await getAllAchivementsService();
 
 		res.json({ achievements });
 	} catch (error) {

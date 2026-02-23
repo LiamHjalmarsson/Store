@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { Achievement, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
 
-export async function getAllAchievements() {
+export async function findAllAchievements() {
 	const result = await query<Achievement>(`
 		SELECT * FROM achievements ORDER BY created_at DESC
 	`);
@@ -9,7 +9,7 @@ export async function getAllAchievements() {
 	return result.rows;
 }
 
-export async function createAchievement(payload: CreateAchievementPayload) {
+export async function createNewAchievement(payload: CreateAchievementPayload) {
 	const result = await query<Achievement>(
 		`INSERT INTO achievements (code, name, icon, xp_reward)
 		VALUES ($1, $2, $3, $4)
