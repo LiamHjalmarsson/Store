@@ -1,50 +1,55 @@
 import { query } from "../../../config/database.js";
 import { Category, CreateCategoryPayload, UpdateCategoryPayload } from "../types/categoryTypes.js";
 
-export async function findAllCategories(): Promise<Category[] | null> {
-	const result = await query<Category>(`SELECT 
-        id,
-        title,
-        description,
-        image,
-        is_featured
+export const findAllCategories = async () => {
+	const result = await query<Category>(`
+		SELECT 
+			id,
+			title,
+			description,
+			image,
+			is_featured
         FROM categories
 		ORDER BY created_at DESC`);
 
 	return result.rows;
-}
+};
 
-export async function createNewCategory(data: CreateCategoryPayload): Promise<Category> {
+export const createNewCategory = async (payload: CreateCategoryPayload) => {
+	const { title, description, image, is_featured } = payload;
+
 	const result = await query<Category>(
-		`INSERT INTO categories (title, description, image, is_featured)
-        VALUES ($1, $2, $3, $4)
+		`INSERT INTO categories 
+			(title, description, image, is_featured)
+        VALUES 
+			($1, $2, $3, $4)
         RETURNING *`,
-		[data.title, data.description, data.image, data.is_featured ?? false],
+		[title, description, image, is_featured ?? false],
 	);
 
 	return result.rows[0];
-}
+};
 
-export async function findCategoryById(id: number): Promise<Category | null> {
+export const findCategoryById = async (id: number) => {
 	const result = await query<Category>(
 		`SELECT 		
-        id,
-        title,
-        description,
-        image,
-        is_featured 
+			id,
+			title,
+			description,
+			image,
+			is_featured 
 		FROM categories 
 		WHERE id = $1`,
 		[id],
 	);
 
 	return result.rows[0];
-}
+};
 
-export async function updateCategoryById(id: number, data: UpdateCategoryPayload) {
-	const allowed = ["title", "description", "image", "is_featured"] as const;
+export const updateCategoryById = async (id: number, payload: UpdateCategoryPayload) => {
+	const allowedFields: (keyof UpdateCategoryPayload)[] = ["title", "description", "image", "is_featured"];
 
-	const fields = allowed.filter((key) => data[key] !== undefined);
+	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
@@ -52,7 +57,7 @@ export async function updateCategoryById(id: number, data: UpdateCategoryPayload
 
 	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => data[key])];
+	const values = [id, ...fields.map((key) => payload[key])];
 
 	const result = await query<Category>(
 		`UPDATE categories 
@@ -63,9 +68,9 @@ export async function updateCategoryById(id: number, data: UpdateCategoryPayload
 	);
 
 	return result.rows[0] ?? null;
-}
+};
 
-export async function deleteCategoryById(id: number): Promise<boolean> {
+export const deleteCategoryById = async (id: number) => {
 	const result = await query(
 		`
 		DELETE FROM categories 
@@ -74,4 +79,4 @@ export async function deleteCategoryById(id: number): Promise<boolean> {
 	);
 
 	return result.rowCount === 1;
-}
+};

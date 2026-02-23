@@ -1,29 +1,36 @@
 import { query } from "../../../config/database.js";
 import { Achievement, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
 
-export async function findAllAchievements() {
+export const findAllAchievements = async () => {
 	const result = await query<Achievement>(`
-		SELECT * FROM achievements ORDER BY created_at DESC
+		SELECT * 
+		FROM achievements 
+		ORDER BY created_at DESC
 	`);
 
 	return result.rows;
-}
+};
 
-export async function createNewAchievement(payload: CreateAchievementPayload) {
+export const createNewAchievement = async (payload: CreateAchievementPayload) => {
+	const { code, name, icon, xp_reward } = payload;
+
 	const result = await query<Achievement>(
-		`INSERT INTO achievements (code, name, icon, xp_reward)
-		VALUES ($1, $2, $3, $4)
+		`
+		INSERT INTO achievements 
+			(code, name, icon, xp_reward)
+		VALUES 
+			($1, $2, $3, $4)
 		RETURNING *`,
-		[payload.code, payload.name, payload.icon, payload.xp_reward ?? false],
+		[code, name, icon, xp_reward ?? false],
 	);
 
 	return result.rows[0];
-}
+};
 
-export async function updateAchievementById(id: number, payload: UpdateAchievementPayload) {
-	const allowed = ["code", "name", "icon", "xp_reward"] as const;
+export const updateAchievementById = async (id: number, payload: UpdateAchievementPayload) => {
+	const allowedFields: (keyof UpdateAchievementPayload)[] = ["code", "name", "icon", "xp_reward"];
 
-	const fields = allowed.filter((key) => payload[key] !== undefined);
+	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
@@ -42,23 +49,26 @@ export async function updateAchievementById(id: number, payload: UpdateAchieveme
 	);
 
 	return result.rows[0] ?? null;
-}
+};
 
-export async function deleteAchievementById(id: number) {
+export const deleteAchievementById = async (id: number) => {
 	const result = await query(
 		`
 		DELETE FROM achievements 
-		WHERE id = $1`,
+		WHERE id = $1
+		`,
 		[id],
 	);
 
 	return result.rowCount === 1;
-}
+};
 
-export async function awardAchievementToUser(userId: number, achievement_id: number) {
+export const awardAchievementToUser = async (userId: number, achievement_id: number) => {
 	await query(
-		`INSERT INTO user_achievements (user_id, achievement_id)
-		 VALUES ($1, $2)
+		`INSERT INTO user_achievements
+			(user_id, achievement_id)
+		 VALUES 
+		 	($1, $2)
 		 ON CONFLICT DO NOTHING`,
 		[userId, achievement_id],
 	);
@@ -71,9 +81,9 @@ export async function awardAchievementToUser(userId: number, achievement_id: num
 		 WHERE id = $2`,
 		[achievement_id, userId],
 	);
-}
+};
 
-export async function getUserAchievements(userId: number) {
+export const findUserAchievements = async (userId: number) => {
 	const result = await query<Achievement>(
 		`
 		SELECT a.*
@@ -86,4 +96,4 @@ export async function getUserAchievements(userId: number) {
 	);
 
 	return result.rows;
-}
+};

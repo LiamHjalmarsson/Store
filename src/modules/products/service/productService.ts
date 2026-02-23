@@ -1,5 +1,28 @@
-import { allProductsModel } from "../model/productModel.js";
+import { CreateProductPayload, UpdateProductPayload } from "../../../types/products.js";
+import {
+	createNewProduct,
+	deleteProductById,
+	findAllProducts,
+	findProductById,
+	updateProductById,
+} from "../model/productModel.js";
 
-export async function getAllProductsService() {
-	return await allProductsModel();
-}
+export const getAllProductsService = async () => {
+	return await findAllProducts();
+};
+
+export const createProductService = async (id: number, payload: CreateProductPayload) => {
+	return await createNewProduct(id, payload);
+};
+
+export const getProductService = async (id: number) => {
+	return await findProductById(id);
+};
+
+export const updateProductService = async (id: number, creatorId: number, payload: UpdateProductPayload) => {
+	return await updateProductById(id, creatorId, payload);
+};
+
+export const deleteProductService = async (id: number, creatorId: number) => {
+	return await deleteProductById(id, creatorId);
+};

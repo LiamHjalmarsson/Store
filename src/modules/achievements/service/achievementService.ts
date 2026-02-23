@@ -3,30 +3,30 @@ import {
 	createNewAchievement,
 	deleteAchievementById,
 	findAllAchievements,
-	getUserAchievements,
+	findUserAchievements,
 	updateAchievementById,
 } from "../model/achievementModel.js";
 import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
 
-export async function getAllAchivementsService() {
+export const getAllAchivementsService = async () => {
 	return await findAllAchievements();
-}
+};
 
-export async function createAchievementService(payload: CreateAchievementPayload) {
+export const createAchievementService = async (payload: CreateAchievementPayload) => {
 	return await createNewAchievement(payload);
-}
-export async function updateAchievementService(id: number, payload: UpdateAchievementPayload) {
+};
+export const updateAchievementService = async (id: number, payload: UpdateAchievementPayload) => {
 	return await updateAchievementById(id, payload);
-}
+};
 
-export async function deleteAchievementService(id: number) {
+export const deleteAchievementService = async (id: number) => {
 	return await deleteAchievementById(id);
-}
+};
 
-export async function awardAchievementService(userId: number, achievement_id: number) {
+export const awardAchievementService = async (userId: number, achievement_id: number) => {
 	await awardAchievementToUser(userId, achievement_id);
-}
+};
 
-export async function getUserAchievementsService(userId: number) {
-	return await getUserAchievements(userId);
-}
+export const getUserAchievementsService = async (userId: number) => {
+	return await findUserAchievements(userId);
+};

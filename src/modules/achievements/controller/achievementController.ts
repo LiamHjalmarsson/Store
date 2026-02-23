@@ -4,10 +4,10 @@ import {
 	createAchievementService,
 	deleteAchievementService,
 	getAllAchivementsService,
+	getUserAchievementsService,
 	updateAchievementService,
 } from "../service/achievementService.js";
 import { AuthenticatedRequest } from "../../../middlewares/authenicated.js";
-import { getUserAchievements } from "../model/achievementModel.js";
 
 export const getAllAchievements = async (req: Request, res: Response) => {
 	try {
@@ -65,7 +65,7 @@ export const getMyAchievements = async (req: AuthenticatedRequest, res: Response
 	try {
 		const userId = Number(req.user?.id);
 
-		const achievements = await getUserAchievements(userId);
+		const achievements = await getUserAchievementsService(userId);
 
 		res.json({ achievements });
 	} catch (error) {

@@ -4,10 +4,12 @@ import { deleteProfile, getProfile, updateProfile } from "../controller/profileC
 
 const router = Router();
 
-router.get("/:id", authenicated, getProfile);
+router.use(authenicated);
 
-router.put("/:id", authenicated, updateProfile);
+router.get("/:id", getProfile);
 
-router.delete("/:id", authenicated, deleteProfile);
+router.put("/:id", updateProfile);
+
+router.delete("/:id", deleteProfile);
 
 export default router;

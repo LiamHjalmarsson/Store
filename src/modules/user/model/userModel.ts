@@ -2,56 +2,59 @@ import { query } from "../../../config/database.js";
 import { PublicUser, User } from "../../../types/user.js";
 import { CreateUserPayload } from "../types/userType.js";
 
-export async function findAllUsers(): Promise<PublicUser[]> {
+export const findAllUsers = async () => {
 	const result = await query<PublicUser>(`
         SELECT
-        id,
-        email,
-        firstname,
-        lastname,
-        avatar,
-        username,
-        role,
-        account_status,
-        signed_to_newsletter,
-        created_at
+			id,
+			email,
+			firstname,
+			lastname,
+			avatar,
+			username,
+			role,
+			account_status,
+			signed_to_newsletter,
+			created_at
         FROM users
     `);
 
 	return result.rows;
-}
+};
 
-export async function createUser(payload: CreateUserPayload): Promise<PublicUser> {
+export const createUser = async (payload: CreateUserPayload) => {
 	const { password, email, username } = payload;
 
 	const result = await query<User>(
-		`INSERT INTO users (email, password, username) 
-            VALUES ($1, $2, $3) 
-            RETURNING id, email, username, role, avatar `,
+		`INSERT INTO users 
+			(email, password, username) 
+        VALUES 
+			($1, $2, $3) 
+        RETURNING id, email, username, role, avatar`,
 		[email, password, username],
 	);
 
 	return result.rows[0];
-}
+};
 
-export async function findUserById(id: number): Promise<PublicUser | null> {
+export const findUserById = async (id: number) => {
 	const result = await query<PublicUser>(
 		`SELECT 
-        id,
-        email,
-        firstname,
-        lastname,
-        avatar,
-        username,
-        role 
-        FROM users WHERE id = $1`,
+			id,
+			email,
+			firstname,
+			lastname,
+			avatar,
+			username,
+			role 
+        FROM users 
+		WHERE id = $1`,
 		[id],
 	);
 
 	return result.rows[0];
-}
+};
 
-export async function updateUserById(id: number, data: Partial<PublicUser>): Promise<PublicUser | null> {
+export const updateUserById = async (id: number, data: Partial<PublicUser>) => {
 	const allowed: (keyof PublicUser)[] = [
 		"firstname",
 		"lastname",
@@ -77,13 +80,20 @@ export async function updateUserById(id: number, data: Partial<PublicUser>): Pro
         role, account_status, signed_to_newsletter, created_at
     `;
 
-	const result = await query<User>(`UPDATE users SET ${setSql} WHERE id = $1 RETURNING ${returningFields}`, values);
+	const result = await query<User>(
+		`
+		UPDATE users 
+		SET ${setSql} 
+		WHERE id = $1 
+		RETURNING ${returningFields}`,
+		values,
+	);
 
 	return result.rows[0] ?? null;
-}
+};
 
-export async function deleteUserById(id: number) {
+export const deleteUserById = async (id: number) => {
 	const result = await query("DELETE FROM users WHERE id = $1", [id]);
 
 	return result.rowCount;
-}
+};

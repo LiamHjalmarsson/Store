@@ -1,28 +1,28 @@
 import {
 	createNewCreator,
-	deleteCreator,
+	deleteCreatorById,
 	findAllCreators,
 	findCreatorById,
-	updateCreator,
+	updateCreatorById,
 } from "../model/creatorModel.js";
 import { CreateCreatorPayload, UpdateCreatorPayload } from "../types/creator.js";
 
-export async function getAllCreatorsService() {
+export const getAllCreatorsService = async () => {
 	return await findAllCreators();
-}
+};
 
 export const createCreatorService = async (payload: CreateCreatorPayload) => {
 	return await createNewCreator(payload);
 };
 
-export async function getCreatorService(userId: number) {
+export const getCreatorService = async (userId: number) => {
 	return await findCreatorById(userId);
-}
+};
 
 export const updateCreatorService = async (creatorId: number, payload: UpdateCreatorPayload) => {
-	return updateCreator(creatorId, payload);
+	return updateCreatorById(creatorId, payload);
 };
 
 export const deleteCreatorService = async (creatorId: number) => {
-	return deleteCreator(creatorId);
+	return deleteCreatorById(creatorId);
 };

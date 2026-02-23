@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { CreateCreatorPayload, PublicCreator, UpdateCreatorPayload } from "../types/creator.js";
 
-export async function findAllCreators(): Promise<PublicCreator[]> {
+export const findAllCreators = async () => {
 	const result = await query<PublicCreator>(`
       SELECT
         u.id,
@@ -34,15 +34,26 @@ export async function findAllCreators(): Promise<PublicCreator[]> {
     `);
 
 	return result.rows;
-}
+};
 
 export const createNewCreator = async (payload: CreateCreatorPayload) => {
+	const {
+		user_id,
+		website,
+		bio,
+		social_twitter,
+		social_instagram,
+		social_youtube,
+		stripe_account_id,
+		payout_method,
+	} = payload;
+
 	await query(
 		`
     UPDATE users 
     SET role = 'creator' 
     WHERE id = $1 AND role != 'creator'`,
-		[payload.user_id],
+		[user_id],
 	);
 
 	const result = await query<PublicCreator>(
@@ -63,18 +74,18 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
         total_sales, total_earnings, stripe_account_id, payout_method
     `,
 		[
-			payload.user_id,
-			payload.website ?? null,
-			payload.bio ?? null,
-			payload.social_twitter ?? null,
-			payload.social_instagram ?? null,
-			payload.social_youtube ?? null,
+			user_id,
+			website ?? null,
+			bio ?? null,
+			social_twitter ?? null,
+			social_instagram ?? null,
+			social_youtube ?? null,
 			false,
 			false,
 			0,
 			0,
-			payload.stripe_account_id ?? null,
-			payload.payout_method ?? null,
+			stripe_account_id ?? null,
+			payout_method ?? null,
 		],
 	);
 
@@ -82,10 +93,10 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
 		throw new Error("Failed to create creator profile");
 	}
 
-	return await findCreatorById(payload.user_id);
+	return await findCreatorById(user_id);
 };
 
-export async function findCreatorById(creatorId: number) {
+export const findCreatorById = async (creatorId: number) => {
 	const result = await query<PublicCreator>(
 		`
 		SELECT
@@ -120,9 +131,9 @@ export async function findCreatorById(creatorId: number) {
 	);
 
 	return result.rows[0];
-}
+};
 
-export const updateCreator = async (creatorId: number, payload: UpdateCreatorPayload) => {
+export const updateCreatorById = async (creatorId: number, payload: UpdateCreatorPayload) => {
 	if (Object.keys(payload).length === 0) {
 		return null;
 	}
@@ -150,10 +161,21 @@ export const updateCreator = async (creatorId: number, payload: UpdateCreatorPay
 	return await findCreatorById(creatorId);
 };
 
-export const deleteCreator = async (creatorId: number) => {
-	const result = await query(`DELETE FROM creators WHERE user_id = $1`, [creatorId]);
+export const deleteCreatorById = async (creatorId: number) => {
+	const result = await query(
+		`
+    DELETE FROM creators 
+    WHERE user_id = $1`,
+		[creatorId],
+	);
 
-	await query(`UPDATE users SET role = 'user' WHERE id = $1 AND role = 'creator'`, [creatorId]);
+	await query(
+		`
+    UPDATE users 
+    SET role = 'user' 
+    WHERE id = $1 AND role = 'creator'`,
+		[creatorId],
+	);
 
 	return result.rowCount === 1;
 };
