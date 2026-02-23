@@ -10,6 +10,9 @@ export async function ensureCreatorsTable() {
             social_instagram VARCHAR(100),
             social_youtube VARCHAR(100),
 
+            stripe_account_id VARCHAR(100),
+            payout_method VARCHAR(50) CHECK (payout_method IN ('paypal', 'stripe', 'bank', 'other')),
+
             verified_creator BOOLEAN DEFAULT FALSE,
             featured BOOLEAN DEFAULT FALSE,
 

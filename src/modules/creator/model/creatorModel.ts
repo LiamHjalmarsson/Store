@@ -23,7 +23,9 @@ export async function findAllCreators(): Promise<PublicCreator[]> {
         c.verified_creator,
         c.featured,
         c.total_sales,
-        c.total_earnings
+        c.total_earnings,
+        c.stripe_account_id,
+        c.payout_method
 
       FROM users u
       INNER JOIN creators c ON c.user_id = u.id
@@ -49,7 +51,8 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
         user_id, website, bio,
         social_twitter, social_instagram, social_youtube,
         verified_creator, featured,
-        total_sales, total_earnings
+        total_sales, total_earnings,
+        stripe_account_id, payout_method
       )
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING 
@@ -57,7 +60,7 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
         website, bio,
         social_twitter, social_instagram, social_youtube,
         verified_creator, featured,
-        total_sales, total_earnings
+        total_sales, total_earnings, stripe_account_id, payout_method
     `,
 		[
 			payload.user_id,
@@ -70,6 +73,8 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
 			false,
 			0,
 			0,
+			payload.stripe_account_id ?? null,
+			payload.payout_method ?? null,
 		],
 	);
 
@@ -103,7 +108,9 @@ export async function findCreatorById(creatorId: number) {
       c.verified_creator,
       c.featured,
       c.total_sales,
-      c.total_earnings
+      c.total_earnings,
+      c.stripe_account_id,
+      c.payout_method
 
 		FROM users u
 		INNER JOIN creators c ON c.user_id = u.id
