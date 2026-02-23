@@ -4,10 +4,12 @@ import authenicated from "../../../middlewares/authenicated.js";
 
 const router = Router();
 
-router.get("/", authenicated, getAchievements);
+router.use(authenicated);
 
-router.get("/me", authenicated, getMyAchievements);
+router.get("/", getAchievements);
 
-router.post("/award", authenicated, awardAchievement);
+router.get("/me", getMyAchievements);
+
+router.post("/award", awardAchievement);
 
 export default router;

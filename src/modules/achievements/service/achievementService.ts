@@ -1,14 +1,14 @@
 import {
-	awardAchievement,
+	awardAchievementToUser,
 	createAchievement,
-	deleteAchievement,
+	deleteAchievementById,
 	getAllAchievements,
 	getUserAchievements,
-	updateAchievement,
+	updateAchievementById,
 } from "../model/achievementModel.js";
 import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
 
-export async function getAchievementsService() {
+export async function getAchivementsService() {
 	return await getAllAchievements();
 }
 
@@ -16,15 +16,15 @@ export async function createAchievementService(payload: CreateAchievementPayload
 	return await createAchievement(payload);
 }
 export async function updateAchievementService(id: number, payload: UpdateAchievementPayload) {
-	return await updateAchievement(id, payload);
+	return await updateAchievementById(id, payload);
 }
 
 export async function deleteAchievementService(id: number) {
-	return await deleteAchievement(id);
+	return await deleteAchievementById(id);
 }
 
 export async function awardAchievementService(userId: number, achievement_id: number) {
-	await awardAchievement(userId, achievement_id);
+	await awardAchievementToUser(userId, achievement_id);
 }
 
 export async function getUserAchievementsService(userId: number) {

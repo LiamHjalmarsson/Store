@@ -20,7 +20,7 @@ export async function createAchievement(payload: CreateAchievementPayload) {
 	return result.rows[0];
 }
 
-export async function updateAchievement(id: number, payload: UpdateAchievementPayload) {
+export async function updateAchievementById(id: number, payload: UpdateAchievementPayload) {
 	const allowed = ["code", "name", "icon", "xp_reward"] as const;
 
 	const fields = allowed.filter((key) => payload[key] !== undefined);
@@ -44,7 +44,7 @@ export async function updateAchievement(id: number, payload: UpdateAchievementPa
 	return result.rows[0] ?? null;
 }
 
-export async function deleteAchievement(id: number) {
+export async function deleteAchievementById(id: number) {
 	const result = await query(
 		`
 		DELETE FROM achievements 
@@ -55,7 +55,7 @@ export async function deleteAchievement(id: number) {
 	return result.rowCount === 1;
 }
 
-export async function awardAchievement(userId: number, achievement_id: number) {
+export async function awardAchievementToUser(userId: number, achievement_id: number) {
 	await query(
 		`INSERT INTO user_achievements (user_id, achievement_id)
 		 VALUES ($1, $2)
