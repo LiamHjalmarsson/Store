@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { loginUserService, meService, registerUserService } from "../service/authService.js";
+import { loginService, meService, registerService } from "../service/authService.js";
 import { AuthenticatedRequest } from "../../../middlewares/authenicated.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;
 
 	try {
-		const { token, user } = await registerUserService({ email, password, username });
+		const { token, user } = await registerService({ email, password, username });
 
 		return res.status(201).json({ token, user });
 	} catch (error) {
@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	try {
-		const result = await loginUserService(email, password);
+		const result = await loginService(email, password);
 
 		if (!result) {
 			return res.status(400).json({ message: "Invalid credentials" });

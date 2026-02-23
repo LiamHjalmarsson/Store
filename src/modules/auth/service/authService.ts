@@ -3,7 +3,7 @@ import { comparePassword, hashPassword } from "../../../utils/password.js";
 import { createUser, findUserById, findUserWithPasswordByEmail } from "../model/authModel.js";
 import { CreateUserPayload } from "../types/authType.js";
 
-export async function registerUserService(payload: CreateUserPayload) {
+export async function registerService(payload: CreateUserPayload) {
 	const { password, email, username } = payload;
 
 	const hashedPassword = await hashPassword(password);
@@ -15,7 +15,7 @@ export async function registerUserService(payload: CreateUserPayload) {
 	return { user, token };
 }
 
-export async function loginUserService(email: string, password: string) {
+export async function loginService(email: string, password: string) {
 	const user = await findUserWithPasswordByEmail(email);
 
 	if (!user) {
