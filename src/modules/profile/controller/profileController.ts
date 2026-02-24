@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "../../../middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
 import { deleteProfileService, getProfileService, updateProfileService } from "../service/profileService.js";
 
 export const getProfile = async (req: AuthenticatedRequest, res: Response) => {

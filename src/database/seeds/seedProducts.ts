@@ -1,5 +1,5 @@
 import { query } from "../../config/database.js";
-import { CreateProductPayload } from "../../types/products.js";
+import { CreateProductPayload } from "../../modules/products/types/product.js";
 import { ensureProductsTable } from "../migrations/products.js";
 import { products } from "./data/products.js";
 
@@ -36,9 +36,20 @@ export async function seedProducts() {
 			await query(
 				`
                 INSERT INTO products (
-                    title, description, price, category_id, subcategory_id, creator_id, image_url, is_featured, is_discounted, discounted, status
+                    title, 
+					description, 
+					price, 
+					category_id, 
+					subcategory_id, 
+					creator_id, 
+					image_url, 
+					is_featured, 
+					is_discounted, 
+					discounted, 
+					status
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                VALUES 
+					($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
                 ON CONFLICT DO NOTHING
             `,
 				[

@@ -1,4 +1,6 @@
-export const ranks = [
+import { CreateRankPayload } from "../../../modules/ranks/types/rank";
+
+export const ranks: CreateRankPayload[] = [
 	{
 		name: "Bronze",
 		min_xp: 0,

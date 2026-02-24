@@ -16,9 +16,13 @@ export async function seedSubcategories() {
 
 		for (const sub of match?.items) {
 			await query(
-				`INSERT INTO subcategories (category_id, title, description)
-                 VALUES ($1, $2, $3)
-                 ON CONFLICT (category_id, title) DO NOTHING`,
+				`INSERT INTO subcategories 
+					(category_id, title, description)
+                VALUES 
+				 	($1, $2, $3)
+                ON CONFLICT 
+					(category_id, title) 
+				DO NOTHING`,
 				[category.id, sub.title, sub.description],
 			);
 

@@ -12,17 +12,11 @@ export interface Category {
 
 export interface CreateCategoryPayload {
 	title: string;
-	slug?: string;
+	// slug?: string;
 	description?: string;
 	image?: string;
 	is_featured?: boolean;
-	parent_id?: number;
+	// parent_id?: number;
 }
 
-export interface UpdateCategoryPayload {
-	title?: string;
-	slug?: string;
-	description?: string;
-	image?: string;
-	is_featured?: boolean;
-}
+export interface UpdateCategoryPayload extends Partial<CreateCategoryPayload> {}

@@ -1,4 +1,3 @@
-import { CreateProductPayload, UpdateProductPayload } from "../../../types/products.js";
 import {
 	createNewProduct,
 	deleteProductById,
@@ -6,6 +5,7 @@ import {
 	findProductById,
 	updateProductById,
 } from "../model/productModel.js";
+import { CreateProductPayload, UpdateProductPayload } from "../types/product.js";
 
 export const getAllProductsService = async () => {
 	return await findAllProducts();

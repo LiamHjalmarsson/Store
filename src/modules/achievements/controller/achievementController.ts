@@ -7,7 +7,7 @@ import {
 	getUserAchievementsService,
 	updateAchievementService,
 } from "../service/achievementService.js";
-import { AuthenticatedRequest } from "../../../middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
 
 export const getAllAchievements = async (req: Request, res: Response) => {
 	try {

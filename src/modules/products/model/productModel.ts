@@ -1,5 +1,5 @@
 import { query } from "../../../config/database.js";
-import { CreateProductPayload, Product, UpdateProductPayload } from "../../../types/products.js";
+import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
 
 export const findAllProducts = async () => {
 	const result = await query<Product[]>(`

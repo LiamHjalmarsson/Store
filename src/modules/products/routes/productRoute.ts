@@ -6,8 +6,8 @@ import {
 	getProduct,
 	updateProduct,
 } from "../controller/productController.js";
-import authenicated from "../../../middlewares/authenicated.js";
-import { isCreator } from "../../../middlewares/isCreator.js";
+import authenicated from "../../../shared/middlewares/authenicated.js";
+import { isCreator } from "../../../shared/middlewares/isCreator.js";
 
 const router = Router();
 

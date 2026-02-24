@@ -6,7 +6,7 @@ import {
 	getCreatorService,
 	updateCreatorService,
 } from "../service/creatorService.js";
-import { AuthenticatedRequest } from "../../../middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
 import { CreateCreatorPayload } from "../types/creator.js";
 
 export const getAllCreators = async (req: Request, res: Response) => {

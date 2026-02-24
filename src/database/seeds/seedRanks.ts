@@ -10,8 +10,10 @@ export async function seedRanks() {
 
 		for (const rank of ranks) {
 			await query(
-				`INSERT INTO ranks (name, min_xp)
-				 VALUES ($1, $2)
+				`INSERT INTO ranks 
+					(name, min_xp)
+				 VALUES 
+				 	($1, $2)
 				 ON CONFLICT DO NOTHING`,
 				[rank.name, rank.min_xp],
 			);

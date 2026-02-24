@@ -13,12 +13,18 @@ export async function seedCreators() {
 			await query(
 				`
 				INSERT INTO creators (
-					user_id, website, bio,
-					verified_creator, featured,
-					total_sales, total_earnings,
-					stripe_account_id, payout_method
+					user_id, 
+					website, 
+					bio,
+					verified_creator, 
+					featured,
+					total_sales, 
+					total_earnings,
+					stripe_account_id, 
+					payout_method
 				)
-				VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+				VALUES 
+					($1, $2, $3, $4, $5, $6, $7, $8, $9)
 				ON CONFLICT (user_id) DO UPDATE SET
 					website = EXCLUDED.website,
 					bio = EXCLUDED.bio,

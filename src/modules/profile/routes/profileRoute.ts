@@ -1,5 +1,5 @@
 import { Router } from "express";
-import authenicated from "../../../middlewares/authenicated.js";
+import authenicated from "../../../shared/middlewares/authenicated.js";
 import { deleteProfile, getProfile, updateProfile } from "../controller/profileController.js";
 
 const router = Router();

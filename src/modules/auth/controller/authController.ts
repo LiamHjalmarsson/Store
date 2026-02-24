@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { loginService, meService, registerService } from "../service/authService.js";
-import { AuthenticatedRequest } from "../../../middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;

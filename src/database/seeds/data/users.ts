@@ -1,4 +1,17 @@
-export const usersData = [
+interface User {
+	email: string;
+	password: string;
+	firstname: string;
+	lastname: string;
+	avatar: string;
+	username: string;
+	role: "user" | "admin" | "creator";
+	account_status: "active" | "suspended" | "banned";
+	signed_to_newsletter: boolean;
+	bio: string;
+}
+
+export const users: User[] = [
 	{
 		email: "anna@example.com",
 		password: "password123",

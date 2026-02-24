@@ -1,4 +1,4 @@
-import { PublicUser } from "../../../types/user.js";
+import { PublicUser } from "../../../shared/types/user.js";
 import { deleteUserById, findAllUsers, findUserById, updateUserById } from "../model/userModel.js";
 
 export const getAllUsersService = async () => {
@@ -9,8 +9,8 @@ export const getUserService = async (userId: number) => {
 	return await findUserById(userId);
 };
 
-export const updateUserService = async (userId: number, data: Partial<PublicUser>) => {
-	return await updateUserById(userId, data);
+export const updateUserService = async (userId: number, payload: Partial<PublicUser>) => {
+	return await updateUserById(userId, payload);
 };
 
 export const deleteUserService = async (userId: number) => {

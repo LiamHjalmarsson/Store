@@ -6,8 +6,8 @@ import {
 	getCategory,
 	updateCategory,
 } from "../../controller/categoryController.js";
-import authenicated from "../../../../middlewares/authenicated.js";
-import { isAdmin } from "../../../../middlewares/isAdmin.js";
+import authenicated from "../../../../shared/middlewares/authenicated.js";
+import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
 
 const router = Router();
 

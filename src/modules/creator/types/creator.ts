@@ -1,4 +1,4 @@
-import { CreatorProfile } from "../../user/types/userType";
+export type PayoutMethod = "stripe" | "bank" | "other" | null;
 
 export interface Creator {
 	user_id: number;
@@ -15,10 +15,10 @@ export interface Creator {
 	updated_at: Date;
 
 	stripe_account_id: string | null;
-	payout_method: "stripe" | "bank" | "other" | null;
+	payout_method: PayoutMethod;
 }
 
-export type PublicCreator = Omit<CreatorProfile, "stripe_account_id">;
+export type PublicCreator = Omit<Creator, "stripe_account_id">;
 
 export interface CreateCreatorPayload {
 	user_id: number;
@@ -28,7 +28,7 @@ export interface CreateCreatorPayload {
 	social_instagram?: string;
 	social_youtube?: string;
 	stripe_account_id?: string | null;
-	payout_method?: "stripe" | "bank" | "other" | null;
+	payout_method?: PayoutMethod;
 }
 
 export interface UpdateCreatorPayload {
@@ -41,5 +41,5 @@ export interface UpdateCreatorPayload {
 	featured?: boolean;
 
 	stripe_account_id?: string | null;
-	payout_method?: "stripe" | "bank" | "other" | null;
+	payout_method?: PayoutMethod;
 }

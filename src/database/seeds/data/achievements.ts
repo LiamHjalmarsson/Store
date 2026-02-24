@@ -1,4 +1,6 @@
-export const achievements = [
+import { CreateAchievementPayload } from "../../../modules/achievements/types/achievementTypes";
+
+export const achievements: CreateAchievementPayload[] = [
 	{
 		code: "FIRST_PURCHASE",
 		name: "First Purchase",

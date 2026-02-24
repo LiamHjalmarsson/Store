@@ -1,4 +1,6 @@
-export const categories = [
+import { CreateCategoryPayload } from "../../../modules/category/types/categoryTypes";
+
+export const categories: CreateCategoryPayload[] = [
 	{
 		title: "Design",
 		description: "UI kits, templates and creative assets",

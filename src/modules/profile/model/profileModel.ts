@@ -1,5 +1,5 @@
 import { query } from "../../../config/database.js";
-import { PublicUser, User } from "../../../types/user.js";
+import { PublicUser } from "../../../shared/types/user.js";
 
 export const findUserById = async (id: number) => {
 	const result = await query<PublicUser>(
@@ -48,7 +48,7 @@ export const updateUserById = async (id: number, payload: Partial<PublicUser>) =
         role, account_status, signed_to_newsletter, created_at
     `;
 
-	const result = await query<User>(
+	const result = await query<PublicUser>(
 		`
 		UPDATE users 
 		SET ${setSql} 

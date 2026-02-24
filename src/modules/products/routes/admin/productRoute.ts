@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { isAdmin } from "../../../../middlewares/isAdmin.js";
-import authenicated from "../../../../middlewares/authenicated.js";
+import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
+import authenicated from "../../../../shared/middlewares/authenicated.js";
 
 const router = Router();
 

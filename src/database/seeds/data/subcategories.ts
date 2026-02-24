@@ -1,4 +1,6 @@
-export const subcategories = [
+import { SeedSubcategory } from "../types";
+
+export const subcategories: SeedSubcategory[] = [
 	{
 		category: "Design",
 		items: [

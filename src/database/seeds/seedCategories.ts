@@ -11,8 +11,9 @@ export async function seedCategories() {
 		for (const category of categories) {
 			await query(
 				`INSERT INTO categories 
-                (title, description, image, is_featured)
-                VALUES ($1, $2, $3, $4)
+                	(title, description, image, is_featured)
+                VALUES 
+					($1, $2, $3, $4)
 				ON CONFLICT (title) DO NOTHING`,
 				[category.title, category.description, category.image, category.is_featured ?? false],
 			);

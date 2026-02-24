@@ -15,8 +15,10 @@ export async function seedUserAchievements() {
 			for (const achievement of achievements.rows) {
 				if (Math.random() > 0.5) {
 					await query(
-						`INSERT INTO user_achievements (user_id, achievement_id)
-						 VALUES ($1, $2)
+						`INSERT INTO user_achievements 
+							(user_id, achievement_id)
+						 VALUES 
+						 	($1, $2)
 						 ON CONFLICT DO NOTHING`,
 						[user.id, achievement.id],
 					);
