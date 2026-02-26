@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { loginService, meService, registerService } from "../service/authService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
+import { UnauthenticatedError } from "../../../shared/errors/unauthenticated.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;
@@ -17,19 +18,15 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
-	try {
-		const result = await loginService(email, password);
+	const result = await loginService(email, password);
 
-		if (!result) {
-			return res.status(400).json({ message: "Invalid credentials" });
-		}
-
-		const { token, user } = result;
-
-		res.json({ token, user });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
+	if (!result) {
+		throw new UnauthenticatedError("Invalid credentials");
 	}
+
+	const { token, user } = result;
+
+	res.json({ token, user });
 };
 
 export const logout = async (req: Request, res: Response) => {
