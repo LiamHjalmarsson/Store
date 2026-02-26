@@ -8,6 +8,8 @@ import {
 } from "../../controller/categoryController.js";
 import authenicated from "../../../../shared/middlewares/authenicated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
+import { validateRequest } from "../../../../shared/middlewares/validateRequest.js";
+import { createValidation } from "../../../../validations/category/index.js";
 
 const router = Router();
 
@@ -15,7 +17,7 @@ router.use(authenicated, isAdmin);
 
 router.get("/", getAllCategories);
 
-router.post("/", createCategory);
+router.post("/", createValidation, validateRequest, createCategory);
 
 router.get("/:id", getCategory);
 
