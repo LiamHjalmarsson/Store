@@ -27,7 +27,7 @@ export const login = async (req: Request, res: Response) => {
 	res.json({ token, user });
 };
 
-export const logout = async (req: Request, res: Response) => {
+export const logout = async (_: Request, res: Response) => {
 	res.json({ message: "Logout was successfull" });
 };
 

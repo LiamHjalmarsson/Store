@@ -10,7 +10,7 @@ import {
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 
-export const getAllAchievements = async (req: Request, res: Response) => {
+export const getAllAchievements = async (_: Request, res: Response) => {
 	const achievements = await getAllAchivementsService();
 
 	res.json({ achievements });
