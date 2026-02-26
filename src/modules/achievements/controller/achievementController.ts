@@ -10,79 +10,55 @@ import {
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
 
 export const getAllAchievements = async (req: Request, res: Response) => {
-	try {
-		const achievements = await getAllAchivementsService();
+	const achievements = await getAllAchivementsService();
 
-		res.json({ achievements });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
-	}
+	res.json({ achievements });
 };
 
 export const createAchievement = async (req: Request, res: Response) => {
-	try {
-		const created = await createAchievementService(req.body);
+	const created = await createAchievementService(req.body);
 
-		res.json({ achievement: created });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
-	}
+	res.json({ achievement: created });
 };
 
 export const updateAchievement = async (req: Request, res: Response) => {
-	try {
-		const id = Number(req.params.id);
+	const id = Number(req.params.id);
 
-		const updated = await updateAchievementService(id, req.body);
+	const updated = await updateAchievementService(id, req.body);
 
-		if (!updated) {
-			return res.status(404).json({ message: "Achievement not found" });
-		}
-
-		res.json({ achievement: updated });
-	} catch {
-		res.status(500).json({ message: "Server error" });
+	if (!updated) {
+		return res.status(404).json({ message: "Achievement not found" });
 	}
+
+	res.json({ achievement: updated });
 };
 
 export const deleteAchievement = async (req: Request, res: Response) => {
-	try {
-		const id = Number(req.params.id);
+	const id = Number(req.params.id);
 
-		const deleted = await deleteAchievementService(id);
+	const deleted = await deleteAchievementService(id);
 
-		if (!deleted) {
-			return res.status(404).json({ message: "Achievement not found" });
-		}
-
-		res.json({ message: "Achievement deleted" });
-	} catch {
-		res.status(500).json({ message: "Server error" });
+	if (!deleted) {
+		return res.status(404).json({ message: "Achievement not found" });
 	}
+
+	res.json({ message: "Achievement deleted" });
 };
 
 export const getMyAchievements = async (req: AuthenticatedRequest, res: Response) => {
-	try {
-		const userId = Number(req.user?.id);
+	const userId = Number(req.user?.id);
 
-		const achievements = await getUserAchievementsService(userId);
+	const achievements = await getUserAchievementsService(userId);
 
-		res.json({ achievements });
-	} catch (error) {
-		res.status(500).json({ message: "Server error" });
-	}
+	res.json({ achievements });
 };
 
 export const awardAchievement = async (req: AuthenticatedRequest, res: Response) => {
-	try {
-		const userId = Number(req.user?.id);
+	const userId = Number(req.user?.id);
 
-		const { achievement_id } = req.body;
+	const { achievement_id } = req.body;
 
-		await awardAchievementService(userId, achievement_id);
+	await awardAchievementService(userId, achievement_id);
 
-		res.json({ message: "Achievement awarded" });
-	} catch (error) {
-		res.status(500).json({ message: "Server error" });
-	}
+	res.json({ message: "Achievement awarded" });
 };
