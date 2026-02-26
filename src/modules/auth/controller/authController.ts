@@ -8,13 +8,9 @@ import { NotFoundError } from "../../../shared/errors/notFound.js";
 export const register = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;
 
-	try {
-		const { token, user } = await registerService({ email, password, username });
+	const { token, user } = await registerService({ email, password, username });
 
-		return res.status(201).json({ token, user });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
-	}
+	return res.status(201).json({ token, user });
 };
 
 export const login = async (req: Request, res: Response) => {
