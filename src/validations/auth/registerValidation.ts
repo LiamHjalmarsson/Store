@@ -22,11 +22,6 @@ const usernameNotUsed = async (username: string) => {
 	return true;
 };
 
-export const loginValidation = [
-	body("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Email must be valid"),
-	body("password").notEmpty().withMessage("Password is required"),
-];
-
 export const registerValidation = [
 	body("email")
 		.notEmpty()
