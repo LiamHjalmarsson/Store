@@ -7,81 +7,58 @@ import {
 	updateProductService,
 } from "../service/productService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
+import { NotFoundError } from "../../../shared/errors/notFound.js";
 
-export const getAllProducts = async (req: Request, res: Response) => {
-	try {
-		const products = await getAllProductsService();
+export const getAllProducts = async (_: Request, res: Response) => {
+	const products = await getAllProductsService();
 
-		res.json({ products });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
-	}
+	res.json({ products });
 };
 
 export const createProduct = async (req: AuthenticatedRequest, res: Response) => {
-	try {
-		const creatorId = req.user?.id;
+	const creatorId = req.user!.id;
 
-		if (!creatorId) {
-			return res.status(401).json({ message: "Unauthorized" });
-		}
+	const product = await createProductService(creatorId, req.body);
 
-		const product = await createProductService(creatorId, req.body);
-
-		res.status(201).json({ product });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
-	}
+	res.status(201).json({ product });
 };
 
 export const getProduct = async (req: Request, res: Response) => {
-	try {
-		const id = Number(req.params.id);
+	const id = Number(req.params.id);
 
-		const product = await getProductService(id);
+	const product = await getProductService(id);
 
-		if (!product) {
-			return res.status(404).json({ message: "Product not found" });
-		}
-
-		res.json({ product });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
+	if (!product) {
+		throw new NotFoundError("Product not found");
 	}
+
+	res.json({ product });
 };
 
 export const updateProduct = async (req: AuthenticatedRequest, res: Response) => {
-	try {
-		const id = Number(req.params.id);
+	const id = Number(req.params.id);
 
-		const creatorId = req.user?.id;
+	const creatorId = req.user!.id;
 
-		if (!creatorId) {
-			return res.status(401).json({ message: "Unauthorized" });
-		}
+	const product = await updateProductService(id, creatorId, req.body);
 
-		const updated = await updateProductService(id, creatorId, req.body);
-
-		res.json({ product: updated });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
+	if (!product) {
+		throw new NotFoundError("Product not found");
 	}
+
+	res.json({ product });
 };
 
 export const deleteProduct = async (req: AuthenticatedRequest, res: Response) => {
-	try {
-		const id = Number(req.params.id);
+	const id = Number(req.params.id);
 
-		const creatorId = req.user?.id;
+	const creatorId = req.user!.id;
 
-		if (!creatorId) {
-			return res.status(401).json({ message: "Unauthorized" });
-		}
+	const deleted = await deleteProductService(id, creatorId);
 
-		await deleteProductService(id, creatorId);
-
-		res.json({ message: "Product deleted" });
-	} catch (error) {
-		res.status(500).json({ message: "Server error", error });
+	if (!deleted) {
+		throw new NotFoundError("Product not found");
 	}
+
+	res.json({ message: "Product deleted" });
 };
