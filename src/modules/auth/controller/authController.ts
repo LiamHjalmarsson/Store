@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { loginService, meService, registerService } from "../service/authService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
 import { UnauthenticatedError } from "../../../shared/errors/unauthenticated.js";
+import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
+import { NotFoundError } from "../../../shared/errors/notFound.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;
@@ -37,13 +39,13 @@ export const me = async (req: AuthenticatedRequest, res: Response) => {
 	const id = req.user?.id;
 
 	if (!id) {
-		return res.status(401).json({ message: "Unauthorized" });
+		throw new UnauthorizedError("Unauthorized");
 	}
 
 	const user = await meService(id);
 
 	if (!user) {
-		return res.status(404).json({ message: "User not found" });
+		throw new NotFoundError("User not found");
 	}
 
 	return res.json({ user });
