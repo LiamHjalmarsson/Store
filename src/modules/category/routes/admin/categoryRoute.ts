@@ -8,8 +8,8 @@ import {
 } from "../../controller/categoryController.js";
 import authenicated from "../../../../shared/middlewares/authenicated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
-import { validateRequest } from "../../../../shared/middlewares/validateRequest.js";
 import { createValidation } from "../../../../validations/category/createValidation.js";
+import { updateValidation } from "../../../../validations/category/updateValidation.js";
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router.post("/", createValidation, createCategory);
 
 router.get("/:id", getCategory);
 
-router.put("/:id", updateCategory);
+router.put("/:id", updateValidation, updateCategory);
 
 router.delete("/:id", deleteCategory);
 

@@ -1,4 +1,4 @@
-import { CreateProductPayload } from "../../../modules/products/types/product";
+import { CreateProductPayload } from "../../../modules/products/types/product.js";
 
 export const products: CreateProductPayload[] = [
 	{

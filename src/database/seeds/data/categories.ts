@@ -1,4 +1,4 @@
-import { CreateCategoryPayload } from "../../../modules/category/types/categoryTypes";
+import { CreateCategoryPayload } from "../../../modules/category/types/categoryTypes.js";
 
 export const categories: CreateCategoryPayload[] = [
 	{

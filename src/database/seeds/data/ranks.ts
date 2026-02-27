@@ -1,4 +1,4 @@
-import { CreateRankPayload } from "../../../modules/ranks/types/rank";
+import { CreateRankPayload } from "../../../modules/ranks/types/rank.js";
 
 export const ranks: CreateRankPayload[] = [
 	{

@@ -1,5 +1,3 @@
-import { Request, Response } from "express";
-
 export const getAllRanks = async () => {};
 
 export const createRank = async () => {};

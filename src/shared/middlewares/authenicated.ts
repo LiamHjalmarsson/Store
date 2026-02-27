@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { JwtPayload, verifyToken } from "../utils/jwt.js";
 import { UnauthorizedError } from "../errors/unauthorized.js";
+import { JwtPayload, verifyToken } from "../utils/jwt.js";
 
 export interface AuthenticatedRequest extends Request {
 	user?: JwtPayload;
@@ -9,7 +9,7 @@ export interface AuthenticatedRequest extends Request {
 /**
  * Middleware: only allow logged in users
  */
-export default function authenicated(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export default function authenicated(req: AuthenticatedRequest, _: Response, next: NextFunction) {
 	const authHeader = req.headers["authorization"];
 
 	if (!authHeader) {

@@ -11,7 +11,7 @@ export interface JwtPayload {
  * Generate a signed JWT access token
  */
 export function generateToken(payload: JwtPayload): string {
-	const options: SignOptions = { expiresIn: config.jwtExpiresIn };
+	const options: SignOptions = { expiresIn: config.jwtExpiresIn ?? "7d" };
 
 	return jwt.sign(payload, config.jwtSecret, options);
 }

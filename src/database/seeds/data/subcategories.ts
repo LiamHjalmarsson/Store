@@ -1,4 +1,4 @@
-import { SeedSubcategory } from "../types";
+import { SeedSubcategory } from "../types/index.js";
 
 export const subcategories: SeedSubcategory[] = [
 	{

@@ -1,4 +1,4 @@
-import { CreateAchievementPayload } from "../../../modules/achievements/types/achievementTypes";
+import { CreateAchievementPayload } from "../../../modules/achievements/types/achievementTypes.js";
 
 export const achievements: CreateAchievementPayload[] = [
 	{

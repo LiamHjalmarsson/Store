@@ -24,7 +24,7 @@ const config: Config = {
 	pgDb: process.env.POSTGRES_DB || "store",
 	pgPort: Number(process.env.POSTGRES_PORT) || 5432,
 	jwtSecret: process.env.JWT_SECRET || "default_secret",
-	jwtExpiresIn: (process.env.JWT_EXPIRES_IN as SignOptions["expiresIn"]) ?? "1h",
+	jwtExpiresIn: (process.env.JWT_EXPIRES_IN as SignOptions["expiresIn"]) ?? "7d",
 };
 
 export default config;

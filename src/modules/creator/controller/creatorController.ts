@@ -10,7 +10,7 @@ import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.j
 import { CreateCreatorPayload } from "../types/creator.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 
-export const getAllCreators = async (req: Request, res: Response) => {
+export const getAllCreators = async (_: Request, res: Response) => {
 	const creators = await getAllCreatorsService();
 
 	res.json({ creators });
