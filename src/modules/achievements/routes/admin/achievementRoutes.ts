@@ -7,6 +7,7 @@ import {
 } from "../../controller/achievementController.js";
 import authenicated from "../../../../shared/middlewares/authenicated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
+import { createValidation } from "../../../../validations/achievement/createValidation.js";
 
 const router = Router();
 
@@ -14,7 +15,7 @@ router.use(authenicated, isAdmin);
 
 router.get("/", getAllAchievements);
 
-router.post("/", createAchievement);
+router.post("/", createValidation, createAchievement);
 
 router.put("/:id", updateAchievement);
 
