@@ -56,7 +56,7 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
 		[user_id],
 	);
 
-	const result = await query<PublicCreator>(
+	await query<PublicCreator>(
 		`
       INSERT INTO creators (
         user_id, website, bio,
@@ -75,23 +75,19 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
     `,
 		[
 			user_id,
-			website ?? null,
-			bio ?? null,
-			social_twitter ?? null,
-			social_instagram ?? null,
-			social_youtube ?? null,
+			website,
+			bio,
+			social_twitter,
+			social_instagram,
+			social_youtube,
 			false,
 			false,
 			0,
 			0,
-			stripe_account_id ?? null,
-			payout_method ?? null,
+			stripe_account_id,
+			payout_method,
 		],
 	);
-
-	if (result.rowCount === 0) {
-		throw new Error("Failed to create creator profile");
-	}
 
 	return await findCreatorById(user_id);
 };
