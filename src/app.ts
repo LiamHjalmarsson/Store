@@ -3,7 +3,7 @@ import cors from "cors";
 import authRoute from "./modules/auth/routes/authRoute.js";
 import userRoute from "./modules/user/routes/userRoute.js";
 import creatorRoute from "./modules/creator/routes/creatorRoute.js";
-import creatorRouteProfile from "./modules/creator/routes/ceator/creatorRoute.js";
+import creatorRouteProfile from "./modules/creator/routes/creator/creatorRoute.js";
 import creatorRouteAdmin from "./modules/creator/routes/admin/creatorRoute.js";
 import profileRoute from "./modules/profile/routes/profileRoute.js";
 import achievementRoutes from "./modules/achievements/routes/achievementRoutes.js";

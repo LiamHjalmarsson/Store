@@ -45,7 +45,7 @@ export async function seedCreators() {
 					Math.floor(Math.random() * 200),
 					Math.floor(Math.random() * 10000),
 					user.id % 3 === 0 ? `acct_${user.id}_stripe` : null,
-					user.id % 2 === 0 ? "paypal" : "stripe",
+					user.id % 2 === 0 ? "bank" : "stripe",
 				],
 			);
 		}

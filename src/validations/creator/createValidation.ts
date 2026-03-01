@@ -1,13 +1,25 @@
-import { body } from "express-validator";
+import { body, CustomValidator } from "express-validator";
 import { validateRequest } from "../../shared/middlewares/validateRequest.js";
+import { query } from "../../config/database.js";
+import { BadRequestError } from "../../shared/errors/badRequest.js";
+import { AuthenticatedRequest } from "../../shared/middlewares/authenticated.js";
 
-export const becomeCreatorValidation = validateRequest([
-	body("website").optional().trim().isURL().withMessage("Website must be a valid URL"),
+const notAlreadyCreator: CustomValidator = async (_, { req }) => {
+	const userId = (req as AuthenticatedRequest).user?.id;
 
-	body("bio").optional().trim().isLength({ max: 500 }).withMessage("Bio can be up to 500 characters"),
+	if (!userId) {
+		throw new BadRequestError("Authentication required");
+	}
 
-	body("payout_method")
-		.optional()
-		.isIn(["stripe", "bank", "other"])
-		.withMessage("Payout method must be one of: stripe, bank, other"),
-]);
+	const result = await query(`SELECT 1 FROM creators WHERE user_id = $1`, [userId]);
+
+	if (result.rowCount !== null && result.rowCount > 0) {
+		throw new BadRequestError("You are already a creator");
+	}
+
+	console.log(result.rows);
+
+	return true;
+};
+
+export const becomeCreatorValidation = validateRequest([body().custom(notAlreadyCreator)]);

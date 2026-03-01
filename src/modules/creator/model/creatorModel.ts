@@ -36,16 +36,16 @@ export const findAllCreators = async () => {
 	return result.rows;
 };
 
-export const createNewCreator = async (payload: CreateCreatorPayload) => {
+export const createNewCreator = async (payload: CreateCreatorPayload): Promise<PublicCreator> => {
 	const {
 		user_id,
-		website,
-		bio,
-		social_twitter,
-		social_instagram,
-		social_youtube,
-		stripe_account_id,
-		payout_method,
+		website = null,
+		bio = null,
+		social_twitter = null,
+		social_instagram = null,
+		social_youtube = null,
+		stripe_account_id = null,
+		payout_method = null,
 	} = payload;
 
 	await query(
@@ -56,22 +56,23 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
 		[user_id],
 	);
 
-	await query<PublicCreator>(
+	const result = await query<PublicCreator>(
 		`
-      INSERT INTO creators (
-        user_id, website, bio,
-        social_twitter, social_instagram, social_youtube,
-        verified_creator, featured,
-        total_sales, total_earnings,
-        stripe_account_id, payout_method
-      )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      RETURNING 
-        user_id,
-        website, bio,
-        social_twitter, social_instagram, social_youtube,
-        verified_creator, featured,
-        total_sales, total_earnings, stripe_account_id, payout_method
+    INSERT INTO creators (
+      user_id, website, bio,
+      social_twitter, social_instagram, social_youtube,
+      verified_creator, featured,
+      total_sales, total_earnings,
+      stripe_account_id, payout_method
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    RETURNING 
+      user_id, website, bio,
+      social_twitter, social_instagram, social_youtube,
+      verified_creator, featured,
+      total_sales, total_earnings,
+      stripe_account_id, payout_method,
+      created_at, updated_at
     `,
 		[
 			user_id,
@@ -89,7 +90,7 @@ export const createNewCreator = async (payload: CreateCreatorPayload) => {
 		],
 	);
 
-	return await findCreatorById(user_id);
+	return result.rows[0];
 };
 
 export const findCreatorById = async (creatorId: number) => {
