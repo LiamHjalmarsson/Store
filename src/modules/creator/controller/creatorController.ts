@@ -6,7 +6,7 @@ import {
 	getCreatorService,
 	updateCreatorService,
 } from "../service/creatorService.js";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { CreateCreatorPayload } from "../types/creator.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 

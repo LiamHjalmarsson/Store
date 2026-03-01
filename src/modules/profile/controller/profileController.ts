@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { deleteProfileService, getProfileService, updateProfileService } from "../service/profileService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 

@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express";
-import { AuthenticatedRequest } from "./authenicated.js";
+import { AuthenticatedRequest } from "./authenticated.js";
 
 /**
  * Middleware: only allow creator users

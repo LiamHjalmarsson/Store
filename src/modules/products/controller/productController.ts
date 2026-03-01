@@ -6,7 +6,7 @@ import {
 	getProductService,
 	updateProductService,
 } from "../service/productService.js";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 
 export const getAllProducts = async (_: Request, res: Response) => {

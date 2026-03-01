@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
-import authenicated from "../../../../shared/middlewares/authenicated.js";
+import authenticated from "../../../../shared/middlewares/authenticated.js";
 
 const router = Router();
 
-router.use(authenicated, isAdmin);
+router.use(authenticated, isAdmin);
 
 export default router;

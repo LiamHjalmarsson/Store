@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { deleteCreatorProfile, updateCreatorProfile } from "../../controller/creatorController.js";
-import authenicated from "../../../../shared/middlewares/authenicated.js";
+import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isCreator } from "../../../../shared/middlewares/isCreator.js";
 
 const router = Router();
 
-router.use(authenicated, isCreator);
+router.use(authenticated, isCreator);
 
 router.patch("/", updateCreatorProfile);
 

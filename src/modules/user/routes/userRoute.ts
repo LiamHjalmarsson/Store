@@ -1,11 +1,11 @@
 import { Router } from "express";
-import authenicated from "../../../shared/middlewares/authenicated.js";
+import authenticated from "../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../shared/middlewares/isAdmin.js";
 import { deleteUser, getAllUsers, getUser, updateUser } from "../controller/userController.js";
 
 const router = Router();
 
-router.use(authenicated, isAdmin);
+router.use(authenticated, isAdmin);
 
 router.get("/", getAllUsers);
 

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { loginService, meService, registerService } from "../service/authService.js";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenicated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { UnauthenticatedError } from "../../../shared/errors/unauthenticated.js";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";

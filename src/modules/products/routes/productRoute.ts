@@ -6,19 +6,19 @@ import {
 	getProduct,
 	updateProduct,
 } from "../controller/productController.js";
-import authenicated from "../../../shared/middlewares/authenicated.js";
+import authenticated from "../../../shared/middlewares/authenticated.js";
 import { isCreator } from "../../../shared/middlewares/isCreator.js";
 
 const router = Router();
 
 router.get("/", getAllProducts);
 
-router.post("/", authenicated, isCreator, createProduct);
+router.post("/", authenticated, isCreator, createProduct);
 
 router.get("/:id", getProduct);
 
-router.patch("/:id", authenicated, isCreator, updateProduct);
+router.patch("/:id", authenticated, isCreator, updateProduct);
 
-router.delete("/:id", authenicated, isCreator, deleteProduct);
+router.delete("/:id", authenticated, isCreator, deleteProduct);
 
 export default router;

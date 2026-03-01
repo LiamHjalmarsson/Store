@@ -6,14 +6,14 @@ import {
 	getCategory,
 	updateCategory,
 } from "../../controller/categoryController.js";
-import authenicated from "../../../../shared/middlewares/authenicated.js";
+import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
 import { createValidation } from "../../../../validations/category/createValidation.js";
 import { updateValidation } from "../../../../validations/category/updateValidation.js";
 
 const router = Router();
 
-router.use(authenicated, isAdmin);
+router.use(authenticated, isAdmin);
 
 router.get("/", getAllCategories);
 
