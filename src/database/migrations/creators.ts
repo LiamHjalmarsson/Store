@@ -6,9 +6,6 @@ export async function ensureCreatorsTable() {
             user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
             website TEXT,
             bio TEXT,
-            social_twitter VARCHAR(100),
-            social_instagram VARCHAR(100),
-            social_youtube VARCHAR(100),
 
             stripe_account_id VARCHAR(100),
             payout_method VARCHAR(20) CHECK (payout_method IN ('stripe', 'bank', 'other') OR payout_method IS NULL),

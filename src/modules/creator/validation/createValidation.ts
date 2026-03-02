@@ -1,8 +1,8 @@
 import { body, CustomValidator } from "express-validator";
-import { validateRequest } from "../../shared/middlewares/validateRequest.js";
-import { query } from "../../config/database.js";
-import { BadRequestError } from "../../shared/errors/badRequest.js";
-import { AuthenticatedRequest } from "../../shared/middlewares/authenticated.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
+import { BadRequestError } from "../../../shared/errors/badRequest.js";
+import { query } from "../../../config/database.js";
+import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 
 const notAlreadyCreator: CustomValidator = async (_, { req }) => {
 	const userId = (req as AuthenticatedRequest).user?.id;

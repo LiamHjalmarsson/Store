@@ -1,17 +1,6 @@
 import { body } from "express-validator";
-import { query } from "../../config/database.js";
-import { BadRequestError } from "../../shared/errors/badRequest.js";
-import { validateRequest } from "../../shared/middlewares/validateRequest.js";
-
-const achievementNameExists = async (achievement: string) => {
-	const result = await query(`SELECT 1 FROM achievements WHERE name = $1`, [achievement]);
-
-	if (result.rowCount !== null && result.rowCount > 0) {
-		throw new BadRequestError("Achievement already exists");
-	}
-
-	return true;
-};
+import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
+import { achievementDoesNotExist } from "../../../shared/validations/modules/achievement/doesNotExist.js";
 
 export const createValidation = validateRequest([
 	body("name")
@@ -20,7 +9,7 @@ export const createValidation = validateRequest([
 		.withMessage("Name of achievement is required")
 		.isLength({ min: 3, max: 100 })
 		.withMessage("Name must be between 3 and 100 characters")
-		.custom(achievementNameExists),
+		.custom(achievementDoesNotExist),
 
 	body("code")
 		.trim()

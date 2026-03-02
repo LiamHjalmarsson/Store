@@ -44,15 +44,7 @@ export const getCreator = async (req: Request, res: Response) => {
 export const updateCreatorProfile = async (req: AuthenticatedRequest, res: Response) => {
 	const userId = Number(req.user?.id);
 
-	if (!req.body) {
-		return res.status(400).json({ message: "No fields provided to update" });
-	}
-
 	const updated = await updateCreatorService(userId, req.body);
-
-	if (!updated) {
-		throw new NotFoundError("Creator not found");
-	}
 
 	res.json({ creator: updated });
 };

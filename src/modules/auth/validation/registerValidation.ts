@@ -1,7 +1,7 @@
 import { body } from "express-validator";
-import emailNotUsed from "../../shared/validations/common/email.js";
-import usernameNotUsed from "../../shared/validations/common/username.js";
-import { validateRequest } from "../../shared/middlewares/validateRequest.js";
+import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
+import emailNotUsed from "../../../shared/validations/common/email.js";
+import usernameNotUsed from "../../../shared/validations/common/username.js";
 
 export const registerValidation = validateRequest([
 	body("email")

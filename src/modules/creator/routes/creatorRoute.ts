@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createCreator, getAllCreators, getCreator } from "../controller/creatorController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
-import { becomeCreatorValidation } from "../../../validations/creator/createValidation.js";
+import { becomeCreatorValidation } from "../validation/createValidation.js";
 
 const router = Router();
 

@@ -8,8 +8,8 @@ import {
 } from "../../controller/categoryController.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
-import { createValidation } from "../../../../validations/category/createValidation.js";
-import { updateValidation } from "../../../../validations/category/updateValidation.js";
+import { createValidation } from "../../validation/createValidation.js";
+import { updateValidation } from "../../validation/updateValidation.js";
 
 const router = Router();
 

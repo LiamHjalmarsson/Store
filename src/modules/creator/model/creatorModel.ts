@@ -17,9 +17,6 @@ export const findAllCreators = async () => {
 
         c.website,
         c.bio,
-        c.social_twitter,
-        c.social_instagram,
-        c.social_youtube,
         c.verified_creator,
         c.featured,
         c.total_sales,
@@ -37,16 +34,7 @@ export const findAllCreators = async () => {
 };
 
 export const createNewCreator = async (payload: CreateCreatorPayload): Promise<PublicCreator> => {
-	const {
-		user_id,
-		website = null,
-		bio = null,
-		social_twitter = null,
-		social_instagram = null,
-		social_youtube = null,
-		stripe_account_id = null,
-		payout_method = null,
-	} = payload;
+	const { user_id, website = null, bio = null, stripe_account_id = null, payout_method = null } = payload;
 
 	await query(
 		`
@@ -60,34 +48,19 @@ export const createNewCreator = async (payload: CreateCreatorPayload): Promise<P
 		`
     INSERT INTO creators (
       user_id, website, bio,
-      social_twitter, social_instagram, social_youtube,
       verified_creator, featured,
       total_sales, total_earnings,
       stripe_account_id, payout_method
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING 
       user_id, website, bio,
-      social_twitter, social_instagram, social_youtube,
       verified_creator, featured,
       total_sales, total_earnings,
       stripe_account_id, payout_method,
       created_at, updated_at
     `,
-		[
-			user_id,
-			website,
-			bio,
-			social_twitter,
-			social_instagram,
-			social_youtube,
-			false,
-			false,
-			0,
-			0,
-			stripe_account_id,
-			payout_method,
-		],
+		[user_id, website, bio, false, false, 0, 0, stripe_account_id, payout_method],
 	);
 
 	return result.rows[0];
@@ -110,9 +83,6 @@ export const findCreatorById = async (creatorId: number) => {
 
       c.website,
       c.bio,
-      c.social_twitter,
-      c.social_instagram,
-      c.social_youtube,
       c.verified_creator,
       c.featured,
       c.total_sales,
