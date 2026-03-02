@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { achievementDoesNotExist } from "./rules/doesNotExist.js";
+import { achievementNameUnique } from "./rules/achievementNameUnique.js";
 
 export const createValidation = validateRequest([
 	body("name")
@@ -9,7 +9,7 @@ export const createValidation = validateRequest([
 		.withMessage("Name of achievement is required")
 		.isLength({ min: 3, max: 100 })
 		.withMessage("Name must be between 3 and 100 characters")
-		.custom(achievementDoesNotExist),
+		.custom(achievementNameUnique),
 
 	body("code")
 		.trim()

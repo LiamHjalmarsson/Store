@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { BadRequestError } from "../../errors/badRequest.js";
 
-const usernameNotUsed = async (username: string) => {
+const usernameUnique = async (username: string) => {
 	const result = await query(`SELECT 1 FROM users WHERE username = $1`, [username]);
 
 	if (result.rowCount !== null && result.rowCount > 0) {
@@ -11,4 +11,4 @@ const usernameNotUsed = async (username: string) => {
 	return true;
 };
 
-export default usernameNotUsed;
+export default usernameUnique;

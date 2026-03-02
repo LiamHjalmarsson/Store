@@ -11,7 +11,7 @@ const poolConfig: PoolConfig = {
 
 const pool = new Pool(poolConfig);
 
-type PgParam = null | undefined | string | number | boolean | Date | Buffer | bigint;
+type PgParam = null | string | number | boolean | Date | Buffer | bigint;
 
 /**
  * Helper for running typed SQL queries using pg.

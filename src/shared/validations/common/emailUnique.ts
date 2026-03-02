@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { BadRequestError } from "../../errors/badRequest.js";
 
-const emailNotUsed = async (email: string) => {
+const emailUnique = async (email: string) => {
 	const result = await query(`SELECT 1 FROM users WHERE email = $1`, [email]);
 
 	if (result.rowCount !== null && result.rowCount > 0) {
@@ -11,4 +11,4 @@ const emailNotUsed = async (email: string) => {
 	return true;
 };
 
-export default emailNotUsed;
+export default emailUnique;

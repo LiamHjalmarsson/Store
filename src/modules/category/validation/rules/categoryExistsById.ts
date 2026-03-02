@@ -2,7 +2,7 @@ import { query } from "../../../../config/database.js";
 import { BadRequestError } from "../../../../shared/errors/badRequest.js";
 import { NotFoundError } from "../../../../shared/errors/notFound.js";
 
-export const categoryNotUsed = async (id: string) => {
+export const categoryExistsById = async (id: string) => {
 	const categoryId = Number(id);
 
 	if (isNaN(categoryId) || categoryId < 1) {

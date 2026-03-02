@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import emailNotUsed from "../../../shared/validations/common/email.js";
-import usernameNotUsed from "../../../shared/validations/common/username.js";
+import emailUnique from "../../../shared/validations/common/emailUnique.js";
+import usernameUnique from "../../../shared/validations/common/usernameUnique.js";
 
 export const registerValidation = validateRequest([
 	body("email")
@@ -9,7 +9,7 @@ export const registerValidation = validateRequest([
 		.withMessage("email is required")
 		.isEmail()
 		.withMessage("A valid email is required")
-		.custom(emailNotUsed),
+		.custom(emailUnique),
 
 	body("password")
 		.notEmpty()
@@ -22,5 +22,5 @@ export const registerValidation = validateRequest([
 		.withMessage("Username is required ")
 		.isLength({ min: 3 })
 		.withMessage("Username must be at least 3 characters")
-		.custom(usernameNotUsed),
+		.custom(usernameUnique),
 ]);

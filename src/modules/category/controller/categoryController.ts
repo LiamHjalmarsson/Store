@@ -17,7 +17,7 @@ export const getAllCategories = async (_: Request, res: Response) => {
 export const createCategory = async (req: Request, res: Response) => {
 	const category = await createCategoryService(req.body);
 
-	res.json({ category });
+	res.status(201).json({ category });
 };
 
 export const getCategory = async (req: Request, res: Response) => {

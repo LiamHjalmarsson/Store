@@ -1,6 +1,6 @@
 import { body, param } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { achievementDoesNotExist } from "./rules/doesNotExist.js";
+import { achievementNameUnique } from "./rules/achievementNameUnique.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid achievement ID").bail(),
@@ -12,7 +12,7 @@ export const updateValidation = validateRequest([
 		.withMessage("Name cannot be empty if provided")
 		.isLength({ min: 3, max: 100 })
 		.withMessage("Name must be between 3 and 100 characters")
-		.custom(achievementDoesNotExist),
+		.custom(achievementNameUnique),
 
 	body("code")
 		.optional()
