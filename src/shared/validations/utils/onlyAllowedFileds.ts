@@ -1,5 +1,5 @@
 import { CustomValidator } from "express-validator";
-import { BadRequestError } from "../errors/badRequest.js";
+import { BadRequestError } from "../../errors/badRequest.js";
 
 export const onlyAllowedFields = (allowed: readonly string[]): CustomValidator => {
 	return async (_, { req }) => {

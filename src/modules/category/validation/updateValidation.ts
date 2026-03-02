@@ -1,6 +1,6 @@
 import { body, param } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { categoryNotUsed } from "../../../shared/validations/modules/category/notUsed.js";
+import { categoryNotUsed } from "./rules/notUsed.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid category ID").bail().custom(categoryNotUsed).bail(),

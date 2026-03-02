@@ -1,6 +1,6 @@
 import { body, param } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { achievementDoesNotExist } from "../../../shared/validations/modules/achievement/doesNotExist.js";
+import { achievementDoesNotExist } from "./rules/doesNotExist.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid achievement ID").bail(),

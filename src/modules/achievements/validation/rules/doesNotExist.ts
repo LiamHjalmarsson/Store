@@ -1,5 +1,5 @@
 import { query } from "../../../../config/database.js";
-import { BadRequestError } from "../../../errors/badRequest.js";
+import { BadRequestError } from "../../../../shared/errors/badRequest.js";
 
 export const achievementDoesNotExist = async (achievement: string) => {
 	const result = await query(`SELECT 1 FROM achievements WHERE name = $1`, [achievement]);

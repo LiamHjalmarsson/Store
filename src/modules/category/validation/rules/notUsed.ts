@@ -1,6 +1,6 @@
 import { query } from "../../../../config/database.js";
-import { BadRequestError } from "../../../errors/badRequest.js";
-import { NotFoundError } from "../../../errors/notFound.js";
+import { BadRequestError } from "../../../../shared/errors/badRequest.js";
+import { NotFoundError } from "../../../../shared/errors/notFound.js";
 
 export const categoryNotUsed = async (id: string) => {
 	const categoryId = Number(id);

@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { categoryNotUsed } from "../../../shared/validations/modules/category/notUsed.js";
+import { categoryNotUsed } from "./rules/notUsed.js";
 
 export const createValidation = validateRequest([
 	body("title").trim().notEmpty().withMessage("Title of category is required").custom(categoryNotUsed),

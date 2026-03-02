@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { requireAtLeastOneField } from "../../../shared/validations/requireAtLeastOneFiled.js";
-import { onlyAllowedFields } from "../../../shared/validations/onlyAllowedFileds.js";
+import { requireAtLeastOneField } from "../../../shared/validations/utils/requireAtLeastOneFiled.js";
+import { onlyAllowedFields } from "../../../shared/validations/utils/onlyAllowedFileds.js";
 import { BadRequestError } from "../../../shared/errors/badRequest.js";
 
 const allowedFields = ["website", "bio", "payout_method"] as const;
