@@ -10,6 +10,7 @@ import authenticated from "../../../shared/middlewares/authenticated.js";
 import { isCreator } from "../../../shared/middlewares/isCreator.js";
 import { createValidation } from "../validation/createValidation.js";
 import { isCreatorOrAdmin } from "../../../shared/middlewares/isCreatorOrAdmin.js";
+import { updateValidation } from "../validation/updateValidation.js";
 
 const router = Router();
 
@@ -19,7 +20,7 @@ router.post("/", authenticated, isCreatorOrAdmin, createValidation, createProduc
 
 router.get("/:id", getProduct);
 
-router.patch("/:id", authenticated, isCreator, updateProduct);
+router.patch("/:id", authenticated, isCreatorOrAdmin, updateValidation, updateProduct);
 
 router.delete("/:id", authenticated, isCreator, deleteProduct);
 
