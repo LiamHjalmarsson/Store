@@ -1,5 +1,6 @@
 import {
 	createNewSubcategory,
+	deleteSubcategoryById,
 	findAllSubcategories,
 	findSubcategoryById,
 	updateSubcategoryById,
@@ -20,4 +21,8 @@ export async function getSubcategoryService(id: number) {
 
 export async function updateSubcategoryService(id: number, payload: UpdateSubcategoryPayload) {
 	return await updateSubcategoryById(id, payload);
+}
+
+export async function deleteSubcategoryService(id: number) {
+	return deleteSubcategoryById(id);
 }

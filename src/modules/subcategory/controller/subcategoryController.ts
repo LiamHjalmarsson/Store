@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
 	createSubcategoryService,
+	deleteSubcategoryService,
 	getAllSubcategoriesService,
 	getSubcategoryService,
 	updateSubcategoryService,
@@ -39,4 +40,14 @@ export const updateSubcategory = async (req: Request, res: Response) => {
 	if (!updated) throw new NotFoundError("Subcategory not found");
 
 	res.json({ updated });
+};
+
+export const deleteSubcategory = async (req: Request, res: Response) => {
+	const id = Number(req.params.id);
+
+	const deleted = await deleteSubcategoryService(id);
+
+	if (!deleted) throw new NotFoundError("Subcategory not found");
+
+	res.json({ message: "Subcategory deleted" });
 };

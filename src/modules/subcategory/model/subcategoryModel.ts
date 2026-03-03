@@ -71,3 +71,9 @@ export const updateSubcategoryById = async (id: number, payload: UpdateSubcatego
 
 	return result.rows[0] ?? null;
 };
+
+export const deleteSubcategoryById = async (id: number) => {
+	const result = await query(`DELETE FROM subcategories WHERE id = $1`, [id]);
+
+	return result.rowCount === 1;
+};
