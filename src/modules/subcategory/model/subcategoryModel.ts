@@ -1,5 +1,5 @@
 import { query } from "../../../config/database.js";
-import { Subcategory } from "../types/subcategory.js";
+import { CreateSubcategoryPayload, Subcategory } from "../types/subcategory.js";
 
 export const findAllSubcategories = async (id?: number) => {
 	if (id) {
@@ -12,6 +12,7 @@ export const findAllSubcategories = async (id?: number) => {
                                 created_at DESC`,
 			[id],
 		);
+
 		return result.rows;
 	}
 
@@ -22,4 +23,17 @@ export const findAllSubcategories = async (id?: number) => {
                 created_at DESC`);
 
 	return result.rows;
+};
+
+export const createNewSubcategory = async (payload: CreateSubcategoryPayload) => {
+	const result = await query<Subcategory>(
+		`INSERT INTO subcategories 
+                        (title, category_id, description)
+                VALUES 
+                        ($1, $2, $3)
+                RETURNING *`,
+		[payload.title, payload.category_id, payload.description ?? null],
+	);
+
+	return result.rows[0];
 };
