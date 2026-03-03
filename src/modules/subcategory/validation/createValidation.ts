@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
+import { subcategoryTitleUniquePerCategory } from "./rules/subcategoryTitleUniquePerCategory.js";
 
 export const createValidation = validateRequest([
 	body("title")
@@ -7,7 +8,8 @@ export const createValidation = validateRequest([
 		.notEmpty()
 		.withMessage("Title is required")
 		.isLength({ min: 2, max: 100 })
-		.withMessage("Title must be 2-100 characters"),
+		.withMessage("Title must be 2-100 characters")
+		.custom(subcategoryTitleUniquePerCategory),
 
 	body("category_id")
 		.notEmpty()
