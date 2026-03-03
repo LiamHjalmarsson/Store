@@ -1,5 +1,7 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
+import { productTitleUniqueForCreator } from "./rules/productTitleUiqueForCreator.js";
+import { discountConsistency } from "./rules/discountent.js";
 
 export const createValidation = validateRequest([
 	body("title")
@@ -7,7 +9,8 @@ export const createValidation = validateRequest([
 		.notEmpty()
 		.withMessage("Title is required")
 		.isLength({ min: 3, max: 120 })
-		.withMessage("Title must be between 3 and 120 characters"),
+		.withMessage("Title must be between 3 and 120 characters")
+		.custom(productTitleUniqueForCreator),
 
 	body("price")
 		.notEmpty()
@@ -51,4 +54,6 @@ export const createValidation = validateRequest([
 	body("is_discounted").optional().isBoolean().withMessage("is_discounted must be true/false"),
 
 	body("discounted").optional().isFloat({ min: 0 }).withMessage("discounted must be 0 or higher").toFloat(),
+
+	body().custom(discountConsistency),
 ]);

@@ -2,6 +2,8 @@ import { body, param } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 import { requireAtLeastOneField } from "../../../shared/validation/utils/requireAtLeastOneFiled.js";
 import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFileds.js";
+import { productExistsById } from "./rules/productExistsById.js";
+import { discountConsistency } from "./rules/discountent.js";
 
 const allowedFields = [
 	"title",
@@ -18,7 +20,7 @@ const allowedFields = [
 ] as const;
 
 export const updateValidation = validateRequest([
-	param("id").isInt({ min: 1 }).withMessage("Invalid product ID").bail(),
+	param("id").isInt({ min: 1 }).withMessage("Invalid product ID").bail().custom(productExistsById),
 
 	body().custom(requireAtLeastOneField).bail(),
 
@@ -59,4 +61,6 @@ export const updateValidation = validateRequest([
 	body("is_discounted").optional().isBoolean().withMessage("is_discounted must be true/false"),
 
 	body("discounted").optional().isFloat({ min: 0 }).withMessage("discounted must be 0 or higher").toFloat(),
+
+	body().custom(discountConsistency),
 ]);
