@@ -6,7 +6,7 @@ import { ForbiddenError } from "../errors/forbidden.js";
 /**
  * Middleware: only allow admin users
  */
-export function isAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export function isAdmin(req: AuthenticatedRequest, _: Response, next: NextFunction) {
 	if (!req.user) {
 		throw new UnauthorizedError("Unauthorized");
 	}

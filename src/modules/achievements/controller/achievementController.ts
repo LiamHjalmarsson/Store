@@ -47,7 +47,7 @@ export const deleteAchievement = async (req: Request, res: Response) => {
 };
 
 export const getMyAchievements = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user?.id);
+	const userId = Number(req.user!.id);
 
 	const achievements = await getUserAchievementsService(userId);
 
@@ -55,7 +55,7 @@ export const getMyAchievements = async (req: AuthenticatedRequest, res: Response
 };
 
 export const awardAchievement = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user?.id);
+	const userId = Number(req.user!.id);
 
 	const { achievement_id } = req.body;
 

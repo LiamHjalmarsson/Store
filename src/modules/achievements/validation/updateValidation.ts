@@ -25,4 +25,6 @@ export const updateValidation = validateRequest([
 	body("xp_reward").optional().isInt({ min: 1 }).withMessage("XP reward must be a positive integer").toInt(),
 
 	body("icon").optional().isURL().withMessage("Icon must be a valid URL"),
+
+	body("description").optional().notEmpty().withMessage("Description"),
 ]);

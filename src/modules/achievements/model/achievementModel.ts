@@ -12,23 +12,23 @@ export const findAllAchievements = async () => {
 };
 
 export const createNewAchievement = async (payload: CreateAchievementPayload) => {
-	const { code, name, icon, xp_reward } = payload;
+	const { code, name, icon, xp_reward, description } = payload;
 
 	const result = await query<Achievement>(
 		`
 		INSERT INTO achievements 
-			(code, name, icon, xp_reward)
+			(code, name, icon, xp_reward, description)
 		VALUES 
-			($1, $2, $3, $4)
+			($1, $2, $3, $4, $5)
 		RETURNING *`,
-		[code, name, icon, xp_reward ?? false],
+		[code, name, icon ?? null, xp_reward, description],
 	);
 
 	return result.rows[0];
 };
 
 export const updateAchievementById = async (id: number, payload: UpdateAchievementPayload) => {
-	const allowedFields: (keyof UpdateAchievementPayload)[] = ["code", "name", "icon", "xp_reward"];
+	const allowedFields: (keyof UpdateAchievementPayload)[] = ["code", "name", "icon", "xp_reward", "description"];
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 
@@ -38,7 +38,7 @@ export const updateAchievementById = async (id: number, payload: UpdateAchieveme
 
 	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => payload[key])];
+	const values = [id, ...fields.map((key) => payload[key] ?? null)];
 
 	const result = await query<Achievement>(
 		`UPDATE achievements 

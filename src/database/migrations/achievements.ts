@@ -5,7 +5,7 @@ export async function ensureAchievementsTable() {
 		CREATE TABLE IF NOT EXISTS achievements (
 			id SERIAL PRIMARY KEY,
             code VARCHAR(100) UNIQUE NOT NULL,
-            name VARCHAR(150) NOT NULL,
+            name VARCHAR(150) UNIQUE NOT NULL,
             description TEXT,
             icon TEXT,
             xp_reward INTEGER DEFAULT 0,

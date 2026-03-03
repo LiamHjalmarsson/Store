@@ -3,5 +3,5 @@ export interface Subcategory {
 	title: string;
 	category_id: number;
 	description: string | null;
-	created_at: Date;
+	created_at: Date | string;
 }

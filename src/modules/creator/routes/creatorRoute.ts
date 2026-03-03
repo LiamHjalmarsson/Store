@@ -19,8 +19,8 @@ router.post("/become-creator", authenticated, becomeCreatorValidation, createCre
 
 router.get("/:id", getCreator);
 
-router.patch("/:id", authenticated, isCreator, updateCreatorValidation, updateCreatorProfile);
+router.patch("/me", authenticated, isCreator, updateCreatorValidation, updateCreatorProfile);
 
-router.delete("/:id", authenticated, isCreator, deleteCreatorProfile);
+router.delete("/me", authenticated, isCreator, deleteCreatorProfile);
 
 export default router;

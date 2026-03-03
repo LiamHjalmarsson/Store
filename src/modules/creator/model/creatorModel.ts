@@ -101,15 +101,24 @@ export const findCreatorById = async (creatorId: number) => {
 };
 
 export const updateCreatorById = async (creatorId: number, payload: UpdateCreatorPayload) => {
-	if (Object.keys(payload).length === 0) {
+	const allowedFields: (keyof UpdateCreatorPayload)[] = [
+		"website",
+		"bio",
+		"verified_creator",
+		"featured",
+		"stripe_account_id",
+		"payout_method",
+	];
+
+	const fields = allowedFields.filter((key) => payload[key] !== undefined);
+
+	if (fields.length === 0) {
 		return null;
 	}
 
-	const setSql = Object.keys(payload)
-		.map((key, i) => `${key} = $${i + 2}`)
-		.join(", ");
+	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
 
-	const values = [creatorId, ...Object.values(payload)];
+	const values = [creatorId, ...fields.map((key) => payload[key] ?? null)];
 
 	const result = await query<PublicCreator>(
 		`

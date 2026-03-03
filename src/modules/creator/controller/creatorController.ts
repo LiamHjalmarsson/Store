@@ -66,7 +66,7 @@ export const updateCreator = async (req: Request, res: Response) => {
 };
 
 export const deleteCreatorProfile = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.params.id);
+	const userId = Number(req.user?.id);
 
 	const deleted = await deleteCreatorService(userId);
 
@@ -78,7 +78,7 @@ export const deleteCreatorProfile = async (req: AuthenticatedRequest, res: Respo
 };
 
 export const deleteCreator = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user?.id);
+	const userId = Number(req.params.id);
 
 	const deleted = await deleteCreatorService(userId);
 

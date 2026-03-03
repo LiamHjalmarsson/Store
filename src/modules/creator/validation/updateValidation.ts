@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { requireAtLeastOneField } from "../../../shared/validations/utils/requireAtLeastOneFiled.js";
-import { onlyAllowedFields } from "../../../shared/validations/utils/onlyAllowedFileds.js";
+import { requireAtLeastOneField } from "../../../shared/validation/utils/requireAtLeastOneFiled.js";
+import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFileds.js";
 import { BadRequestError } from "../../../shared/errors/badRequest.js";
 
 const allowedFields = ["website", "bio", "payout_method"] as const;
@@ -21,8 +21,8 @@ export const updateCreatorValidation = validateRequest([
 		.withMessage("Invalid payout method"),
 
 	body("verified_creator")
+		.optional()
 		.custom(() => {
 			throw new BadRequestError("verified_creator cannot be updated by creator");
-		})
-		.optional(),
+		}),
 ]);

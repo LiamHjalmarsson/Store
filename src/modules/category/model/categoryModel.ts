@@ -24,7 +24,7 @@ export const createNewCategory = async (payload: CreateCategoryPayload) => {
         VALUES 
 			($1, $2, $3, $4)
         RETURNING *`,
-		[title, description, image, is_featured ?? false],
+		[title, description ?? null, image ?? null, is_featured ?? false],
 	);
 
 	return result.rows[0];
@@ -57,7 +57,7 @@ export const updateCategoryById = async (id: number, payload: UpdateCategoryPayl
 
 	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => payload[key])];
+	const values = [id, ...fields.map((key) => payload[key] ?? null)];
 
 	const result = await query<Category>(
 		`UPDATE categories 

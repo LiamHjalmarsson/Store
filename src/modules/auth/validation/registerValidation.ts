@@ -1,10 +1,12 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import emailUnique from "../../../shared/validations/common/emailUnique.js";
-import usernameUnique from "../../../shared/validations/common/usernameUnique.js";
+import emailUnique from "../../../shared/validation/common/emailUnique.js";
+import usernameUnique from "../../../shared/validation/common/usernameUnique.js";
 
 export const registerValidation = validateRequest([
 	body("email")
+		.trim()
+		.toLowerCase()
 		.notEmpty()
 		.withMessage("email is required")
 		.isEmail()

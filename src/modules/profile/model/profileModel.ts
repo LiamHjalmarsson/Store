@@ -23,15 +23,7 @@ export const findUserById = async (id: number) => {
 };
 
 export const updateUserById = async (id: number, payload: Partial<PublicUser>) => {
-	const allowedFields: (keyof PublicUser)[] = [
-		"firstname",
-		"lastname",
-		"avatar",
-		"username",
-		"role",
-		"account_status",
-		"signed_to_newsletter",
-	];
+	const allowedFields: (keyof PublicUser)[] = ["firstname", "lastname", "avatar", "username", "signed_to_newsletter"];
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 
@@ -41,11 +33,11 @@ export const updateUserById = async (id: number, payload: Partial<PublicUser>) =
 
 	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => payload[key])];
+	const values = [id, ...fields.map((key) => payload[key] ?? null)];
 
 	const returningFields = `
         id, email, firstname, lastname, avatar, username,
-        role, account_status, signed_to_newsletter, created_at
+        signed_to_newsletter, created_at
     `;
 
 	const result = await query<PublicUser>(

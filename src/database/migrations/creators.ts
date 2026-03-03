@@ -7,7 +7,7 @@ export async function ensureCreatorsTable() {
             website TEXT,
             bio TEXT,
 
-            stripe_account_id VARCHAR(100),
+            stripe_account_id VARCHAR(100) UNIQUE,
             payout_method VARCHAR(20) CHECK (payout_method IN ('stripe', 'bank', 'other') OR payout_method IS NULL),
 
             verified_creator BOOLEAN DEFAULT FALSE,

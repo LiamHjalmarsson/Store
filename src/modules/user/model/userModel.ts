@@ -29,7 +29,10 @@ export const findUserById = async (id: number) => {
 			lastname,
 			avatar,
 			username,
-			role 
+			role,
+			account_status,
+			signed_to_newsletter,
+			created_at
         FROM users 
 		WHERE id = $1`,
 		[id],
@@ -57,7 +60,7 @@ export const updateUserById = async (id: number, data: Partial<PublicUser>) => {
 
 	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => data[key])];
+	const values = [id, ...fields.map((key) => data[key] ?? null)];
 
 	const returningFields = `
         id, email, firstname, lastname, avatar, username,

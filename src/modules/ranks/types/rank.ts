@@ -3,7 +3,7 @@ export interface Rank {
 	name: string;
 	min_xp: number;
 	badge_url: string;
-	created_at: Date;
+	created_at: Date | string;
 }
 
 export interface CreateRankPayload {

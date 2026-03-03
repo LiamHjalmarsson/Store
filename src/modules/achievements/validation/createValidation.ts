@@ -26,4 +26,6 @@ export const createValidation = validateRequest([
 		.toInt(),
 
 	body("icon").optional().isURL().withMessage("Icon must be a valid URL"),
+
+	body("description").optional().notEmpty().withMessage("Description"),
 ]);

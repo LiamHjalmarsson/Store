@@ -20,7 +20,7 @@ export const createNewProduct = async (creatorId: number, payload: CreateProduct
 			VALUES 
 				($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
 			RETURNING
-				title, description, price, image_url, status
+				*
         `,
 		[
 			payload.title,
@@ -79,7 +79,7 @@ export const updateProductById = async (id: number, creatorId: number, payload: 
 
 	const setSql = fields.map((key, i) => `${key} = $${i + 3}`).join(", ");
 
-	const values = [id, creatorId, ...fields.map((key) => payload[key])];
+	const values = [id, creatorId, ...fields.map((key) => payload[key] ?? null)];
 
 	const result = await query<Product>(
 		`

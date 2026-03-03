@@ -6,10 +6,10 @@ const router = Router();
 
 router.use(authenticated);
 
-router.get("/:id", getProfile);
+router.get("/", getProfile);
 
-router.put("/:id", updateProfile);
+router.put("/", updateProfile);
 
-router.delete("/:id", deleteProfile);
+router.delete("/", deleteProfile);
 
 export default router;
