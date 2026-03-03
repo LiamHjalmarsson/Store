@@ -3,6 +3,7 @@ import {
 	createSubcategoryService,
 	getAllSubcategoriesService,
 	getSubcategoryService,
+	updateSubcategoryService,
 } from "../service/subcategoryService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 
@@ -28,4 +29,14 @@ export const getSubcategory = async (req: Request, res: Response) => {
 	if (!subcategory) throw new NotFoundError("Subcategory not found");
 
 	res.json({ subcategory });
+};
+
+export const updateSubcategory = async (req: Request, res: Response) => {
+	const id = Number(req.params.id);
+
+	const updated = await updateSubcategoryService(id, req.body);
+
+	if (!updated) throw new NotFoundError("Subcategory not found");
+
+	res.json({ updated });
 };

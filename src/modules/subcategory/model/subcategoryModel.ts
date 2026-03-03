@@ -1,5 +1,5 @@
 import { query } from "../../../config/database.js";
-import { CreateSubcategoryPayload, Subcategory } from "../types/subcategory.js";
+import { CreateSubcategoryPayload, Subcategory, UpdateSubcategoryPayload } from "../types/subcategory.js";
 
 export const findAllSubcategories = async (id?: number) => {
 	if (id) {
@@ -45,6 +45,28 @@ export const findSubcategoryById = async (id: number) => {
 		FROM subcategories 
 		WHERE id = $1`,
 		[id],
+	);
+
+	return result.rows[0] ?? null;
+};
+
+export const updateSubcategoryById = async (id: number, payload: UpdateSubcategoryPayload) => {
+	const allowed: (keyof UpdateSubcategoryPayload)[] = ["title", "description", "category_id"];
+
+	const fields = allowed.filter((k) => payload[k] !== undefined);
+
+	if (fields.length === 0) return null;
+
+	const setSql = fields.map((k, i) => `${k} = $${i + 2}`).join(", ");
+
+	const values = [id, ...fields.map((k) => payload[k] ?? null)];
+
+	const result = await query<Subcategory>(
+		`
+		UPDATE subcategories 
+		SET ${setSql}
+		WHERE id = $1 RETURNING *`,
+		values,
 	);
 
 	return result.rows[0] ?? null;

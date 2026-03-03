@@ -1,4 +1,10 @@
-import { createNewSubcategory, findAllSubcategories, findSubcategoryById } from "../model/subcategoryModel.js";
+import {
+	createNewSubcategory,
+	findAllSubcategories,
+	findSubcategoryById,
+	updateSubcategoryById,
+} from "../model/subcategoryModel.js";
+import { CreateSubcategoryPayload, UpdateSubcategoryPayload } from "../types/subcategory.js";
 
 export async function getAllSubcategoriesService(id?: number) {
 	return await findAllSubcategories(id);
@@ -10,4 +16,8 @@ export async function createSubcategoryService(payload: CreateSubcategoryPayload
 
 export async function getSubcategoryService(id: number) {
 	return await findSubcategoryById(id);
+}
+
+export async function updateSubcategoryService(id: number, payload: UpdateSubcategoryPayload) {
+	return await updateSubcategoryById(id, payload);
 }
