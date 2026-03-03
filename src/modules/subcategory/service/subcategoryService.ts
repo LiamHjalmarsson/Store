@@ -1,5 +1,5 @@
 import { findAllSubcategories } from "../model/subcategoryModel.js";
 
-export async function getAllSubcategoriesService() {
-	return await findAllSubcategories();
+export async function getAllSubcategoriesService(id?: number) {
+	return await findAllSubcategories(id);
 }
