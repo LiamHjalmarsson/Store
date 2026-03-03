@@ -37,3 +37,15 @@ export const createNewSubcategory = async (payload: CreateSubcategoryPayload) =>
 
 	return result.rows[0];
 };
+
+export const findSubcategoryById = async (id: number) => {
+	const result = await query<Subcategory>(
+		`
+		SELECT * 
+		FROM subcategories 
+		WHERE id = $1`,
+		[id],
+	);
+
+	return result.rows[0] ?? null;
+};
