@@ -11,3 +11,5 @@ export interface CreateRankPayload {
 	min_xp: number;
 	badge_url?: string | null;
 }
+
+export interface UpdateRankPayload extends Partial<CreateRankPayload> {}

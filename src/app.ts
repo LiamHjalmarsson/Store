@@ -7,6 +7,7 @@ import achievementRoutes from "./modules/achievement/routes/achievementRoutes.js
 import categoryRoute from "./modules/category/routes/categoryRoute.js";
 import subcategoryRoute from "./modules/subcategory/routes/subcategoryRoute.js";
 import productRoute from "./modules/product/routes/productRoute.js";
+import rankRoute from "./modules/ranks/routes/rankRoute.js";
 import admin from "./routes/admin.js";
 
 const app = express();
@@ -28,6 +29,8 @@ app.use("/api/products", productRoute);
 app.use("/api/categories", categoryRoute);
 
 app.use("/api/subcategories", subcategoryRoute);
+
+app.use("/api/ranks", rankRoute);
 
 app.use("/api/admin", admin);
 
