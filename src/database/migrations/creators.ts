@@ -20,4 +20,9 @@ export async function ensureCreatorsTable() {
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     `);
+
+	await query(`
+		CREATE INDEX IF NOT EXISTS idx_creators_user_id
+		ON creators(user_id);
+	`);
 }

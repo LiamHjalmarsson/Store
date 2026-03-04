@@ -20,4 +20,29 @@ export async function ensureProductsTable() {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         published_at TIMESTAMP
     );`);
+
+	await query(`
+		CREATE INDEX IF NOT EXISTS idx_products_category_id
+		ON products(category_id);
+	`);
+
+	await query(`
+		CREATE INDEX IF NOT EXISTS idx_products_subcategory_id
+		ON products(subcategory_id);
+	`);
+
+	await query(`
+		CREATE INDEX IF NOT EXISTS idx_products_creator_id
+		ON products(creator_id);
+	`);
+
+	await query(`
+		CREATE INDEX IF NOT EXISTS idx_products_status
+		ON products(status);
+	`);
+
+	await query(`
+		CREATE INDEX IF NOT EXISTS idx_products_created_at
+		ON products(created_at DESC);
+	`);
 }

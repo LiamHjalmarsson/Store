@@ -9,4 +9,9 @@ export async function ensureUserAchievementsTable() {
             PRIMARY KEY (user_id, achievement_id)
         )
     `);
+
+	await query(`
+		CREATE INDEX IF NOT EXISTS idx_user_achievements_achievement
+		ON user_achievements(achievement_id);
+	`);
 }
