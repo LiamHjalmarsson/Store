@@ -1,8 +1,16 @@
 import { PublicUser } from "../../../shared/types/user.js";
-import { deleteUserById, findAllUsers, findUserById, updateUserById } from "../model/userModel.js";
+import { hashPassword } from "../../../shared/utils/password.js";
+import { CreateUserPayload } from "../../auth/types/authType.js";
+import { createNewUser, deleteUserById, findAllUsers, findUserById, updateUserById } from "../model/userModel.js";
 
 export const getAllUsersService = async () => {
 	return await findAllUsers();
+};
+
+export const createUserService = async (payload: CreateUserPayload) => {
+	const hashed = await hashPassword(payload.password);
+
+	return await createNewUser({ ...payload, password: hashed });
 };
 
 export const getUserService = async (userId: number) => {

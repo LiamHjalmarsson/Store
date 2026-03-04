@@ -1,11 +1,23 @@
 import { Request, Response } from "express";
-import { deleteUserService, getAllUsersService, getUserService, updateUserService } from "../service/userService.js";
+import {
+	createUserService,
+	deleteUserService,
+	getAllUsersService,
+	getUserService,
+	updateUserService,
+} from "../service/userService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 
 export const getAllUsers = async (_: Request, res: Response) => {
 	const users = await getAllUsersService();
 
 	res.json({ users });
+};
+
+export const createUser = async (req: Request, res: Response) => {
+	const user = await createUserService(req.body);
+
+	res.status(201).json({ user });
 };
 
 export const getUser = async (req: Request, res: Response) => {

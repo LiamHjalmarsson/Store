@@ -1,5 +1,6 @@
 import { query } from "../../../config/database.js";
 import { PublicUser, User } from "../../../shared/types/user.js";
+import { CreateNewUserPayload } from "../types/userType.js";
 
 export const findAllUsers = async () => {
 	const result = await query<PublicUser>(`
@@ -18,6 +19,37 @@ export const findAllUsers = async () => {
     `);
 
 	return result.rows;
+};
+
+export const createNewUser = async (payload: CreateNewUserPayload) => {
+	const {
+		email,
+		password,
+		username,
+		firstname = null,
+		lastname = null,
+		avatar = null,
+		role = "user",
+		account_status = "active",
+		signed_to_newsletter = false,
+	} = payload;
+
+	const normalizedEmail = String(email).trim().toLowerCase();
+
+	const result = await query<PublicUser>(
+		`INSERT INTO users (
+			email, password, username,
+			firstname, lastname, avatar,
+			role, account_status, signed_to_newsletter
+		)
+		VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+		RETURNING
+			id, email, firstname, lastname, avatar, username,
+			role, account_status, signed_to_newsletter, created_at`,
+		[normalizedEmail, password, username, firstname, lastname, avatar, role, account_status, signed_to_newsletter],
+	);
+
+	return result.rows[0];
 };
 
 export const findUserById = async (id: number) => {
