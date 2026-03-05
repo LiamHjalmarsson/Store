@@ -5,10 +5,10 @@ import {
 	findProductById,
 	updateProductById,
 } from "../model/productModel.js";
-import { CreateProductPayload, UpdateProductPayload } from "../types/product.js";
+import { CreateProductPayload, GetProductsQuery, UpdateProductPayload } from "../types/product.js";
 
-export const getAllProductsService = async () => {
-	return await findAllProducts();
+export const getAllProductsService = async (query: GetProductsQuery) => {
+	return await findAllProducts(query);
 };
 
 export const createProductService = async (id: number, payload: CreateProductPayload) => {

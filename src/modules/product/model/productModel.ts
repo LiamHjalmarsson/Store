@@ -1,13 +1,34 @@
 import { query } from "../../../config/database.js";
-import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
+import { CreateProductPayload, GetProductsQuery, Product, UpdateProductPayload } from "../types/product.js";
 
-export const findAllProducts = async () => {
-	const result = await query<Product[]>(`
-        SELECT * 
-        FROM products 
-        ORDER BY created_at DESC`);
+export const findAllProducts = async (q: GetProductsQuery) => {
+	const totalResult = await query<{ count: string }>(`
+        SELECT COUNT(*)::text AS count
+        FROM products
+    `);
 
-	return result.rows;
+	const total = Number(totalResult.rows[0].count);
+
+	const result = await query<Product>(
+		`
+        SELECT *
+        FROM products
+        ORDER BY created_at DESC
+        LIMIT $1
+        OFFSET $2
+        `,
+		[q.limit, q.offset],
+	);
+
+	const totalPages = Math.ceil(total / q.limit);
+
+	return {
+		items: result.rows,
+		total,
+		page: q.page,
+		limit: q.limit,
+		totalPages,
+	};
 };
 
 export const createNewProduct = async (creatorId: number, payload: CreateProductPayload) => {

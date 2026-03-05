@@ -8,11 +8,22 @@ import {
 } from "../service/productService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { parsePagination } from "../../../shared/utils/pagination.js";
 
-export const getAllProducts = async (_: Request, res: Response) => {
-	const products = await getAllProductsService();
+export const getAllProducts = async (req: Request, res: Response) => {
+	const { page, limit, offset } = parsePagination(req.query);
 
-	res.json({ products });
+	const result = await getAllProductsService({ page, limit, offset });
+
+	res.json({
+		products: result.items,
+		meta: {
+			page: result.page,
+			limit: result.limit,
+			total: result.total,
+			totalPages: result.totalPages,
+		},
+	});
 };
 
 export const createProduct = async (req: AuthenticatedRequest, res: Response) => {
