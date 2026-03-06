@@ -1,5 +1,3 @@
-import { PaginationQuery } from "../../../shared/types/pagination.js";
-
 export type ProductStatus = "draft" | "published" | "archived";
 
 export interface Product {
@@ -39,5 +37,3 @@ export interface CreateProductPayload {
 }
 
 export interface UpdateProductPayload extends Partial<CreateProductPayload> {}
-
-export interface GetProductsQuery extends PaginationQuery {}

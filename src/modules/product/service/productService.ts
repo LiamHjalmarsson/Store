@@ -1,3 +1,4 @@
+import { PaginationQuery } from "../../../shared/types/pagination.js";
 import {
 	createNewProduct,
 	deleteProductById,
@@ -5,10 +6,10 @@ import {
 	findProductById,
 	updateProductById,
 } from "../model/productModel.js";
-import { CreateProductPayload, GetProductsQuery, UpdateProductPayload } from "../types/product.js";
+import { CreateProductPayload, UpdateProductPayload } from "../types/product.js";
 
-export const getAllProductsService = async (query: GetProductsQuery) => {
-	return await findAllProducts(query);
+export const getAllProductsService = async (pagination: PaginationQuery) => {
+	return await findAllProducts(pagination);
 };
 
 export const createProductService = async (id: number, payload: CreateProductPayload) => {

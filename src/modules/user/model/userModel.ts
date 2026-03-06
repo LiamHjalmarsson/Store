@@ -1,9 +1,18 @@
 import { query } from "../../../config/database.js";
+import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { PublicUser, User } from "../../../shared/types/user.js";
 import { CreateNewUserPayload } from "../types/userType.js";
 
-export const findAllUsers = async () => {
-	const result = await query<PublicUser>(`
+export const findAllUsers = async (pagination: PaginationQuery) => {
+	const totalResult = await query<{ count: string }>(`
+        SELECT COUNT(*)::text AS count
+        FROM users
+    `);
+
+	const total = Number(totalResult.rows[0].count);
+
+	const result = await query<PublicUser>(
+		`
         SELECT
 			id,
 			email,
@@ -16,9 +25,22 @@ export const findAllUsers = async () => {
 			signed_to_newsletter,
 			created_at
         FROM users
-    `);
+        ORDER BY created_at DESC
+        LIMIT $1
+        OFFSET $2
+    `,
+		[pagination.limit, pagination.offset],
+	);
 
-	return result.rows;
+	const totalPages = Math.ceil(total / pagination.limit);
+
+	return {
+		items: result.rows,
+		total,
+		page: pagination.page,
+		limit: pagination.limit,
+		totalPages,
+	};
 };
 
 export const createNewUser = async (payload: CreateNewUserPayload) => {

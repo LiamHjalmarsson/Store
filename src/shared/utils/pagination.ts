@@ -12,7 +12,7 @@ export interface PaginationResult {
 	offset: number;
 }
 
-export function parsePagination(query: Request["query"], options: PaginationOptions = {}) {
+export function pagination(query: Request["query"], options: PaginationOptions = {}) {
 	const defaultPage = options.defaultPage ?? 1;
 
 	const defaultLimit = options.defaultLimit ?? 1;

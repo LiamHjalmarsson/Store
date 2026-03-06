@@ -8,10 +8,10 @@ import {
 } from "../service/productService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { parsePagination } from "../../../shared/utils/pagination.js";
+import { pagination } from "../../../shared/utils/pagination.js";
 
 export const getAllProducts = async (req: Request, res: Response) => {
-	const { page, limit, offset } = parsePagination(req.query);
+	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllProductsService({ page, limit, offset });
 

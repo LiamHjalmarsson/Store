@@ -1,7 +1,8 @@
 import { query } from "../../../config/database.js";
-import { CreateProductPayload, GetProductsQuery, Product, UpdateProductPayload } from "../types/product.js";
+import { PaginationQuery } from "../../../shared/types/pagination.js";
+import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
 
-export const findAllProducts = async (q: GetProductsQuery) => {
+export const findAllProducts = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: string }>(`
         SELECT COUNT(*)::text AS count
         FROM products
@@ -17,16 +18,16 @@ export const findAllProducts = async (q: GetProductsQuery) => {
         LIMIT $1
         OFFSET $2
         `,
-		[q.limit, q.offset],
+		[pagination.limit, pagination.offset],
 	);
 
-	const totalPages = Math.ceil(total / q.limit);
+	const totalPages = Math.ceil(total / pagination.limit);
 
 	return {
 		items: result.rows,
 		total,
-		page: q.page,
-		limit: q.limit,
+		page: pagination.page,
+		limit: pagination.limit,
 		totalPages,
 	};
 };

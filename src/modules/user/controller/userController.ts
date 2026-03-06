@@ -7,11 +7,22 @@ import {
 	updateUserService,
 } from "../service/userService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { pagination } from "../../../shared/utils/pagination.js";
 
-export const getAllUsers = async (_: Request, res: Response) => {
-	const users = await getAllUsersService();
+export const getAllUsers = async (req: Request, res: Response) => {
+	const { page, limit, offset } = pagination(req.query);
 
-	res.json({ users });
+	const result = await getAllUsersService({ page, limit, offset });
+
+	res.json({
+		users: result.items,
+		meta: {
+			page: result.page,
+			limit: result.limit,
+			total: result.total,
+			totalPages: result.totalPages,
+		},
+	});
 };
 
 export const createUser = async (req: Request, res: Response) => {
