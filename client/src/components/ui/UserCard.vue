@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSlots } from "vue";
-import type { User } from "../../api/user/user";
+import type { User } from "../../modules/users/services/user";
 
 defineProps<{ user: User }>();
 

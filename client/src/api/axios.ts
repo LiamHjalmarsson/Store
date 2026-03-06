@@ -1,11 +1,5 @@
 import axios from "axios";
-import { useAuthStore } from "../store/auth";
-
-export type APIResponse<T> = {
-	success: boolean;
-	content: T;
-	status?: number;
-};
+import { useAuthStore } from "@/modules/auth/store/auth";
 
 const api = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,

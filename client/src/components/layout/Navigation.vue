@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useAuthStore } from "../../store/auth";
 import type { Link } from "../../types/shared";
 import { ref } from "vue";
 import { UserIcon } from "@hugeicons/core-free-icons";
 import Button from "../ui/Button.vue";
 import Icon from "../ui/Icon.vue";
 import Dropdown from "../ui/Dropdown.vue";
+import { useAuthStore } from "../../modules/auth/store/auth";
 
 interface Navigation {
 	title: string;

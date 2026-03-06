@@ -16,30 +16,23 @@ export async function registerService(payload: CreateUserPayload) {
 }
 
 export async function loginService(email: string, password: string) {
-	const user = await findUserWithPasswordByEmail(email);
+	const userWithPassword = await findUserWithPasswordByEmail(email);
 
-	if (!user) {
+	if (!userWithPassword) {
 		return null;
 	}
 
-	const match = await comparePassword(password, user.password);
+	const match = await comparePassword(password, userWithPassword.password);
 
 	if (!match) {
 		return null;
 	}
 
+	const user = await findUserById(userWithPassword.id);
+
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
-	const safeUser = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		role: user.role,
-		account_status: user.account_status,
-		signed_to_newsletter: user.signed_to_newsletter,
-	};
-
-	return { user: safeUser, token };
+	return { user, token };
 }
 
 export async function meService(id: number) {

@@ -1,1 +1,0 @@
-<template>Edit Product</template>

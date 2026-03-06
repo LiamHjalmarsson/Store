@@ -2,11 +2,12 @@
 import { onMounted, ref } from "vue";
 import background from "../assets/images/bg.jpg"
 import Card from "../components/ui/Card.vue";
-import CategoryCard from "../components/category/CategoryCard.vue";
-import { useCategoryStore } from "../store/category";
 import { storeToRefs } from "pinia";
 import UserCard from "../components/ui/UserCard.vue";
-import { getUsers, type User } from "../api/user/user";
+import { useCategoryStore } from "../modules/categories/store/category";
+import CategoryCard from "../modules/categories/components/CategoryCard.vue";
+import { getUsers } from "../modules/users/services/user";
+import type { User } from "@/modules/users/types/user";
 
 const categoryStore = useCategoryStore();
 

@@ -1,6 +1,18 @@
 import { query } from "../../../config/database.js";
-import { PublicUser, User } from "../../../shared/types/user.js";
-import { CreateUserPayload } from "../types/authType.js";
+import { User } from "../../../shared/types/user.js";
+import { AuthUser, CreateUserPayload } from "../types/authType.js";
+
+const authUserSelect = `
+	id,
+	email,
+	firstname,
+	lastname,
+	avatar,
+	username,
+	role,
+	account_status,
+	signed_to_newsletter
+`;
 
 export const findUserWithPasswordByEmail = async (email: string) => {
 	const result = await query<User>(
@@ -17,12 +29,12 @@ export const findUserWithPasswordByEmail = async (email: string) => {
 export const createNewUser = async (payload: CreateUserPayload) => {
 	const { password, email, username } = payload;
 
-	const result = await query<PublicUser>(
+	const result = await query<AuthUser>(
 		`INSERT INTO users 
 			(email, password, username) 
 		VALUES 
 			($1, $2, $3) 
-		RETURNING id, email, username, role, avatar `,
+		RETURNING ${authUserSelect}`,
 		[email, password, username],
 	);
 
@@ -30,15 +42,9 @@ export const createNewUser = async (payload: CreateUserPayload) => {
 };
 
 export const findUserById = async (id: number) => {
-	const result = await query<PublicUser>(
+	const result = await query<AuthUser>(
 		`SELECT 
-			id, 
-			email, 
-			firstname,
-			lastname, 
-			avatar, 
-			username,
-			role 
+			${authUserSelect}
 		FROM users 
 		WHERE id = $1`,
 		[id],

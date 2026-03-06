@@ -1,1 +1,0 @@
-<template>Create Product</template>
