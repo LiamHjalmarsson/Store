@@ -9,11 +9,22 @@ import {
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { CreateCreatorPayload } from "../types/creator.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { pagination } from "../../../shared/utils/pagination.js";
 
-export const getAllCreators = async (_: Request, res: Response) => {
-	const creators = await getAllCreatorsService();
+export const getAllCreators = async (req: Request, res: Response) => {
+	const { page, limit, offset } = pagination(req.query);
 
-	res.json({ creators });
+	const result = await getAllCreatorsService({ page, limit, offset });
+
+	res.json({
+		creators: result.items,
+		meta: {
+			page: result.page,
+			limit: result.limit,
+			total: result.total,
+			totalPages: result.totalPages,
+		},
+	});
 };
 
 export const createCreator = async (req: AuthenticatedRequest, res: Response) => {

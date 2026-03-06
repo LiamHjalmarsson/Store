@@ -1,3 +1,4 @@
+import { PaginationQuery } from "../../../shared/types/pagination.js";
 import {
 	createNewCreator,
 	deleteCreatorById,
@@ -7,8 +8,8 @@ import {
 } from "../model/creatorModel.js";
 import { CreateCreatorPayload, UpdateCreatorPayload } from "../types/creator.js";
 
-export const getAllCreatorsService = async () => {
-	return await findAllCreators();
+export const getAllCreatorsService = async (pagination: PaginationQuery) => {
+	return await findAllCreators(pagination);
 };
 
 export const createCreatorService = async (payload: CreateCreatorPayload) => {

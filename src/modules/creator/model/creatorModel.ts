@@ -1,8 +1,17 @@
 import { query } from "../../../config/database.js";
+import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { CreateCreatorPayload, PublicCreator, UpdateCreatorPayload } from "../types/creator.js";
 
-export const findAllCreators = async () => {
-	const result = await query<PublicCreator>(`
+export const findAllCreators = async (pagination: PaginationQuery) => {
+	const totalResult = await query<{ count: string }>(`
+        SELECT COUNT(*)::text AS count
+        FROM creators
+    `);
+
+	const total = Number(totalResult.rows[0].count);
+
+	const result = await query<PublicCreator>(
+		`
       SELECT
         u.id,
         u.email,
@@ -21,16 +30,27 @@ export const findAllCreators = async () => {
         c.featured,
         c.total_sales,
         c.total_earnings,
-        c.stripe_account_id,
         c.payout_method
 
       FROM users u
       INNER JOIN creators c ON c.user_id = u.id
       WHERE u.role = 'creator'
       ORDER BY u.created_at DESC
-    `);
+      LIMIT $1
+      OFFSET $2
+    `,
+		[pagination.limit, pagination.offset],
+	);
 
-	return result.rows;
+	const totalPages = Math.ceil(total / pagination.limit);
+
+	return {
+		items: result.rows,
+		total,
+		page: pagination.page,
+		limit: pagination.limit,
+		totalPages,
+	};
 };
 
 export const createNewCreator = async (payload: CreateCreatorPayload): Promise<PublicCreator> => {
