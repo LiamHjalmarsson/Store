@@ -11,11 +11,11 @@ const { register } = useAuthStore();
 
 const router = useRouter();
 
-const email = ref();
+const email = ref("");
 
-const password = ref();
+const password = ref("");
 
-const username = ref();
+const username = ref("");
 
 async function handleRegister() {
 	const success = await register({

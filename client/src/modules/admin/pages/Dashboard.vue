@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { CompanyRow } from "@/components/table/Table.vue";
+import Table from "@/components/table/Table.vue";
+import Card from "@/components/ui/Card.vue";
 import {
 	PackageIcon,
 	Analytics03Icon,
@@ -8,10 +11,6 @@ import {
 	Chart01Icon,
 	ChartDownIcon,
 } from "@hugeicons/core-free-icons";
-import Icon from "../../components/ui/Icon.vue";
-import type { CompanyRow } from "../../components/table/Table.vue";
-import Table from "../../components/table/Table.vue";
-import Card from "../../components/ui/Card.vue";
 
 const rows: CompanyRow[] = [
 	{

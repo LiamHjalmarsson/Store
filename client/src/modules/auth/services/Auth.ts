@@ -1,5 +1,5 @@
 import api from "@/api/axios";
-import type { AuthResponse, LoginPayload, RegisterPayload, UserResponse } from "../types/auth";
+import type { AuthResponse, LoginPayload, RegisterPayload, MeResponse } from "../types/auth";
 
 export const loginApi = (payload: LoginPayload) => {
 	return api.post<AuthResponse>("auth/login", payload);
@@ -14,5 +14,5 @@ export const logoutApi = () => {
 };
 
 export const getUserApi = () => {
-	return api.get<{ user: UserResponse }>("auth/me");
+	return api.get<MeResponse>("auth/me");
 };

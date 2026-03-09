@@ -1,8 +1,9 @@
 client/src/pages/admin/users/Users.vue
 <script setup lang="ts">
+import UserCard from "@/modules/users/components/UserCard.vue";
+import { getUsers } from "@/modules/users/services/user";
+import type { User } from "@/modules/users/types/user";
 import { onMounted, ref } from "vue";
-import { getUsers } from "../../services/user";
-import type { User } from "../../types/user";
 
 const users = ref<User[]>([]);
 

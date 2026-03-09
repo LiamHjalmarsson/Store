@@ -1,14 +1,10 @@
-import api from "../../../api/axios";
-import type { Category } from "../types/category";
-
-export interface GetCategoriesResponse {
-	categories: Category[];
-}
+import api from "@/api/axios";
+import { type CategoryResponse, type CategoriesResponse } from "../types/category";
 
 export const getCategories = () => {
-	return api.get<GetCategoriesResponse>("/categories");
+	return api.get<CategoriesResponse>("/categories");
 };
 
 export const getCategoryBySlug = (slug: string) => {
-	return api.get(`categories/${slug}`);
+	return api.get<CategoryResponse>(`categories/${slug}`);
 };

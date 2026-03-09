@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { Category } from "../../types/category";
-import { getCategories } from "../../services/category";
 import Card from "@/components/ui/Card.vue";
+import { getCategories } from "@/modules/categories/services/category";
+import type { Category } from "@/modules/categories/types/category";
 
 const categories = ref<Category[]>([]);
 

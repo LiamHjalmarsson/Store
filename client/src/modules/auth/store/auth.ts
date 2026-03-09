@@ -73,6 +73,8 @@ export const useAuthStore = defineStore(
 
 			try {
 				const { data } = await getUserApi();
+
+				user.value = data.user;
 			} catch (error) {
 				console.log(error);
 			}

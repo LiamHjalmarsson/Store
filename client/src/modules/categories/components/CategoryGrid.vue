@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import CategoryCard from "./CategoryCard.vue";
+import { useCategoryStore } from "../store/category";
 
 const categoryStore = useCategoryStore();
 

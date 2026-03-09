@@ -3,6 +3,7 @@ import Home from "../pages/Index.vue";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 import authRoutes from "../modules/auth/routes";
 import categoryRoutes from "../modules/categories/routes";
+import adminRoutes from "@/modules/admin/routes";
 
 const routes = [
 	{
@@ -15,7 +16,7 @@ const routes = [
 				component: Home,
 			},
 			{
-				path: "/marketplace",
+				path: "marketplace",
 				name: "marketplace",
 				component: Home,
 			},
@@ -24,6 +25,8 @@ const routes = [
 	},
 
 	...authRoutes,
+
+	...adminRoutes,
 
 	{
 		path: "/:pathMatch(.*)*",

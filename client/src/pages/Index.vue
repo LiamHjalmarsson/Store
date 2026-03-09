@@ -1,28 +1,23 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import background from "../assets/images/bg.jpg"
 import Card from "../components/ui/Card.vue";
 import { storeToRefs } from "pinia";
-import UserCard from "../components/ui/UserCard.vue";
 import { useCategoryStore } from "../modules/categories/store/category";
 import CategoryCard from "../modules/categories/components/CategoryCard.vue";
-import { getUsers } from "../modules/users/services/user";
-import type { User } from "@/modules/users/types/user";
+import UserCard from "@/modules/users/components/UserCard.vue";
+import { useUserStore } from "@/modules/users/store/user";
 
 const categoryStore = useCategoryStore();
 
-const { categories: featuredCategories} = storeToRefs(categoryStore)
+const userStore = useUserStore();
 
+const { categories } = storeToRefs(categoryStore)
 
-const creators = ref<User[]>([]);
+const { creators } = storeToRefs(userStore);
 
 onMounted(async () => {
-	await categoryStore.fetchCategories();
-
-	const resUsers = await getUsers();
-
-	
-	creators.value = resUsers.data.users.filter((user) => user.role === 'creator');
+	await Promise.all([categoryStore.fetchCategories(), userStore.fetchUsers()]);
 });
 </script>
 
@@ -145,7 +140,7 @@ onMounted(async () => {
 		</div>
 
 		<div class="grid grid-cols-3 gap-3">
-			<CategoryCard v-for="category in featuredCategories" :key="category.id" :category :class="['rounded-2xl relative overflow-hidden shadow-xl min-h-56 text-3xl']" />
+			<CategoryCard v-for="category in categories" :key="category.id" :category :class="['rounded-2xl relative overflow-hidden shadow-xl min-h-56 text-3xl']" />
 		</div>
 	</div>
 

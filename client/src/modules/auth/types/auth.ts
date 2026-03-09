@@ -30,7 +30,6 @@ export interface AuthResponse {
 	user: AuthUser;
 }
 
-export interface UserResponse {
-	token: string;
+export interface MeResponse {
 	user: AuthUser;
 }

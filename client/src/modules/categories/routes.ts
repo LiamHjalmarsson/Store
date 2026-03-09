@@ -8,7 +8,7 @@ const categoryRoutes = [
 		component: Categories,
 	},
 	{
-		path: "/categories/:id",
+		path: "/categories/:slug",
 		name: "category",
 		component: Category,
 	},
