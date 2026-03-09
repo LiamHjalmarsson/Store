@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Link } from "../../types/shared";
+import type { Link } from "@/types/shared";
 
 defineProps<{ links: Link[] }>();
 </script>

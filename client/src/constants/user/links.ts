@@ -1,12 +1,12 @@
 export const userLinksDropdown = [
 	{
 		label: "Dashboard",
-		href: "/dashboard",
+		to: "/dashboard",
 		name: "dashboard",
 	},
 	{
 		label: "Settings",
-		href: "/settings",
+		to: "/settings",
 		name: "settings",
 	},
 ];
@@ -14,19 +14,19 @@ export const userLinksDropdown = [
 export const userDashboardLinks = [
 	{
 		label: "Dashboard",
-		href: "/",
+		to: "/",
 		name: "dashboard",
 		icon: "",
 	},
 	{
 		label: "Portfolio",
-		href: "/",
+		to: "/",
 		name: "",
 		icon: "",
 	},
 	{
 		label: "Achievments",
-		href: "/",
+		to: "/",
 		name: "",
 		icon: "",
 	},

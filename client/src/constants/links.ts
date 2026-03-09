@@ -1,17 +1,17 @@
 export const navigationLinks = [
 	{
 		label: "Marketplace",
-		href: "/",
+		to: "/",
 		name: "",
 	},
 	{
 		label: "Categories",
-		href: "/categories",
+		to: "/categories",
 		name: "",
 	},
 	{
 		label: "Creators",
-		href: "/creators",
+		to: "/creators",
 		name: "",
 	},
 ];

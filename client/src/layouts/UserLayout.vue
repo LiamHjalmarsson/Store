@@ -9,10 +9,12 @@ import { userDashboardLinks, userLinksDropdown } from "../constants/user/links";
 	<div class="flex h-screen">
 		<Sidebar :links="userDashboardLinks" class="pt-20" />
 
-		<Navigation title="Muphy" :links="navigationLinks" :account-links="userLinksDropdown" class="h-fit" />
-	</div>
+		<div class="flex-1">
+			<Navigation title="Muphy" :links="navigationLinks" :account-links="userLinksDropdown" class="h-fit" />
 
-	<main class="">
-		<RouterView />
-	</main>
+			<main class="">
+				<RouterView />
+			</main>
+		</div>
+	</div>
 </template>

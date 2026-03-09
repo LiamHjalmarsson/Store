@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
 	type?: "button" | "submit" | "reset";
-	variant?: "primary" | "secondary" | "white" | "black";
+	variant?: "primary" | "secondary" | "white" | "black" | "ghost";
 }>();
 </script>
 

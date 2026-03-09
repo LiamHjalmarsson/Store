@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import type { Link } from "../../types/shared";
 import { ref } from "vue";
 import { UserIcon } from "@hugeicons/core-free-icons";
 import Button from "../ui/Button.vue";
 import Icon from "../ui/Icon.vue";
 import Dropdown from "../ui/Dropdown.vue";
-import { useAuthStore } from "../../modules/auth/store/auth";
+import type { Link } from "@/types/shared";
+import { useAuthStore } from "@/modules/auth/store/auth";
 
 interface Navigation {
 	title: string;
-	links?: Link[];
+	links: Link[];
 	accountLinks: Link[];
 }
 
@@ -45,7 +45,7 @@ async function handleLogout() {
 
 		<ul class="space-x-12 py-6 flex items-center justify-center flex-1">
 			<li v-for="link in links" :key="link.label" class="font-bold capitalize">
-				<RouterLink class="flex space-x-3 items-center justify-center" :to="link.href">
+				<RouterLink class="flex space-x-3 items-center justify-center" :to="link.to">
 					{{ link.label }}
 				</RouterLink>
 			</li>
@@ -63,7 +63,7 @@ async function handleLogout() {
 					</p>
 				</Button>
 			</div>
-			<div v-else="isAuthenticated">
+			<div v-else>
 				<RouterLink :to="{ name: 'login' }" class="flex gap-3">
 					Login <Icon :icon="UserIcon" :size="24" />
 				</RouterLink>
