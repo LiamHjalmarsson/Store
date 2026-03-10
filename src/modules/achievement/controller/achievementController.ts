@@ -9,29 +9,30 @@ import {
 } from "../service/achievementService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { sendSuccess } from "../../../shared/utils/respond.js";
 
 export const getAllAchievements = async (_: Request, res: Response) => {
 	const achievements = await getAllAchivementsService();
 
-	res.json({ achievements });
+	return sendSuccess(res, "Achievements retrieved successfully", { achievements });
 };
 
 export const createAchievement = async (req: Request, res: Response) => {
-	const created = await createAchievementService(req.body);
+	const achievement = await createAchievementService(req.body);
 
-	res.json({ achievement: created });
+	return sendSuccess(res, "Achievement created successfully", { achievement }, 201);
 };
 
 export const updateAchievement = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
-	const updated = await updateAchievementService(id, req.body);
+	const achievement = await updateAchievementService(id, req.body);
 
-	if (!updated) {
+	if (!achievement) {
 		throw new NotFoundError("Achievement not found");
 	}
 
-	res.json({ achievement: updated });
+	return sendSuccess(res, "Achievement updated successfully", { achievement });
 };
 
 export const deleteAchievement = async (req: Request, res: Response) => {
@@ -43,7 +44,7 @@ export const deleteAchievement = async (req: Request, res: Response) => {
 		throw new NotFoundError("Achievement not found");
 	}
 
-	res.json({ message: "Achievement deleted" });
+	return sendSuccess(res, "Achievement deleted successfully", null);
 };
 
 export const getMyAchievements = async (req: AuthenticatedRequest, res: Response) => {
@@ -51,7 +52,7 @@ export const getMyAchievements = async (req: AuthenticatedRequest, res: Response
 
 	const achievements = await getUserAchievementsService(userId);
 
-	res.json({ achievements });
+	return sendSuccess(res, "User achievements retrieved successfully", { achievements });
 };
 
 export const awardAchievement = async (req: AuthenticatedRequest, res: Response) => {
@@ -61,5 +62,5 @@ export const awardAchievement = async (req: AuthenticatedRequest, res: Response)
 
 	await awardAchievementService(userId, achievement_id);
 
-	res.json({ message: "Achievement awarded" });
+	return sendSuccess(res, "Achievement awarded successfully", null);
 };

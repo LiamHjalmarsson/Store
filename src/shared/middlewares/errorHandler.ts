@@ -1,16 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../errors/customError.js";
+import { sendError } from "../utils/respond.js";
 
 export const errorHandler = (err: Error, _: Request, res: Response, __: NextFunction) => {
+	const message = err.message || "Internal server error";
+
 	if (err instanceof CustomError) {
-		return res.status(err.statusCode).json({
-			error: err.message,
-			errors: err.errors || [err.message],
-		});
+		return sendError(res, message, err.errors, err.statusCode);
 	}
 
-	res.status(500).json({
-		error: "Internal server error",
-		errors: ["Something went wrong on the server"],
-	});
+	sendError(res, message, ["Something went wrong on the server"], 500);
 };

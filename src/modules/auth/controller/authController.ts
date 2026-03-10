@@ -4,13 +4,14 @@ import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.
 import { UnauthenticatedError } from "../../../shared/errors/unauthenticated.js";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { sendSuccess } from "../../../shared/utils/respond.js";
 
 export const register = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;
 
 	const { token, user } = await registerService({ email, password, username });
 
-	return res.status(201).json({ token, user });
+	return sendSuccess(res, "User registered successfully", { token, user }, 201);
 };
 
 export const login = async (req: Request, res: Response) => {
@@ -24,11 +25,14 @@ export const login = async (req: Request, res: Response) => {
 
 	const { token, user } = result;
 
-	res.json({ token, user });
+	return sendSuccess(res, "User loged in successfully", {
+		token,
+		user,
+	});
 };
 
 export const logout = async (_: Request, res: Response) => {
-	res.json({ message: "Logout was successfull" });
+	return sendSuccess(res, "Logout was successful", null);
 };
 
 export const me = async (req: AuthenticatedRequest, res: Response) => {
@@ -44,5 +48,5 @@ export const me = async (req: AuthenticatedRequest, res: Response) => {
 		throw new NotFoundError("User not found");
 	}
 
-	return res.json({ user });
+	sendSuccess(res, "autenticated user", { user });
 };

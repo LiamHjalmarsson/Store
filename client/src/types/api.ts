@@ -1,10 +1,14 @@
 export type APIResponse<T> = {
-	success: boolean;
-	content: T;
-	status?: number;
+	success: "success";
+	message: string;
+	data: T;
 };
 
 export interface ApiError {
-	error: string;
-	errors: string[];
+	status: "error";
+	message: string;
+	error: {
+		statusCode: number;
+		errors: string[];
+	};
 }
