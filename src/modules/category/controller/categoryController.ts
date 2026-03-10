@@ -7,17 +7,18 @@ import {
 	updateCategoryService,
 } from "../service/categoryService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { sendSuccess } from "../../../shared/utils/respond.js";
 
 export const getAllCategories = async (_: Request, res: Response) => {
 	const categories = await getAllCategoriesService();
 
-	res.json({ categories });
+	return sendSuccess(res, "Categories retrieved successfully", { categories });
 };
 
 export const createCategory = async (req: Request, res: Response) => {
 	const category = await createCategoryService(req.body);
 
-	res.status(201).json({ category });
+	return sendSuccess(res, "Category created successfully", { category }, 201);
 };
 
 export const getCategory = async (req: Request, res: Response) => {
@@ -29,29 +30,29 @@ export const getCategory = async (req: Request, res: Response) => {
 		throw new NotFoundError("Category not found");
 	}
 
-	res.json({ category });
+	return sendSuccess(res, "Category retriveved successfully", { category });
 };
 
 export const updateCategory = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
-	const updated = await updateCategoryService(id, req.body);
+	const category = await updateCategoryService(id, req.body);
 
-	if (!updated) {
+	if (!category) {
 		throw new NotFoundError("Category not found");
 	}
 
-	res.json({ category: updated });
+	return sendSuccess(res, "Category updated successfully", { category });
 };
 
 export const deleteCategory = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
-	const deleted = await deleteCategoryService(id);
+	const category = await deleteCategoryService(id);
 
-	if (!deleted) {
+	if (!category) {
 		throw new NotFoundError("Category not found");
 	}
 
-	res.json({ message: "Category deleted" });
+	return sendSuccess(res, "Category deleted successfully", null);
 };

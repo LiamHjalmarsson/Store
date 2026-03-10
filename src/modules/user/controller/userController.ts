@@ -8,13 +8,14 @@ import {
 } from "../service/userService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { pagination } from "../../../shared/utils/pagination.js";
+import { sendSuccess } from "../../../shared/utils/respond.js";
 
 export const getAllUsers = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllUsersService({ page, limit, offset });
 
-	res.json({
+	return sendSuccess(res, "Users retrieved successfully", {
 		users: result.items,
 		meta: {
 			page: result.page,
@@ -28,7 +29,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
 	const user = await createUserService(req.body);
 
-	res.status(201).json({ user });
+	return sendSuccess(res, "User created successfully", { user }, 201);
 };
 
 export const getUser = async (req: Request, res: Response) => {
@@ -40,7 +41,7 @@ export const getUser = async (req: Request, res: Response) => {
 		throw new NotFoundError("User not found");
 	}
 
-	res.json({ user });
+	return sendSuccess(res, "User retrieved successfully", { user });
 };
 
 export const updateUser = async (req: Request, res: Response) => {
@@ -52,7 +53,7 @@ export const updateUser = async (req: Request, res: Response) => {
 		throw new NotFoundError("User not found");
 	}
 
-	res.json(user);
+	return sendSuccess(res, "User updated successfully", { user });
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
@@ -64,5 +65,5 @@ export const deleteUser = async (req: Request, res: Response) => {
 		throw new NotFoundError("User not found");
 	}
 
-	res.json({ message: "User deleted" });
+	return sendSuccess(res, "User deleted successfully", null);
 };

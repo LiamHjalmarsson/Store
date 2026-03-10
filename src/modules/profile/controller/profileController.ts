@@ -2,6 +2,7 @@ import { Response } from "express";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { deleteProfileService, getProfileService, updateProfileService } from "../service/profileService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { sendSuccess } from "../../../shared/utils/respond.js";
 
 export const getProfile = async (req: AuthenticatedRequest, res: Response) => {
 	const user = await getProfileService(req.user!.id);
@@ -10,17 +11,17 @@ export const getProfile = async (req: AuthenticatedRequest, res: Response) => {
 		throw new NotFoundError("User not found");
 	}
 
-	res.json(user);
+	return sendSuccess(res, "Profile retrieved successfully", { user });
 };
 
 export const updateProfile = async (req: AuthenticatedRequest, res: Response) => {
-	const updated = await updateProfileService(req.user!.id, req.body);
+	const user = await updateProfileService(req.user!.id, req.body);
 
-	if (!updated) {
+	if (!user) {
 		throw new NotFoundError("User not found");
 	}
 
-	res.json(updated);
+	return sendSuccess(res, "Profile updated successfully", { user });
 };
 
 export const deleteProfile = async (req: AuthenticatedRequest, res: Response) => {
@@ -30,5 +31,5 @@ export const deleteProfile = async (req: AuthenticatedRequest, res: Response) =>
 		throw new NotFoundError("User not found");
 	}
 
-	res.json({ message: "Profile deleted" });
+	return sendSuccess(res, "Profile deleted successfully", null);
 };

@@ -10,13 +10,14 @@ import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.
 import { CreateCreatorPayload } from "../types/creator.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { pagination } from "../../../shared/utils/pagination.js";
+import { sendSuccess } from "../../../shared/utils/respond.js";
 
 export const getAllCreators = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllCreatorsService({ page, limit, offset });
 
-	res.json({
+	return sendSuccess(res, "Creators retrieved successfully", {
 		creators: result.items,
 		meta: {
 			page: result.page,
@@ -37,7 +38,7 @@ export const createCreator = async (req: AuthenticatedRequest, res: Response) =>
 
 	const creator = await createCreatorService(payload);
 
-	res.json({ creator });
+	return sendSuccess(res, "Creator created successfully", { creator }, 201);
 };
 
 export const getCreator = async (req: Request, res: Response) => {
@@ -49,31 +50,31 @@ export const getCreator = async (req: Request, res: Response) => {
 		throw new NotFoundError("Creator not found");
 	}
 
-	res.json({ creator });
+	return sendSuccess(res, "Creator retrieved successfully", { creator });
 };
 
 export const updateCreatorProfile = async (req: AuthenticatedRequest, res: Response) => {
 	const userId = Number(req.user?.id);
 
-	const updated = await updateCreatorService(userId, req.body);
+	const creator = await updateCreatorService(userId, req.body);
 
-	res.json({ creator: updated });
+	if (!creator) {
+		throw new NotFoundError("Creator not found");
+	}
+
+	return sendSuccess(res, "Creator profile updated successfully", { creator });
 };
 
 export const updateCreator = async (req: Request, res: Response) => {
 	const userId = Number(req.params.id);
 
-	if (!req.body) {
-		return res.status(400).json({ message: "No fields provided to update" });
-	}
+	const creator = await updateCreatorService(userId, req.body);
 
-	const updated = await updateCreatorService(userId, req.body);
-
-	if (!updated) {
+	if (!creator) {
 		throw new NotFoundError("Creator not found");
 	}
 
-	res.json({ creator: updated });
+	return sendSuccess(res, "Creator updated successfully", { creator });
 };
 
 export const deleteCreatorProfile = async (req: AuthenticatedRequest, res: Response) => {
@@ -85,7 +86,7 @@ export const deleteCreatorProfile = async (req: AuthenticatedRequest, res: Respo
 		throw new NotFoundError("Creator profile not found");
 	}
 
-	res.json({ message: "Creator profile deleted successfully" });
+	return sendSuccess(res, "Creator profile deleted successfully", null);
 };
 
 export const deleteCreator = async (req: AuthenticatedRequest, res: Response) => {
@@ -97,5 +98,5 @@ export const deleteCreator = async (req: AuthenticatedRequest, res: Response) =>
 		throw new NotFoundError("Creator profile not found");
 	}
 
-	res.json({ message: "Creator profile deleted successfully" });
+	return sendSuccess(res, "Creator deleted successfully", null);
 };

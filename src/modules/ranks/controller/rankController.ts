@@ -8,17 +8,18 @@ import {
 	updateRankService,
 } from "../service/rankService.js";
 import { BadRequestError } from "../../../shared/errors/badRequest.js";
+import { sendSuccess } from "../../../shared/utils/respond.js";
 
 export const getAllRanks = async (_: Request, res: Response) => {
 	const ranks = await getAllRanksService();
 
-	res.json({ ranks });
+	return sendSuccess(res, "Ranks retrieved successfully", { ranks });
 };
 
 export const createRank = async (req: Request, res: Response) => {
 	const rank = await createRankService(req.body);
 
-	res.status(201).json({ rank });
+	return sendSuccess(res, "Rank created successfully", { rank }, 201);
 };
 
 export const getRank = async (req: Request, res: Response) => {
@@ -26,7 +27,7 @@ export const getRank = async (req: Request, res: Response) => {
 
 	const rank = await getRankService(id);
 
-	res.json({ rank });
+	return sendSuccess(res, "Rank retrieved successfully", { rank });
 };
 
 export const updateRank = async (req: Request, res: Response) => {
@@ -34,7 +35,7 @@ export const updateRank = async (req: Request, res: Response) => {
 
 	const rank = await updateRankService(id, req.body);
 
-	res.json({ rank });
+	return sendSuccess(res, "Rank updated successfully", { rank });
 };
 
 export const deleteRank = async (req: Request, res: Response) => {
@@ -46,7 +47,7 @@ export const deleteRank = async (req: Request, res: Response) => {
 		throw new BadRequestError("No rank to delete");
 	}
 
-	res.json({ message: "Rank deleted" });
+	return sendSuccess(res, "Rank deleted successfully", null);
 };
 
 export const resolveRank = async (req: Request, res: Response) => {
@@ -58,5 +59,5 @@ export const resolveRank = async (req: Request, res: Response) => {
 
 	const rank = await resolveRankService(xp);
 
-	res.json({ rank });
+	return sendSuccess(res, "Rank resolved successfully", { rank });
 };
