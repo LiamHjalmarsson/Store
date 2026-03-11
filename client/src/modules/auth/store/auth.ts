@@ -3,6 +3,8 @@ import { computed, ref } from "vue";
 import api from "@/api/axios";
 import { getUserApi, loginApi, logoutApi, registerApi } from "../services/Auth";
 import type { AuthUser, LoginPayload, RegisterPayload } from "../types/auth";
+import type { ApiError } from "@/types/api";
+import { extractApiError } from "@/utils/error/ExtractApiError";
 
 export const useAuthStore = defineStore(
 	"auth",
@@ -10,6 +12,8 @@ export const useAuthStore = defineStore(
 		const token = ref();
 
 		const user = ref<AuthUser | null>(null);
+
+		const error = ref<ApiError | null>(null);
 
 		const isAuthenticated = computed(() => !!token.value);
 
@@ -35,56 +39,73 @@ export const useAuthStore = defineStore(
 			setAuthorizationHeader(null);
 		}
 
+		function clearError() {
+			error.value = null;
+		}
+
 		async function login(payload: LoginPayload) {
+			clearError();
+
 			try {
 				const { data } = await loginApi(payload);
 
-				token.value = data.token;
+				token.value = data.data.token;
 
-				user.value = data.user;
+				user.value = data.data.user;
 
-				setAuthorizationHeader(data.token);
+				setAuthorizationHeader(data.data.token);
 
 				return true;
-			} catch (error) {
-				console.log(error);
-			} finally {
+			} catch (err) {
+				error.value = extractApiError(err);
+
+				return false;
 			}
 		}
 
 		async function register(payload: RegisterPayload) {
+			clearError();
+
 			try {
 				const { data } = await registerApi(payload);
 
-				token.value = data.token;
+				token.value = data.data.token;
 
-				user.value = data.user;
+				user.value = data.data.user;
 
-				setAuthorizationHeader(data.token);
+				setAuthorizationHeader(data.data.token);
 
 				return true;
-			} catch (error) {
-				console.log(error);
+			} catch (err) {
+				error.value = extractApiError(err);
+
+				return false;
 			}
 		}
 
 		async function fetchCurrentUser() {
+			clearError();
+
 			if (!token.value) return;
 
 			try {
 				const { data } = await getUserApi();
 
-				user.value = data.user;
-			} catch (error) {
-				console.log(error);
+				user.value = data.data.user;
+
+				return true;
+			} catch (err) {
+				error.value = extractApiError(err);
 			}
 		}
 
 		async function logout() {
+			clearError();
+
 			try {
 				await logoutApi();
-			} catch (error) {
-				console.log(error);
+			} catch (err) {
+				error.value = extractApiError(err);
 			} finally {
 				clearAuth();
 			}
@@ -97,6 +118,8 @@ export const useAuthStore = defineStore(
 			isAuthenticated,
 			isAdmin,
 			isCreator,
+
+			error,
 
 			login,
 			register,

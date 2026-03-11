@@ -3,7 +3,7 @@ import image from "@/assets/images/bg.jpg";
 </script>
 
 <template>
-	<main class="h-screen flex items-center justify-center p-12 space-x-12">
+	<main class="h-screen flex items-center justify-center p-6 space-x-12">
 		<div class="flex-1 flex items-center justify-center">
 			<slot />
 		</div>

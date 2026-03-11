@@ -7,7 +7,7 @@ import AuthCard from "../components/AuthCard.vue";
 import Input from "@/components/ui/Input.vue";
 import Button from "@/components/ui/Button.vue";
 
-const { login } = useAuthStore();
+const { login, error } = useAuthStore();
 
 const router = useRouter();
 
@@ -31,11 +31,11 @@ async function handleLogin() {
 	<AuthLayout>
 		<AuthCard title="Welcome back" subtitle="Motivation">
 			<form @submit.prevent="handleLogin" class="space-y-6">
-				<Input v-model="email" label="Email address" placeholder="Enter your email" required />
+				<Input v-model="email" required />
 
-				<Input v-model="password" type="password" label="Password" required />
+				<Input v-model="password" type="password" required />
 
-				<div class="text-end text-blue-500 font-semibold">
+				<div class="text-center text-blue-500 font-semibold">
 					<RouterLink :to="{ name: 'forgot-password' }"> Forgot Password? </RouterLink>
 				</div>
 

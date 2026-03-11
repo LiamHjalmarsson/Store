@@ -6,8 +6,13 @@ import AuthLayout from "../components/AuthLayout.vue";
 import AuthCard from "../components/AuthCard.vue";
 import Input from "@/components/ui/Input.vue";
 import Button from "@/components/ui/Button.vue";
+import { storeToRefs } from "pinia";
 
-const { register } = useAuthStore();
+const authStore = useAuthStore();
+
+const { register } = authStore;
+
+const { error } = storeToRefs(authStore);
 
 const router = useRouter();
 
