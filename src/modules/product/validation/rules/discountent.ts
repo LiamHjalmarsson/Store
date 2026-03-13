@@ -1,6 +1,7 @@
+import { Request } from "express";
 import { BadRequestError } from "../../../../shared/errors/badRequest.js";
 
-export const discountConsistency = async (_: unknown, { req }: any) => {
+export const discountConsistency = async (_: unknown, req: Request) => {
 	const isDiscounted = req.body?.is_discounted;
 
 	const discounted = req.body?.discounted;

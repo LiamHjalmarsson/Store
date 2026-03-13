@@ -12,4 +12,4 @@ export interface CreateSubcategoryPayload {
 	description?: string | null;
 }
 
-export interface UpdateSubcategoryPayload extends Partial<CreateSubcategoryPayload> {}
+export type UpdateSubcategoryPayload = Partial<CreateSubcategoryPayload>;

@@ -12,4 +12,4 @@ export interface CreateRankPayload {
 	badge_url?: string | null;
 }
 
-export interface UpdateRankPayload extends Partial<CreateRankPayload> {}
+export type UpdateRankPayload = Partial<CreateRankPayload>;

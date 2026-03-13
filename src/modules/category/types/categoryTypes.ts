@@ -19,4 +19,4 @@ export interface CreateCategoryPayload {
 	// parent_id?: number;
 }
 
-export interface UpdateCategoryPayload extends Partial<CreateCategoryPayload> {}
+export type UpdateCategoryPayload = Partial<CreateCategoryPayload>;

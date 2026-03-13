@@ -14,7 +14,7 @@ export async function seedSubcategories() {
 
 		if (!match) return;
 
-		for (const sub of match?.items) {
+		for (const sub of match.items) {
 			await query(
 				`INSERT INTO subcategories 
 					(category_id, title, description)

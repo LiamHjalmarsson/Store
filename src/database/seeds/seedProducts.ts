@@ -22,6 +22,8 @@ export async function seedProducts() {
 		let insertedCount = 0;
 
 		for (const product of products) {
+			insertedCount++;
+
 			const subcat = subcats[insertedCount % subcats.length];
 
 			const payload: CreateProductPayload = {

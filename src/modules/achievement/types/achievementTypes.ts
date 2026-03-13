@@ -22,4 +22,4 @@ export interface CreateAchievementPayload {
 	xp_reward: number;
 }
 
-export interface UpdateAchievementPayload extends Partial<CreateAchievementPayload> {}
+export type UpdateAchievementPayload = Partial<CreateAchievementPayload>;

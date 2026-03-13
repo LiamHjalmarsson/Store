@@ -36,4 +36,4 @@ export interface CreateProductPayload {
 	status?: ProductStatus;
 }
 
-export interface UpdateProductPayload extends Partial<CreateProductPayload> {}
+export type UpdateProductPayload = Partial<CreateProductPayload>;
