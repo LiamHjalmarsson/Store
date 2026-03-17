@@ -10,7 +10,8 @@
 		"build": "tsc",
 		"start": "node dist/server.js",
 		"seed": "tsx src/database/seeds/seed.ts",
-		"lint": "eslint src"
+		"lint": "eslint src",
+		"cleanup:uploads": "tsx scripts/cleanupUploads.ts"
 	},
 	"keywords": [],
 	"author": "",
@@ -31,6 +32,7 @@
 		"@types/cors": "^2.8.19",
 		"@types/express": "^5.0.3",
 		"@types/jsonwebtoken": "^9.0.10",
+		"@types/multer": "^2.1.0",
 		"@types/node": "^24.3.1",
 		"@types/pg": "^8.15.5",
 		"bcrypt": "^6.0.0",
@@ -40,6 +42,7 @@
 		"express": "^5.1.0",
 		"express-validator": "^7.3.1",
 		"jsonwebtoken": "^9.0.2",
+		"multer": "^2.1.1",
 		"pg": "^8.16.3"
 	}
 }

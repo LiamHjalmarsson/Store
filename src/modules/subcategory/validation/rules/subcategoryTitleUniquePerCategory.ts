@@ -1,8 +1,7 @@
-import { Request } from "express";
 import { query } from "../../../../config/database.js";
 import { BadRequestError } from "../../../../shared/errors/badRequest.js";
 
-export const subcategoryTitleUniquePerCategory = async (title: string, req: Request) => {
+export const subcategoryTitleUniquePerCategory = async (title: string, { req }: any) => {
 	const categoryId = Number(req.body.category_id ?? req.query.category_id);
 
 	if (Number.isNaN(categoryId) || categoryId < 1) {

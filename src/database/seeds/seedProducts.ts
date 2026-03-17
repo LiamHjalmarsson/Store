@@ -1,5 +1,5 @@
 import { query } from "../../config/database.js";
-import { CreateProductPayload } from "../../modules/products/types/product.js";
+import { CreateProductPayload } from "../../modules/product/types/product.js";
 import { ensureProductsTable } from "../migrations/products.js";
 import { products } from "./data/products.js";
 
@@ -65,7 +65,6 @@ export async function seedProducts() {
 					payload.is_featured ?? false,
 					payload.is_discounted ?? false,
 					payload.discounted ?? 0,
-					payload.status,
 				],
 			);
 		}

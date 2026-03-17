@@ -15,7 +15,7 @@ export async function seedCategories() {
                 VALUES 
 					($1, $2, $3, $4)
 				ON CONFLICT (title) DO NOTHING`,
-				[category.title, category.description, category.image, category.is_featured ?? false],
+				[category.title, category.description ?? null, category.image ?? null, category.is_featured ?? false],
 			);
 
 			console.log(`Inserted category: ${category.title}`);

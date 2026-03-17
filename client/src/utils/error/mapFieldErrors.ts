@@ -24,7 +24,9 @@ export function mapFieldErrors<TFields extends string>(
 
 			if (hasMatch) {
 				result[field as TFields] = message;
+
 				matched = true;
+
 				break;
 			}
 		}
