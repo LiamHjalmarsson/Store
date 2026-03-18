@@ -6,9 +6,12 @@ import { seedUserAchievements } from "./seedUserAchievements.js";
 import { seedCreators } from "./seedCreators.js";
 import { seedSubcategories } from "./seedSubcategories.js";
 import { seedProducts } from "./seedProducts.js";
+import { ensureDatabaseExists } from "../enusreDatabase.js";
 
 export async function seed() {
 	try {
+		await ensureDatabaseExists();
+
 		await seedUsers();
 
 		await seedCategories();

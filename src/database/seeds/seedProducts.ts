@@ -14,6 +14,7 @@ export async function seedProducts() {
 		const subcats = subcategories.rows;
 
 		if (subcats.length === 0) {
+			// eslint-disable-next-line no-console
 			console.log("No subcategories found — skipping product seeding");
 
 			return;
@@ -65,12 +66,15 @@ export async function seedProducts() {
 					payload.is_featured ?? false,
 					payload.is_discounted ?? false,
 					payload.discounted ?? 0,
+					payload.status ?? "draft",
 				],
 			);
 		}
 
+		// eslint-disable-next-line no-console
 		console.log(`Successfully seeded ${insertedCount} products`);
 	} catch (error) {
+		// eslint-disable-next-line no-console
 		console.error("Error seeding Products items:", error);
 
 		process.exit(1);
