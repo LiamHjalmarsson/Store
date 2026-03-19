@@ -1,7 +1,7 @@
 import { body, param } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { requireAtLeastOneField } from "../../../shared/validation/utils/requireAtLeastOneFiled.js";
-import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFileds.js";
+import { requireAtLeastOneField } from "../../../shared/validation/utils/requireAtLeastOneField.js";
+import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFields.js";
 import { userExistsById } from "./rules/userExistsById.js";
 import { usernameUnique } from "./rules/usernameUnique.js";
 

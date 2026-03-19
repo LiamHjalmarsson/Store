@@ -2,8 +2,8 @@ import { body, param } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 import { categoryExistsById } from "./rules/categoryExistsById.js";
 import { categoryTitleNotUsed } from "./rules/categoryTitleNotUsed.js";
-import { requireAtLeastOneField } from "../../../shared/validation/utils/requireAtLeastOneFiled.js";
-import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFileds.js";
+import { requireAtLeastOneField } from "../../../shared/validation/utils/requireAtLeastOneField.js";
+import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFields.js";
 
 const allowed = ["title", "description", "image", "is_featured"] as const;
 

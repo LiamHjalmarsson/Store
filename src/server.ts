@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import config from "./config/config.js";
 import app from "./app.js";
 import { errorHandler } from "./shared/middlewares/errorHandler.js";

@@ -6,15 +6,18 @@ import profileRoute from "./modules/profile/routes/profileRoute.js";
 import achievementRoutes from "./modules/achievement/routes/achievementRoutes.js";
 import categoryRoute from "./modules/category/routes/categoryRoute.js";
 import subcategoryRoute from "./modules/subcategory/routes/subcategoryRoute.js";
-import productRoute from "./modules/product/routes/productRoute.js";
+import productRoute from "./modules/product/routes/productRoutes.js";
 import rankRoute from "./modules/ranks/routes/rankRoute.js";
 import admin from "./routes/admin.js";
+import { UPLOAD_ROOT } from "./config/storage.js";
 
 const app = express();
 
 app.use(cors());
 
 app.use(express.json());
+
+app.use("/uploads", express.static(UPLOAD_ROOT));
 
 app.use("/api/auth", authRoute);
 

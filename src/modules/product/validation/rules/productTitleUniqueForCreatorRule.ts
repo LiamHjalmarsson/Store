@@ -3,7 +3,7 @@ import { query } from "../../../../config/database.js";
 import { BadRequestError } from "../../../../shared/errors/badRequest.js";
 import type { AuthenticatedRequest } from "../../../../shared/middlewares/authenticated.js";
 
-export const productTitleUniqueForCreator = async (title: string, meta: Meta) => {
+export const productTitleUniqueForCreatorRule = async (title: string, meta: Meta) => {
 	const req = meta.req as AuthenticatedRequest;
 
 	const creatorId = req.user?.id;
@@ -13,7 +13,8 @@ export const productTitleUniqueForCreator = async (title: string, meta: Meta) =>
 	const result = await query(
 		`SELECT 1
         FROM products
-        WHERE creator_id = $1 AND LOWER(title) = LOWER($2)`,
+        WHERE creator_id = $1 
+		AND LOWER(title) = LOWER($2)`,
 		[creatorId, title],
 	);
 

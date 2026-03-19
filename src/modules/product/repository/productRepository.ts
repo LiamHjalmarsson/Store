@@ -1,10 +1,10 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
-import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
+import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.types.js";
 
-export const findAllProducts = async (pagination: PaginationQuery) => {
+export const findProductsQuery = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: string }>(`
-        SELECT COUNT(*)::text AS count
+		SELECT COUNT(*)::int AS count
         FROM products
     `);
 
@@ -32,7 +32,7 @@ export const findAllProducts = async (pagination: PaginationQuery) => {
 	};
 };
 
-export const createNewProduct = async (creatorId: number, payload: CreateProductPayload) => {
+export const createProductQuery = async (creatorId: number, payload: CreateProductPayload) => {
 	const result = await query<Product>(
 		`
 			INSERT INTO products
@@ -54,17 +54,17 @@ export const createNewProduct = async (creatorId: number, payload: CreateProduct
 			payload.image_url ?? null,
 			payload.file_url ?? null,
 			payload.file_size ?? null,
-			false,
-			false,
-			0,
+			payload.is_featured ?? false,
+			payload.is_discounted ?? false,
+			payload.discounted ?? 0,
 			payload.status ?? "published",
 		],
 	);
 
-	return result.rows[0];
+	return result.rows[0] ?? null;
 };
 
-export const findProductById = async (id: number) => {
+export const findProductByIdQuery = async (id: number) => {
 	const result = await query<Product>(
 		`
 			SELECT * 
@@ -74,11 +74,11 @@ export const findProductById = async (id: number) => {
 		[id],
 	);
 
-	return result.rows[0];
+	return result.rows[0] ?? null;
 };
 
-export const updateProductById = async (id: number, creatorId: number, payload: UpdateProductPayload) => {
-	const allowedFields: (keyof UpdateProductPayload)[] = [
+export const updateProductByIdQuery = async (id: number, creatorId: number, payload: UpdateProductPayload) => {
+	const allowedFields = [
 		"title",
 		"description",
 		"price",
@@ -91,7 +91,7 @@ export const updateProductById = async (id: number, creatorId: number, payload: 
 		"is_discounted",
 		"discounted",
 		"status",
-	];
+	] as const;
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 
@@ -116,7 +116,7 @@ export const updateProductById = async (id: number, creatorId: number, payload: 
 	return result.rows[0] ?? null;
 };
 
-export const deleteProductById = async (id: number, creatorId: number) => {
+export const deleteProductByIdQuery = async (id: number, creatorId: number) => {
 	const result = await query(
 		`
 		DELETE FROM products
@@ -127,4 +127,18 @@ export const deleteProductById = async (id: number, creatorId: number) => {
 	);
 
 	return result.rowCount === 1;
+};
+
+export const findProductByIdForCreatorQuery = async (id: number, creatorId: number) => {
+	const result = await query(
+		`
+		SELECT *
+		FROM products
+		WHERE id = $1 AND creator_id = $2
+		LIMIT 1
+		`,
+		[id, creatorId],
+	);
+
+	return result.rows[0] ?? null;
 };

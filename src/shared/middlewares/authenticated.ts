@@ -23,8 +23,6 @@ export default function authenticated(req: AuthenticatedRequest, _: Response, ne
 
 		req.user = decoded;
 
-		console.log("test");
-
 		next();
 	} catch {
 		throw new UnauthorizedError("authentication invalid");
