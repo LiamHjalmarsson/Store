@@ -11,7 +11,8 @@
 		"start": "node dist/server.js",
 		"seed": "tsx src/database/seeds/seed.ts",
 		"lint": "eslint src",
-		"cleanup:uploads": "tsx scripts/cleanupUploads.ts"
+		"cleanup:uploads": "tsx scripts/cleanupUploads.ts",
+		"generate:module": "node scripts/generateModule.ts"
 	},
 	"keywords": [],
 	"author": "",
