@@ -1,12 +1,7 @@
 import { query } from "../../config/database.js";
-import { ensureSubcategoryTable } from "../migrations/subcategories.js";
 import { subcategories } from "./data/subcategories.js";
 
 export async function seedSubcategories() {
-	await query("DROP TABLE IF EXISTS subcategories CASCADE");
-
-	await ensureSubcategoryTable();
-
 	const categories = await query(`SELECT id, title FROM categories`);
 
 	for (const category of categories.rows) {

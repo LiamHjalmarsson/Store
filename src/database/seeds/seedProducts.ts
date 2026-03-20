@@ -1,14 +1,9 @@
 import { query } from "../../config/database.js";
 import { CreateProductPayload } from "../../modules/product/types/product.types.js";
-import { ensureProductsTable } from "../migrations/products.js";
 import { products } from "./data/products.js";
 
 export async function seedProducts() {
 	try {
-		await query("DROP TABLE IF EXISTS products CASCADE");
-
-		await ensureProductsTable();
-
 		const subcategories = await query(`SELECT id, title, category_id FROM subcategories LIMIT 20`);
 
 		const subcats = subcategories.rows;

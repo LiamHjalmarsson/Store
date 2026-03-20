@@ -1,14 +1,9 @@
 import { query } from "../../config/database.js";
 import { hashPassword } from "../../shared/utils/password.js";
-import { ensureUserTable } from "../migrations/users.js";
 import { users } from "./data/users.js";
 
 export async function seedUsers() {
 	try {
-		await query("DROP TABLE IF EXISTS users CASCADE");
-
-		await ensureUserTable();
-
 		for (const user of users) {
 			const hashed = await hashPassword(user.password);
 

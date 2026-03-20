@@ -1,12 +1,7 @@
 import { query } from "../../config/database.js";
-import { ensureCreatorsTable } from "../migrations/creators.js";
 
 export async function seedCreators() {
 	try {
-		await query("DROP TABLE IF EXISTS creators CASCADE");
-
-		await ensureCreatorsTable();
-
 		const creators = await query(`SELECT id FROM users WHERE role = 'creator'`);
 
 		for (const user of creators.rows) {

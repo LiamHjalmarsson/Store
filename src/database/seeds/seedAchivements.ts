@@ -1,13 +1,8 @@
 import { query } from "../../config/database.js";
-import { ensureAchievementsTable } from "../migrations/achievements.js";
 import { achievements } from "./data/achievements.js";
 
 export async function seedAchievements() {
 	try {
-		await query("DROP TABLE IF EXISTS achievements CASCADE");
-
-		await ensureAchievementsTable();
-
 		for (const achievement of achievements) {
 			await query(
 				`INSERT INTO achievements

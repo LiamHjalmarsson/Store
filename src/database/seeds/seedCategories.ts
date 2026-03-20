@@ -1,13 +1,8 @@
 import { query } from "../../config/database.js";
-import { ensureCategoryTable } from "../migrations/categories.js";
 import { categories } from "./data/categories.js";
 
 export async function seedCategories() {
 	try {
-		await query("DROP TABLE IF EXISTS categories CASCADE");
-
-		await ensureCategoryTable();
-
 		for (const category of categories) {
 			await query(
 				`INSERT INTO categories 

@@ -1,13 +1,8 @@
 import { query } from "../../config/database.js";
-import { ensureRanksTable } from "../migrations/ranks.js";
 import { ranks } from "./data/ranks.js";
 
 export async function seedRanks() {
 	try {
-		await query("DROP TABLE IF EXISTS ranks CASCADE");
-
-		await ensureRanksTable();
-
 		for (const rank of ranks) {
 			await query(
 				`INSERT INTO ranks 
