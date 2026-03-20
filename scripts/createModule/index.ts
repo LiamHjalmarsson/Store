@@ -15,8 +15,6 @@ export interface ModuleGeneratorConfig {
 	rootPath: string;
 	moduleBasePath: string;
 	migrationsPath: string;
-	seedsPath: string;
-	seedDataPath: string;
 	folders: string[];
 }
 
@@ -55,8 +53,6 @@ function getModuleConfig(moduleName?: string): ModuleGeneratorConfig {
 		rootPath,
 		moduleBasePath: path.join(rootPath, "src", "modules", moduleNameLower),
 		migrationsPath: path.join(rootPath, "src", "database", "migrations"),
-		seedsPath: path.join(rootPath, "src", "database", "seeds"),
-		seedDataPath: path.join(rootPath, "src", "database", "seeds", "data"),
 		folders: [
 			"controller",
 			"service",

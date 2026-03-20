@@ -14,7 +14,7 @@
 		"db:seed": "tsx src/database/seeds/seed.ts",
 		"lint": "eslint src",
 		"cleanup": "tsx scripts/cleanupUploads.ts",
-		"module": "tsx scripts/module/index.ts"
+		"module": "tsx scripts/createModule/index.ts"
 	},
 	"keywords": [],
 	"author": "",
