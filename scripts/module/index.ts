@@ -4,7 +4,6 @@ import { pluralize } from "./utils/pluralize";
 import { createFolders } from "./generators/createFolders";
 import { createModuleFiles } from "./generators/createFiles";
 import { createMigrationFile } from "./generators/createMigrations";
-import { createSeedFiles } from "./generators/createSeeds";
 
 /* eslint-disable no-console */
 
@@ -28,8 +27,6 @@ createFolders(config);
 createModuleFiles(config);
 
 createMigrationFile(config);
-
-createSeedFiles(config);
 
 function getModuleConfig(moduleName?: string): ModuleGeneratorConfig {
 	if (!moduleName) {

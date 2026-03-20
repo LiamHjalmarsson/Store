@@ -1,3 +1,8 @@
 export function routesTemplate() {
-	return ``;
+	return `import { Router } from "express";
+
+const router = Router();
+
+export default router;
+`;
 }
