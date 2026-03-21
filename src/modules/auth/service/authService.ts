@@ -1,6 +1,6 @@
 import { generateToken } from "../../../shared/utils/jwt.js";
 import { comparePassword, hashPassword } from "../../../shared/utils/password.js";
-import { createNewUser, findUserById, findUserWithPasswordByEmail } from "../model/authModel.js";
+import { createUserQuery, findUserByIdQuery, findUserWithPasswordByEmailQuery } from "../repository/authRepository.js";
 import { CreateUserPayload } from "../types/authType.js";
 
 export async function registerService(payload: CreateUserPayload) {
@@ -8,7 +8,7 @@ export async function registerService(payload: CreateUserPayload) {
 
 	const hashedPassword = await hashPassword(password);
 
-	const user = await createNewUser({ email, password: hashedPassword, username });
+	const user = await createUserQuery({ email, password: hashedPassword, username });
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
@@ -16,7 +16,7 @@ export async function registerService(payload: CreateUserPayload) {
 }
 
 export async function loginService(email: string, password: string) {
-	const userWithPassword = await findUserWithPasswordByEmail(email);
+	const userWithPassword = await findUserWithPasswordByEmailQuery(email);
 
 	if (!userWithPassword) {
 		return null;
@@ -28,7 +28,7 @@ export async function loginService(email: string, password: string) {
 		return null;
 	}
 
-	const user = await findUserById(userWithPassword.id);
+	const user = await findUserByIdQuery(userWithPassword.id);
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
@@ -36,5 +36,5 @@ export async function loginService(email: string, password: string) {
 }
 
 export async function meService(id: number) {
-	return await findUserById(id);
+	return await findUserByIdQuery(id);
 }

@@ -1,17 +1,17 @@
 import { Router } from "express";
-import { login, logout, me, register } from "../controller/authController.js";
+import { loginController, logoutController, meController, registerController } from "../controller/authController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
 import { loginValidation } from "../validation/loginValidation.js";
 import { registerValidation } from "../validation/registerValidation.js";
 
 const router = Router();
 
-router.post("/login", loginValidation, login);
+router.post("/login", loginValidation, loginController);
 
-router.post("/register", registerValidation, register);
+router.post("/register", registerValidation, registerController);
 
-router.post("/logout", authenticated, logout);
+router.post("/logout", authenticated, logoutController);
 
-router.get("/me", authenticated, me);
+router.get("/me", authenticated, meController);
 
 export default router;

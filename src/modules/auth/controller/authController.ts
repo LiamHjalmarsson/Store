@@ -6,7 +6,7 @@ import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { sendSuccess } from "../../../shared/utils/respond.js";
 
-export const register = async (req: Request, res: Response) => {
+export const registerController = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;
 
 	const { token, user } = await registerService({ email, password, username });
@@ -14,7 +14,7 @@ export const register = async (req: Request, res: Response) => {
 	return sendSuccess(res, "User registered successfully", { token, user }, 201);
 };
 
-export const login = async (req: Request, res: Response) => {
+export const loginController = async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
 	const result = await loginService(email, password);
@@ -31,11 +31,11 @@ export const login = async (req: Request, res: Response) => {
 	});
 };
 
-export const logout = async (_: Request, res: Response) => {
+export const logoutController = async (_: Request, res: Response) => {
 	return sendSuccess(res, "Logout was successful", null);
 };
 
-export const me = async (req: AuthenticatedRequest, res: Response) => {
+export const meController = async (req: AuthenticatedRequest, res: Response) => {
 	const id = req.user?.id;
 
 	if (!id) {

@@ -14,7 +14,7 @@ const authUserSelect = `
 	signed_to_newsletter
 `;
 
-export const findUserWithPasswordByEmail = async (email: string) => {
+export const findUserWithPasswordByEmailQuery = async (email: string) => {
 	const result = await query<User>(
 		`
 		SELECT * 
@@ -26,7 +26,7 @@ export const findUserWithPasswordByEmail = async (email: string) => {
 	return result.rows[0];
 };
 
-export const createNewUser = async (payload: CreateUserPayload) => {
+export const createUserQuery = async (payload: CreateUserPayload) => {
 	const { password, email, username } = payload;
 
 	const result = await query<AuthUser>(
@@ -41,7 +41,7 @@ export const createNewUser = async (payload: CreateUserPayload) => {
 	return result.rows[0];
 };
 
-export const findUserById = async (id: number) => {
+export const findUserByIdQuery = async (id: number) => {
 	const result = await query<AuthUser>(
 		`SELECT 
 			${authUserSelect}
