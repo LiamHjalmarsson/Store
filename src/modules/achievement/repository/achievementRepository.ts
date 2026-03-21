@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { Achievement, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
 
-export const findAllAchievements = async () => {
+export const findAchievementsQuery = async () => {
 	const result = await query<Achievement>(`
 		SELECT * 
 		FROM achievements 
@@ -11,7 +11,7 @@ export const findAllAchievements = async () => {
 	return result.rows;
 };
 
-export const createNewAchievement = async (payload: CreateAchievementPayload) => {
+export const createAchievementQuery = async (payload: CreateAchievementPayload) => {
 	const { code, name, icon, xp_reward, description } = payload;
 
 	const result = await query<Achievement>(
@@ -27,7 +27,7 @@ export const createNewAchievement = async (payload: CreateAchievementPayload) =>
 	return result.rows[0];
 };
 
-export const updateAchievementById = async (id: number, payload: UpdateAchievementPayload) => {
+export const updateAchievementByIdQuery = async (id: number, payload: UpdateAchievementPayload) => {
 	const allowedFields: (keyof UpdateAchievementPayload)[] = ["code", "name", "icon", "xp_reward", "description"];
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
@@ -51,7 +51,7 @@ export const updateAchievementById = async (id: number, payload: UpdateAchieveme
 	return result.rows[0] ?? null;
 };
 
-export const deleteAchievementById = async (id: number) => {
+export const deleteAchievementByIdQuery = async (id: number) => {
 	const result = await query(
 		`
 		DELETE FROM achievements 
@@ -63,7 +63,7 @@ export const deleteAchievementById = async (id: number) => {
 	return result.rowCount === 1;
 };
 
-export const awardAchievementToUser = async (userId: number, achievement_id: number) => {
+export const awardAchievementToUserQuery = async (userId: number, achievement_id: number) => {
 	await query(
 		`INSERT INTO user_achievements
 			(user_id, achievement_id)
@@ -83,7 +83,7 @@ export const awardAchievementToUser = async (userId: number, achievement_id: num
 	);
 };
 
-export const findUserAchievements = async (userId: number) => {
+export const findUserAchievementsQuery = async (userId: number) => {
 	const result = await query<Achievement>(
 		`
 		SELECT a.*

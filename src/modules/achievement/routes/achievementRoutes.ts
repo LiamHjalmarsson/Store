@@ -1,15 +1,19 @@
 import { Router } from "express";
-import { awardAchievement, getAllAchievements, getMyAchievements } from "../controller/achievementController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
+import {
+	awardAchievementController,
+	getAllAchievementsController,
+	getMyAchievementsController,
+} from "../controller/achievementController.js";
 
 const router = Router();
 
 router.use(authenticated);
 
-router.get("/", getAllAchievements);
+router.get("/", getAllAchievementsController);
 
-router.get("/me", getMyAchievements);
+router.get("/me", getMyAchievementsController);
 
-router.post("/award", awardAchievement);
+router.post("/award", awardAchievementController);
 
 export default router;

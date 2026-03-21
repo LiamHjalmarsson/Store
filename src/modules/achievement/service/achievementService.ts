@@ -1,32 +1,45 @@
+import { NotFoundError } from "../../../shared/errors/notFound.js";
 import {
-	awardAchievementToUser,
-	createNewAchievement,
-	deleteAchievementById,
-	findAllAchievements,
-	findUserAchievements,
-	updateAchievementById,
-} from "../model/achievementModel.js";
+	awardAchievementToUserQuery,
+	createAchievementQuery,
+	deleteAchievementByIdQuery,
+	findAchievementsQuery,
+	findUserAchievementsQuery,
+	updateAchievementByIdQuery,
+} from "../repository/achievementRepository.js";
 import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
 
 export const getAllAchivementsService = async () => {
-	return await findAllAchievements();
+	return await findAchievementsQuery();
 };
 
 export const createAchievementService = async (payload: CreateAchievementPayload) => {
-	return await createNewAchievement(payload);
+	return await createAchievementQuery(payload);
 };
 export const updateAchievementService = async (id: number, payload: UpdateAchievementPayload) => {
-	return await updateAchievementById(id, payload);
+	const achievement = await updateAchievementByIdQuery(id, payload);
+
+	if (!achievement) {
+		throw new NotFoundError("Achievement not found");
+	}
+
+	return achievement;
 };
 
 export const deleteAchievementService = async (id: number) => {
-	return await deleteAchievementById(id);
+	const deleted = await deleteAchievementByIdQuery(id);
+
+	if (!deleted) {
+		throw new NotFoundError("Achievement not found");
+	}
+
+	return true;
 };
 
 export const awardAchievementService = async (userId: number, achievement_id: number) => {
-	await awardAchievementToUser(userId, achievement_id);
+	await awardAchievementToUserQuery(userId, achievement_id);
 };
 
 export const getUserAchievementsService = async (userId: number) => {
-	return await findUserAchievements(userId);
+	return await findUserAchievementsQuery(userId);
 };
