@@ -8,7 +8,6 @@ import {
 	updateProductImageController,
 } from "../controller/productController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
-import { isCreator } from "../../../shared/middlewares/isCreator.js";
 import { createProductValidation } from "../validation/createProductValidation.js";
 import { isCreatorOrAdmin } from "../../../shared/middlewares/isCreatorOrAdmin.js";
 import { updateProductValidation } from "../validation/updateProductValidation.js";
@@ -33,6 +32,6 @@ router.patch("/:id/image", authenticated, isCreatorOrAdmin, uploadProductImageMi
 
 router.patch("/:id", authenticated, isCreatorOrAdmin, updateProductValidation, updateProductController);
 
-router.delete("/:id", authenticated, isCreator, deleteProductController);
+router.delete("/:id", authenticated, isCreatorOrAdmin, deleteProductController);
 
 export default router;
