@@ -7,8 +7,8 @@ import {
 	updateUserService,
 } from "../service/userService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { pagination } from "../../../shared/utils/pagination.js";
-import { sendSuccess } from "../../../shared/utils/respond.js";
+import { pagination } from "../../../shared/utils/http/pagination.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAllUsers = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);

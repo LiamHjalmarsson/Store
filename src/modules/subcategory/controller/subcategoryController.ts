@@ -7,7 +7,7 @@ import {
 	updateSubcategoryService,
 } from "../service/subcategoryService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { sendSuccess } from "../../../shared/utils/respond.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAllSubcategories = async (req: Request, res: Response) => {
 	const categoryId = req.query.category_id ? Number(req.query.category_id) : undefined;

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../errors/customError.js";
-import { sendError } from "../utils/respond.js";
+import { sendError } from "../utils/http/respond.js";
 
 export const errorHandler = (err: Error, _: Request, res: Response, __: NextFunction) => {
 	const message = err.message || "Internal server error";

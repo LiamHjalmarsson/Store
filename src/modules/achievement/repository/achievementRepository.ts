@@ -28,7 +28,7 @@ export const createAchievementQuery = async (payload: CreateAchievementPayload) 
 };
 
 export const updateAchievementByIdQuery = async (id: number, payload: UpdateAchievementPayload) => {
-	const allowedFields: (keyof UpdateAchievementPayload)[] = ["code", "name", "icon", "xp_reward", "description"];
+	const allowedFields = ["code", "name", "icon", "xp_reward", "description"] as const;
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 

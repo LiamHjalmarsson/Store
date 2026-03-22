@@ -47,7 +47,7 @@ export const findCategoryById = async (id: number) => {
 };
 
 export const updateCategoryById = async (id: number, payload: UpdateCategoryPayload) => {
-	const allowedFields: (keyof UpdateCategoryPayload)[] = ["title", "description", "image", "is_featured"];
+	const allowedFields = ["title", "description", "image", "is_featured"] as const;
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 

@@ -23,7 +23,7 @@ export const findUserById = async (id: number) => {
 };
 
 export const updateUserById = async (id: number, payload: Partial<PublicUser>) => {
-	const allowedFields: (keyof PublicUser)[] = ["firstname", "lastname", "avatar", "username", "signed_to_newsletter"];
+	const allowedFields = ["firstname", "lastname", "avatar", "username", "signed_to_newsletter"] as const;
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 

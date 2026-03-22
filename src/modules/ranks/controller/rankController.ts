@@ -8,7 +8,7 @@ import {
 	updateRankService,
 } from "../service/rankService.js";
 import { BadRequestError } from "../../../shared/errors/badRequest.js";
-import { sendSuccess } from "../../../shared/utils/respond.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAllRanks = async (_: Request, res: Response) => {
 	const ranks = await getAllRanksService();

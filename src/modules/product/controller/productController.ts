@@ -8,8 +8,8 @@ import {
 	updateProductService,
 } from "../service/productService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { pagination } from "../../../shared/utils/pagination.js";
-import { sendError, sendSuccess } from "../../../shared/utils/respond.js";
+import { pagination } from "../../../shared/utils/http/pagination.js";
+import { sendError, sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAllProductsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);

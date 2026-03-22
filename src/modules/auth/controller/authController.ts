@@ -4,7 +4,7 @@ import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.
 import { UnauthenticatedError } from "../../../shared/errors/unauthenticated.js";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { sendSuccess } from "../../../shared/utils/respond.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const registerController = async (req: Request, res: Response) => {
 	const { email, password, username } = req.body;

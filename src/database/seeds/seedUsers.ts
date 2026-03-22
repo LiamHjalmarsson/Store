@@ -1,5 +1,5 @@
 import { query } from "../../config/database.js";
-import { hashPassword } from "../../shared/utils/password.js";
+import { hashPassword } from "../../shared/utils/auth/password.js";
 import { users } from "./data/users.js";
 
 export async function seedUsers() {

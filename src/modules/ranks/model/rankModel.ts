@@ -42,7 +42,7 @@ export const findRankById = async (id: number) => {
 };
 
 export const updateRankById = async (id: number, payload: UpdateRankPayload) => {
-	const allowedFields: (keyof UpdateRankPayload)[] = ["name", "min_xp", "badge_url"];
+	const allowedFields = ["name", "min_xp", "badge_url"] as const;
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 

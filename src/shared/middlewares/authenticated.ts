@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { UnauthorizedError } from "../errors/unauthorized.js";
-import { JwtPayload, verifyToken } from "../utils/jwt.js";
+import { JwtPayload, verifyToken } from "../utils/auth/jwt.js";
 
 export interface AuthenticatedRequest extends Request {
 	user?: JwtPayload;

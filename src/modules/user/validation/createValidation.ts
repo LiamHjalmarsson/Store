@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import emailUnique from "../../../shared/validation/common/emailUnique.js";
-import usernameUnique from "../../../shared/validation/common/usernameUnique.js";
+import emailUnique from "../../../shared/validation/rules/emailUnique.js";
+import usernameUnique from "../../../shared/validation/rules/usernameUnique.js";
 
 export const createValidation = validateRequest([
 	body("email")

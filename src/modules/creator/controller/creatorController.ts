@@ -9,8 +9,8 @@ import {
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { CreateCreatorPayload } from "../types/creator.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { pagination } from "../../../shared/utils/pagination.js";
-import { sendSuccess } from "../../../shared/utils/respond.js";
+import { pagination } from "../../../shared/utils/http/pagination.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAllCreators = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);

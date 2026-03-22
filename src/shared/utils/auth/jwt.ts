@@ -1,6 +1,6 @@
 import jwt, { SignOptions } from "jsonwebtoken";
-import config from "../../config/config.js";
-import { AccountRole } from "../types/user.js";
+import config from "../../../config/config.js";
+import { AccountRole } from "../../types/user.js";
 
 export interface JwtPayload {
 	id: number;

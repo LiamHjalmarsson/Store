@@ -1,6 +1,6 @@
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { PublicUser } from "../../../shared/types/user.js";
-import { hashPassword } from "../../../shared/utils/password.js";
+import { hashPassword } from "../../../shared/utils/auth/password.js";
 import { CreateUserPayload } from "../../auth/types/authType.js";
 import { createNewUser, deleteUserById, findAllUsers, findUserById, updateUserById } from "../model/userModel.js";
 

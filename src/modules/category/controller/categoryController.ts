@@ -7,7 +7,7 @@ import {
 	updateCategoryService,
 } from "../service/categoryService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { sendSuccess } from "../../../shared/utils/respond.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAllCategories = async (_: Request, res: Response) => {
 	const categories = await getAllCategoriesService();

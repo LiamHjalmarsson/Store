@@ -121,14 +121,14 @@ export const findCreatorById = async (creatorId: number) => {
 };
 
 export const updateCreatorById = async (creatorId: number, payload: UpdateCreatorPayload) => {
-	const allowedFields: (keyof UpdateCreatorPayload)[] = [
+	const allowedFields = [
 		"website",
 		"bio",
 		"verified_creator",
 		"featured",
 		"stripe_account_id",
 		"payout_method",
-	];
+	] as const;
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
 

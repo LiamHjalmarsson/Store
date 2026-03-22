@@ -8,7 +8,7 @@ import {
 	updateAchievementService,
 } from "../service/achievementService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { sendSuccess } from "../../../shared/utils/respond.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAllAchievementsController = async (_: Request, res: Response) => {
 	const achievements = await getAllAchivementsService();

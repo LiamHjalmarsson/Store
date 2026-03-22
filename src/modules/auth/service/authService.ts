@@ -1,5 +1,5 @@
-import { generateToken } from "../../../shared/utils/jwt.js";
-import { comparePassword, hashPassword } from "../../../shared/utils/password.js";
+import { generateToken } from "../../../shared/utils/auth/jwt.js";
+import { comparePassword, hashPassword } from "../../../shared/utils/auth/password.js";
 import { createUserQuery, findUserByIdQuery, findUserWithPasswordByEmailQuery } from "../repository/authRepository.js";
 import { CreateUserPayload } from "../types/authType.js";
 
