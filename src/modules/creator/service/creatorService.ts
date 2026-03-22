@@ -5,7 +5,7 @@ import {
 	findAllCreators,
 	findCreatorById,
 	updateCreatorById,
-} from "../model/creatorModel.js";
+} from "../repository/creatorRepository.js";
 import { CreateCreatorPayload, UpdateCreatorPayload } from "../types/creator.js";
 
 export const getAllCreatorsService = async (pagination: PaginationQuery) => {

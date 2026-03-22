@@ -5,7 +5,7 @@ import {
 	findRankById,
 	resolveRankByXp,
 	updateRankById,
-} from "../model/rankModel.js";
+} from "../repository/rankRepository.js";
 import { CreateRankPayload, UpdateRankPayload } from "../types/rank.js";
 
 export const getAllRanksService = async () => {

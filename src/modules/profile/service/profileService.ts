@@ -1,5 +1,5 @@
 import { PublicUser } from "../../../shared/types/user.js";
-import { deleteUserById, findUserById, updateUserById } from "../model/profileModel.js";
+import { deleteUserById, findUserById, updateUserById } from "../repository/profileRepository.js";
 
 export async function getProfileService(userId: number) {
 	return await findUserById(userId);

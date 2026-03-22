@@ -16,6 +16,7 @@ export const getAllAchivementsService = async () => {
 export const createAchievementService = async (payload: CreateAchievementPayload) => {
 	return await createAchievementQuery(payload);
 };
+
 export const updateAchievementService = async (id: number, payload: UpdateAchievementPayload) => {
 	const achievement = await updateAchievementByIdQuery(id, payload);
 

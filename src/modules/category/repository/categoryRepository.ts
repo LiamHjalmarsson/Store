@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { Category, CreateCategoryPayload, UpdateCategoryPayload } from "../types/categoryTypes.js";
 
-export const findAllCategories = async () => {
+export const findCategoriesQuery = async () => {
 	const result = await query<Category>(`
 		SELECT 
 			id,
@@ -15,7 +15,7 @@ export const findAllCategories = async () => {
 	return result.rows;
 };
 
-export const createNewCategory = async (payload: CreateCategoryPayload) => {
+export const createCategoryQuery = async (payload: CreateCategoryPayload) => {
 	const { title, description, image, is_featured } = payload;
 
 	const result = await query<Category>(
@@ -30,7 +30,7 @@ export const createNewCategory = async (payload: CreateCategoryPayload) => {
 	return result.rows[0];
 };
 
-export const findCategoryById = async (id: number) => {
+export const findCategoryByIdQuery = async (id: number) => {
 	const result = await query<Category>(
 		`SELECT 		
 			id,
@@ -46,7 +46,7 @@ export const findCategoryById = async (id: number) => {
 	return result.rows[0];
 };
 
-export const updateCategoryById = async (id: number, payload: UpdateCategoryPayload) => {
+export const updateCategoryByIdQuery = async (id: number, payload: UpdateCategoryPayload) => {
 	const allowedFields = ["title", "description", "image", "is_featured"] as const;
 
 	const fields = allowedFields.filter((key) => payload[key] !== undefined);
@@ -70,7 +70,7 @@ export const updateCategoryById = async (id: number, payload: UpdateCategoryPayl
 	return result.rows[0] ?? null;
 };
 
-export const deleteCategoryById = async (id: number) => {
+export const deleteCategoryByIdQuery = async (id: number) => {
 	const result = await query(
 		`
 		DELETE FROM categories 

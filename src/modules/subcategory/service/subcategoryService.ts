@@ -4,7 +4,7 @@ import {
 	findAllSubcategories,
 	findSubcategoryById,
 	updateSubcategoryById,
-} from "../model/subcategoryModel.js";
+} from "../repository/subcategoryRepository.js";
 import { CreateSubcategoryPayload, UpdateSubcategoryPayload } from "../types/subcategory.js";
 
 export async function getAllSubcategoriesService(id?: number) {

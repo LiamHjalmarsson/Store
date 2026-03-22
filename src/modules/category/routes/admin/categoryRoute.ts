@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-	createCategory,
-	deleteCategory,
-	getAllCategories,
-	getCategory,
-	updateCategory,
+	createCategoryController,
+	deleteCategoryController,
+	getAllCategoriesController,
+	getCategoryController,
+	updateCategoryController,
 } from "../../controller/categoryController.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
@@ -15,14 +15,14 @@ const router = Router();
 
 router.use(authenticated, isAdmin);
 
-router.get("/", getAllCategories);
+router.get("/", getAllCategoriesController);
 
-router.post("/", createValidation, createCategory);
+router.post("/", createValidation, createCategoryController);
 
-router.get("/:id", getCategory);
+router.get("/:id", getCategoryController);
 
-router.put("/:id", updateValidation, updateCategory);
+router.put("/:id", updateValidation, updateCategoryController);
 
-router.delete("/:id", deleteCategory);
+router.delete("/:id", deleteCategoryController);
 
 export default router;
