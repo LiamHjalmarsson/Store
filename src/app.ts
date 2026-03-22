@@ -8,7 +8,12 @@ import categoryRoute from "./modules/category/routes/categoryRoute.js";
 import subcategoryRoute from "./modules/subcategory/routes/subcategoryRoute.js";
 import productRoute from "./modules/product/routes/productRoutes.js";
 import rankRoute from "./modules/ranks/routes/rankRoute.js";
-import admin from "./routes/admin.js";
+import userRoute from "./modules/user/routes/userRoute.js";
+import categoryAdminRoute from "./modules/category/routes/admin/categoryRoute.js";
+import subcategoryAdminRoute from "./modules/subcategory/routes/admin/subcategoryRoute.js";
+import achievementAdminRoutes from "./modules/achievement/routes/admin/achievementRoutes.js";
+import creatorRouteAdmin from "./modules/creator/routes/admin/creatorRoute.js";
+import rankAdminRoute from "./modules/ranks/routes/admin/rankRoute.js";
 import { UPLOAD_ROOT } from "./config/storage.js";
 
 const app = express();
@@ -35,6 +40,18 @@ app.use("/api/subcategories", subcategoryRoute);
 
 app.use("/api/ranks", rankRoute);
 
-app.use("/api/admin", admin);
+// Admin Routes
+
+app.use("/api/admin/achievements", achievementAdminRoutes);
+
+app.use("/api/admin/categories", categoryAdminRoute);
+
+app.use("/api/admin/creators", creatorRouteAdmin);
+
+app.use("/api/admin/ranks", rankAdminRoute);
+
+app.use("/api/admin/subcategories", subcategoryAdminRoute);
+
+app.use("/api/admin/users", userRoute);
 
 export default app;
