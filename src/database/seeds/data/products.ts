@@ -1,6 +1,6 @@
-import { CreateProductPayload } from "../../../modules/product/types/product.js";
+import { SeedProduct } from "../types/index.js";
 
-export const products: CreateProductPayload[] = [
+export const products: SeedProduct[] = [
 	{
 		title: "Nebula UI Kit Pro",
 		description: "Modern Vue + Tailwind UI components & templates",

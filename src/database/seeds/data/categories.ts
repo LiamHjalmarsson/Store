@@ -1,6 +1,6 @@
-import { CreateCategoryPayload } from "../../../modules/category/types/categoryTypes.js";
+import { SeedCategory } from "../types/index.js";
 
-export const categories: CreateCategoryPayload[] = [
+export const categories: SeedCategory[] = [
 	{
 		title: "Design",
 		description: "UI kits, templates and creative assets",

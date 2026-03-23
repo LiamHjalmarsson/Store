@@ -1,6 +1,6 @@
-import { CreateAchievementPayload } from "../../../modules/achievement/types/achievementTypes.js";
+import { SeedAchievement } from "../types/index.js";
 
-export const achievements: CreateAchievementPayload[] = [
+export const achievements: SeedAchievement[] = [
 	{
 		code: "FIRST_PURCHASE",
 		name: "First Purchase",

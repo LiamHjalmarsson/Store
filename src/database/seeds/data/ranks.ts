@@ -1,6 +1,6 @@
-import { CreateRankPayload } from "../../../modules/ranks/types/rank.js";
+import { SeedRank } from "../types/index.js";
 
-export const ranks: CreateRankPayload[] = [
+export const ranks: SeedRank[] = [
 	{
 		name: "Bronze",
 		min_xp: 0,

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { query } from "../../config/database.js";
-import { CreateProductPayload } from "../../modules/product/types/product.js";
 import { products } from "./data/products.js";
+import { SeedProduct } from "./types/index.js";
 
 export async function seedProducts() {
 	try {
@@ -32,7 +32,7 @@ export async function seedProducts() {
 
 			const subcat = subcats[(insertedCount - 1) % subcats.length];
 
-			const payload: CreateProductPayload = {
+			const payload: SeedProduct = {
 				...product,
 				category_id: subcat.category_id,
 				subcategory_id: subcat.id,
@@ -89,4 +89,3 @@ export async function seedProducts() {
 		process.exit(1);
 	}
 }
-
