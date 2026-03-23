@@ -1,5 +1,5 @@
 import path from "node:path";
-import { ModuleGeneratorConfig } from "../index.js";
+import type { ModuleGeneratorConfig } from "../index.js";
 import { writeFileIfNotExists } from "../utils/file.js";
 import { controllerTemplate } from "../templates/controllerTemplate.js";
 import { serviceTemplate } from "../templates/serviceTemplate.js";
@@ -10,47 +10,53 @@ import { validationCreateTemplate } from "../templates/validationCreateTemplate.
 import { validationUpdateTemplate } from "../templates/validationUpdateTemplate.js";
 
 export function createModuleFiles(config: ModuleGeneratorConfig) {
+	const createdFiles: string[] = [];
+
 	const files = [
 		{
 			folder: "controller",
 			fileName: `${config.moduleNameLower}Controller.ts`,
-			content: controllerTemplate(config.moduleNameLower),
+			content: controllerTemplate(config.moduleNameLower, config.moduleNameCapitalized, config.tableNameCapitalized),
 		},
 		{
 			folder: "service",
 			fileName: `${config.moduleNameLower}Service.ts`,
-			content: serviceTemplate(config.moduleNameLower),
+			content: serviceTemplate(config.moduleNameLower, config.moduleNameCapitalized, config.tableNameCapitalized),
 		},
 		{
 			folder: "repository",
 			fileName: `${config.moduleNameLower}Repository.ts`,
-			content: repositoryTemplate(config.moduleNameLower),
+			content: repositoryTemplate(config.moduleNameLower, config.moduleNameCapitalized, config.tableNameCapitalized),
 		},
 		{
 			folder: "routes",
-			fileName: `${config.moduleNameLower}Routes.ts`,
-			content: routesTemplate(),
+			fileName: `${config.moduleNameLower}Route.ts`,
+			content: routesTemplate(config.moduleNameLower, config.moduleNameCapitalized, config.tableNameCapitalized),
 		},
 		{
 			folder: "types",
-			fileName: `${config.moduleNameLower}.types.ts`,
-			content: typesTemplate(config.moduleNameLower),
+			fileName: `${config.moduleNameLower}.ts`,
+			content: typesTemplate(config.moduleNameCapitalized),
 		},
 		{
 			folder: "validation",
-			fileName: `create${config.moduleNameCapitalized}Validation.ts`,
-			content: validationCreateTemplate(config.moduleNameLower),
+			fileName: "createValidation.ts",
+			content: validationCreateTemplate(config.moduleNameCapitalized),
 		},
 		{
 			folder: "validation",
-			fileName: `update${config.moduleNameCapitalized}Validation.ts`,
-			content: validationUpdateTemplate(config.moduleNameLower),
+			fileName: "updateValidation.ts",
+			content: validationUpdateTemplate(config.moduleNameCapitalized),
 		},
 	];
 
 	for (const file of files) {
 		const fullPath = path.join(config.moduleBasePath, file.folder, file.fileName);
 
-		writeFileIfNotExists(fullPath, file.content);
+		if (writeFileIfNotExists(fullPath, file.content)) {
+			createdFiles.push(fullPath);
+		}
 	}
+
+	return createdFiles;
 }

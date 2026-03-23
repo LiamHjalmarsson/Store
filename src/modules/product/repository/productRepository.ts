@@ -1,6 +1,6 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
-import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.types.js";
+import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
 
 export const findProductsQuery = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: string }>(`

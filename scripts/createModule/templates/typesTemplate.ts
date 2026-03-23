@@ -1,10 +1,13 @@
-import { capitalize } from "../utils/capitalize";
-
-export function typesTemplate(name: string) {
-	const cap = capitalize(name);
-
-	return `export interface ${cap} {
+export function typesTemplate(capitalizedName: string) {
+	return `export interface ${capitalizedName} {
 	id: number;
+	created_at: string;
+	updated_at: string;
 }
+
+export interface Create${capitalizedName}Payload {}
+
+export interface Update${capitalizedName}Payload extends Partial<Create${capitalizedName}Payload> {}
 `;
 }
+

@@ -1,5 +1,5 @@
 import { query } from "../../config/database.js";
-import { CreateProductPayload } from "../../modules/product/types/product.types.js";
+import { CreateProductPayload } from "../../modules/product/types/product.js";
 import { products } from "./data/products.js";
 
 export async function seedProducts() {

@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 import path from "node:path";
-import { capitalize } from "./utils/capitalize";
-import { pluralize } from "./utils/pluralize";
-import { createFolders } from "./generators/createFolders";
-import { createModuleFiles } from "./generators/createFiles";
-import { createMigrationFile } from "./generators/createMigrations";
+import { capitalize } from "./utils/capitalize.js";
+import { pluralize } from "./utils/pluralize.js";
+import { createFolders } from "./generators/createFolders.js";
+import { createModuleFiles } from "./generators/createFiles.js";
+import { createMigrationFile } from "./generators/createMigrations.js";
 
 export interface ModuleGeneratorConfig {
 	moduleNameLower: string;
@@ -17,15 +17,41 @@ export interface ModuleGeneratorConfig {
 	folders: string[];
 }
 
-const config = getModuleConfig(process.argv[2]);
+function run() {
+	const config = getModuleConfig(process.argv[2]);
 
-createFolders(config);
+	const createdFolders = createFolders(config);
+	const createdFiles = createModuleFiles(config);
+	const createdMigration = createMigrationFile(config);
 
-createModuleFiles(config);
+	console.log(`Module "${config.moduleNameLower}" processed.`);
 
-createMigrationFile(config);
+	if (createdFolders.length > 0) {
+		console.log("Created folders:");
 
-function getModuleConfig(moduleName?: string): ModuleGeneratorConfig {
+		for (const folder of createdFolders) {
+			console.log(`  - ${folder}`);
+		}
+	}
+
+	if (createdFiles.length > 0) {
+		console.log("Created files:");
+
+		for (const file of createdFiles) {
+			console.log(`  - ${file}`);
+		}
+	}
+
+	if (createdMigration) {
+		console.log(`Created migration: ${createdMigration}`);
+	}
+
+	if (createdFolders.length === 0 && createdFiles.length === 0 && !createdMigration) {
+		console.log("No files were created because the scaffold already exists.");
+	}
+}
+
+function getModuleConfig(moduleName?: string) {
 	if (!moduleName) {
 		console.error("Please provide a module name.");
 
@@ -66,4 +92,5 @@ function getModuleConfig(moduleName?: string): ModuleGeneratorConfig {
 	};
 }
 
-console.log(`Module "${config.moduleNameLower}" generated successfully.`);
+run();
+

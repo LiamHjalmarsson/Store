@@ -1,5 +1,5 @@
-import { capitalize } from "../utils/capitalize";
-import { pluralize } from "../utils/pluralize";
+import { capitalize } from "../utils/capitalize.js";
+import { pluralize } from "../utils/pluralize.js";
 
 export function migrationTemplate(name: string) {
 	const cap = capitalize(name);
@@ -11,10 +11,11 @@ export async function create${cap}Table() {
 	await query(\`
 		CREATE TABLE IF NOT EXISTS ${table} (
 			id SERIAL PRIMARY KEY,
-			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+			created_at TIMESTAMP DEFAULT NOW(),
+			updated_at TIMESTAMP DEFAULT NOW()
 		)
 	\`);
 }
 `;
 }
+

@@ -1,17 +1,48 @@
-import { capitalize } from "../utils/capitalize";
-import { pluralize } from "../utils/pluralize";
+import { capitalize } from "../utils/capitalize.js";
+import { pluralize } from "../utils/pluralize.js";
 
-export function repositoryTemplate(name: string) {
-	const cap = capitalize(name);
+export function repositoryTemplate(
+	name: string,
+	capitalizedName = capitalize(name),
+	pluralizedCapitalizedName = capitalize(pluralize(name)),
+) {
+	const cap = capitalizedName;
 
-	return `export const find${pluralize(cap)}Query = async () => {};
+	const pluralCap = pluralizedCapitalizedName;
 
-export const create${cap}Query = async () => {};
+	return `import { query } from "../../../config/database.js";
+import { Create${cap}Payload, Update${cap}Payload } from "../types/${name}.js";
 
-export const find${cap}ByIdQuery = async () => {};
+export const find${pluralCap}Query = async () => {
+	void query;
 
-export const update${cap}ByIdQuery = async () => {};
+	return [];
+};
 
-export const delete${cap}ByIdQuery = async () => {};
+export const create${cap}Query = async (payload: Create${cap}Payload) => {
+	void payload;
+
+	return null;
+};
+
+export const find${cap}ByIdQuery = async (${name}Id: number) => {
+	void ${name}Id;
+
+	return null;
+};
+
+export const update${cap}ByIdQuery = async (${name}Id: number, payload: Update${cap}Payload) => {
+	void ${name}Id;
+	void payload;
+
+	return null;
+};
+
+export const delete${cap}ByIdQuery = async (${name}Id: number) => {
+	void ${name}Id;
+
+	return null;
+};
 `;
 }
+

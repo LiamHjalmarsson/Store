@@ -8,7 +8,7 @@ import {
 	findProductsQuery,
 	updateProductByIdQuery,
 } from "../repository/productRepository.js";
-import { CreateProductPayload, UpdateProductPayload } from "../types/product.types.js";
+import { CreateProductPayload, UpdateProductPayload } from "../types/product.js";
 import { deleteStoredFileByPublicPath, uploadProductAssets } from "./helpers/productStorage.js";
 
 export async function getCreatorProduct(productId: number, creatorId: number) {
