@@ -1,8 +1,5 @@
-import { deleteFile } from "../../../services/storage/storageService.js";
-import { uploadSingleFile } from "../../../services/upload/uploadService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
-import { getStorageLocationFromPublicPath } from "../../../shared/utils/file/getStorageLocationFromPublicPath.js";
 import {
 	createProductQuery,
 	deleteProductByIdQuery,
@@ -12,6 +9,17 @@ import {
 	updateProductByIdQuery,
 } from "../repository/productRepository.js";
 import { CreateProductPayload, UpdateProductPayload } from "../types/product.types.js";
+import { deleteStoredFileByPublicPath, uploadProductAssets } from "./helpers/productStorage.js";
+
+export async function getCreatorProduct(productId: number, creatorId: number) {
+	const product = await findProductByIdForCreatorQuery(productId, creatorId);
+
+	if (!product) {
+		throw new NotFoundError("Product not found");
+	}
+
+	return product;
+}
 
 export const getAllProductsService = async (pagination: PaginationQuery) => {
 	return await findProductsQuery(pagination);
@@ -20,31 +28,36 @@ export const getAllProductsService = async (pagination: PaginationQuery) => {
 export const createProductService = async (
 	creatorId: number,
 	payload: CreateProductPayload,
-	file?: Express.Multer.File,
+	imageFile?: Express.Multer.File,
+	productFile?: Express.Multer.File,
 ) => {
 	const createdProduct = await createProductQuery(creatorId, {
 		...payload,
 		image_url: null,
+		file_url: null,
+		file_size: null,
 	});
 
 	if (!createdProduct) {
 		throw new NotFoundError("Could not create product");
 	}
 
-	if (!file) {
+	const hasNoFiles = !imageFile && !productFile;
+
+	if (hasNoFiles) {
 		return createdProduct;
 	}
 
-	const subdirectory = `creator-${creatorId}/products/product-${createdProduct.id}/images`;
-
-	const upload = await uploadSingleFile(file, "creators", subdirectory);
+	const uploadedAssets = await uploadProductAssets(creatorId, createdProduct.id, imageFile, productFile);
 
 	const updatedProduct = await updateProductByIdQuery(createdProduct.id, creatorId, {
-		image_url: upload.publicPath,
+		image_url: uploadedAssets.imageUrl,
+		file_url: uploadedAssets.fileUrl,
+		file_size: uploadedAssets.fileSize,
 	});
 
 	if (!updatedProduct) {
-		throw new NotFoundError("Could not update product image");
+		throw new NotFoundError("Could not update product assets");
 	}
 
 	return updatedProduct;
@@ -71,58 +84,17 @@ export const updateProductService = async (id: number, creatorId: number, payloa
 };
 
 export const deleteProductService = async (id: number, creatorId: number) => {
-	const existingProduct = await findProductByIdForCreatorQuery(id, creatorId);
+	const existingProduct = await getCreatorProduct(id, creatorId);
 
-	if (!existingProduct) {
-		throw new NotFoundError("Product not found");
-	}
+	await deleteStoredFileByPublicPath(existingProduct.image_url);
 
-	if (existingProduct.image_url) {
-		const oldLocation = getStorageLocationFromPublicPath(existingProduct.image_url);
+	await deleteStoredFileByPublicPath(existingProduct.file_url);
 
-		if (oldLocation.filename) {
-			await deleteFile("creators", oldLocation.filename, oldLocation.subdirectory ?? undefined);
-		}
-	}
+	const wasDeleted = await deleteProductByIdQuery(id, creatorId);
 
-	const deleted = await deleteProductByIdQuery(id, creatorId);
-
-	if (!deleted) {
+	if (!wasDeleted) {
 		throw new NotFoundError("Product not found");
 	}
 
 	return true;
-};
-
-export const updateProductImageService = async (id: number, creatorId: number, file: Express.Multer.File) => {
-	const existingProduct = await findProductByIdForCreatorQuery(id, creatorId);
-
-	if (!existingProduct) {
-		throw new NotFoundError("Product not found");
-	}
-
-	const subdirectory = `creator-${creatorId}/products/product-${id}/images`;
-
-	const upload = await uploadSingleFile(file, "creators", subdirectory);
-
-	const updatedProduct = await updateProductByIdQuery(id, creatorId, {
-		image_url: upload.publicPath,
-	});
-
-	if (!updatedProduct) {
-		throw new NotFoundError("Product not found");
-	}
-
-	if (existingProduct.image_url) {
-		const oldLocation = getStorageLocationFromPublicPath(existingProduct.image_url);
-
-		if (oldLocation.filename && oldLocation.filename !== upload.filename) {
-			await deleteFile("creators", oldLocation.filename, oldLocation.subdirectory ?? undefined);
-		}
-	}
-
-	return {
-		product: updatedProduct,
-		file: upload,
-	};
 };

@@ -1,11 +1,10 @@
+/* eslint-disable no-console */
 import path from "node:path";
 import { capitalize } from "./utils/capitalize";
 import { pluralize } from "./utils/pluralize";
 import { createFolders } from "./generators/createFolders";
 import { createModuleFiles } from "./generators/createFiles";
 import { createMigrationFile } from "./generators/createMigrations";
-
-/* eslint-disable no-console */
 
 export interface ModuleGeneratorConfig {
 	moduleNameLower: string;
@@ -30,7 +29,7 @@ function getModuleConfig(moduleName?: string): ModuleGeneratorConfig {
 	if (!moduleName) {
 		console.error("Please provide a module name.");
 
-		console.log("Example: npm run create -- product");
+		console.log("Example: npm run module -- product");
 
 		process.exit(1);
 	}

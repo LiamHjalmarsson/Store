@@ -35,14 +35,25 @@ export const findProductsQuery = async (pagination: PaginationQuery) => {
 export const createProductQuery = async (creatorId: number, payload: CreateProductPayload) => {
 	const result = await query<Product>(
 		`
-			INSERT INTO products
-			(
-				title, description, price, category_id, subcategory_id, creator_id, image_url, file_url, file_size, is_featured, is_discounted, discounted, status
+			INSERT INTO products (
+				title, 
+				description, 
+				price, 
+				category_id, 
+				subcategory_id, 
+				creator_id, 
+				image_url, 
+				file_url, 
+				file_size, 
+				is_featured, 
+				is_discounted, 
+				discounted, 
+				status
 			)
-			VALUES 
-				($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-			RETURNING
-				*
+			VALUES (
+				$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13
+			)
+			RETURNING *
         `,
 		[
 			payload.title,
@@ -93,35 +104,35 @@ export const updateProductByIdQuery = async (id: number, creatorId: number, payl
 		"status",
 	] as const;
 
-	const fields = allowedFields.filter((key) => payload[key] !== undefined);
+	const fieldsToUpdate = allowedFields.filter((fieldName) => payload[fieldName] !== undefined);
 
-	if (fields.length === 0) {
+	if (fieldsToUpdate.length === 0) {
 		return null;
 	}
 
-	const setSql = fields.map((key, i) => `${key} = $${i + 3}`).join(", ");
+	const setSql = fieldsToUpdate.map((fieldName, i) => `${fieldName} = $${i + 3}`).join(", ");
 
-	const values = [id, creatorId, ...fields.map((key) => payload[key] ?? null)];
+	const values = [id, creatorId, ...fieldsToUpdate.map((fieldName) => payload[fieldName] ?? null)];
 
-	const result = await query<Product>(
+	const updatedProduct = await query<Product>(
 		`
-      UPDATE products
-      SET ${setSql}, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $1 AND creator_id = $2
-      RETURNING *
-    `,
+			UPDATE products
+			SET ${setSql}, updated_at = CURRENT_TIMESTAMP
+			WHERE id = $1 AND creator_id = $2
+			RETURNING *
+		`,
 		values,
 	);
 
-	return result.rows[0] ?? null;
+	return updatedProduct.rows[0] ?? null;
 };
 
 export const deleteProductByIdQuery = async (id: number, creatorId: number) => {
 	const result = await query(
 		`
-		DELETE FROM products
-		WHERE id = $1 AND creator_id = $2
-		RETURNING id
+			DELETE FROM products
+			WHERE id = $1 AND creator_id = $2
+			RETURNING id
 		`,
 		[id, creatorId],
 	);
@@ -132,13 +143,31 @@ export const deleteProductByIdQuery = async (id: number, creatorId: number) => {
 export const findProductByIdForCreatorQuery = async (id: number, creatorId: number) => {
 	const result = await query(
 		`
-		SELECT *
-		FROM products
-		WHERE id = $1 AND creator_id = $2
-		LIMIT 1
+			SELECT *
+			FROM products
+			WHERE id = $1 AND creator_id = $2
+			LIMIT 1
 		`,
 		[id, creatorId],
 	);
 
 	return result.rows[0] ?? null;
 };
+
+export async function userOwnsProductQuery(userId: number, productId: number) {
+	const result = await query(
+		`
+			SELECT 1
+			FROM order_items order_item
+			INNER JOIN orders customer_order
+				ON customer_order.id = order_item.order_id
+			WHERE customer_order.user_id = $1
+			AND order_item.product_id = $2
+			AND customer_order.status = 'paid'
+			LIMIT 1
+		`,
+		[userId, productId],
+	);
+
+	return (result.rowCount ?? 0) > 0;
+}

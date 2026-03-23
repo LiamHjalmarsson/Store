@@ -28,6 +28,5 @@ export const createProductValidation = validateRequest([
 	productFeaturedField(),
 	productDiscountedField(),
 	productDiscountValueField(),
-	productDiscountValueField(),
 	body().custom(discountConsistencyRule),
 ]);

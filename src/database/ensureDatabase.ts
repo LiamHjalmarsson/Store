@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Client } from "pg";
 import config from "../config/config.js";
 

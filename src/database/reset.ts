@@ -1,11 +1,11 @@
+/* eslint-disable no-console */
 import { query } from "../config/database.js";
-import { setupDatabase } from "./setup.js";
+import { setupDatabase } from "./setupDatabase.js";
 
 export async function resetDatabase() {
-	try {
-		console.log("Resetting database...");
+	console.log("Resetting database...");
 
-		await query(`
+	await query(`
 			DO $$ DECLARE
 				r RECORD;
 			BEGIN
@@ -19,11 +19,16 @@ export async function resetDatabase() {
 			END $$;
 		`);
 
-		console.log("All tables dropped");
+	console.log("All tables dropped");
 
-		await setupDatabase();
+	await setupDatabase();
 
-		console.log("Database reset complete");
+	console.log("Database reset complete");
+}
+
+async function run() {
+	try {
+		await resetDatabase();
 
 		process.exit(0);
 	} catch (error) {
@@ -33,4 +38,4 @@ export async function resetDatabase() {
 	}
 }
 
-resetDatabase();
+run();

@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
 	createProductController,
 	deleteProductController,
+	downloadProductController,
 	getAllProductsController,
 	getProductController,
 	updateProductController,
@@ -11,6 +12,7 @@ import authenticated from "../../../shared/middlewares/authenticated.js";
 import { createProductValidation } from "../validation/createProductValidation.js";
 import { isCreatorOrAdmin } from "../../../shared/middlewares/isCreatorOrAdmin.js";
 import { updateProductValidation } from "../validation/updateProductValidation.js";
+import { uploadProductAssetsMiddleware } from "../middleware/uploadProductAssetsMiddleware.js";
 import { uploadProductImageMiddleware } from "../middleware/uploadProductImageMiddleware.js";
 
 const router = Router();
@@ -21,14 +23,16 @@ router.post(
 	"/",
 	authenticated,
 	isCreatorOrAdmin,
-	uploadProductImageMiddleware,
+	uploadProductAssetsMiddleware,
 	createProductValidation,
 	createProductController,
 );
 
-router.get("/:id", getProductController);
+router.get("/:id/download", authenticated, downloadProductController);
 
 router.patch("/:id/image", authenticated, isCreatorOrAdmin, uploadProductImageMiddleware, updateProductImageController);
+
+router.get("/:id", getProductController);
 
 router.patch("/:id", authenticated, isCreatorOrAdmin, updateProductValidation, updateProductController);
 

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
 	createProductService,
 	deleteProductService,
+	downloadProductService,
 	getAllProductsService,
 	getProductService,
 	updateProductImageService,
@@ -30,7 +31,18 @@ export const getAllProductsController = async (req: Request, res: Response) => {
 export const createProductController = async (req: AuthenticatedRequest, res: Response) => {
 	const creatorId = req.user!.id;
 
-	const product = await createProductService(creatorId, req.body, req.file);
+	const files = req.files as
+		| {
+				image?: Express.Multer.File[];
+				file?: Express.Multer.File[];
+		  }
+		| undefined;
+
+	const imageFile = files?.image?.[0];
+
+	const productFile = files?.file?.[0];
+
+	const product = await createProductService(creatorId, req.body, imageFile, productFile);
 
 	return sendSuccess(res, "Product created successfully", { product }, 201);
 };
@@ -75,4 +87,18 @@ export const updateProductImageController = async (req: AuthenticatedRequest, re
 	const result = await updateProductImageService(id, creatorId, req.file);
 
 	return sendSuccess(res, "Product image updated successfully", result);
+};
+
+export const downloadProductController = async (req: AuthenticatedRequest, res: Response) => {
+	const productId = Number(req.params.id);
+
+	const userId = Number(req.user?.id);
+
+	if (!productId) {
+		return sendError(res, "Invalid Id");
+	}
+
+	const result = await downloadProductService(productId, userId);
+
+	return res.download(result.filePath, result.filename);
 };
