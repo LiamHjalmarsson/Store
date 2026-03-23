@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { query } from "../../config/database.js";
 
 export async function seedUserAchievements() {
@@ -8,10 +9,13 @@ export async function seedUserAchievements() {
 
 		for (const user of users.rows) {
 			for (const achievement of achievements.rows) {
-				if (Math.random() > 0.5) {
+				if ((user.id + achievement.id) % 2 === 0) {
 					await query(
 						`INSERT INTO user_achievements 
-							(user_id, achievement_id)
+							(
+								user_id, 
+								achievement_id
+							)
 						 VALUES 
 						 	($1, $2)
 						 ON CONFLICT DO NOTHING`,

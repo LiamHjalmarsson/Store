@@ -1,6 +1,6 @@
 # Scripts
 
-This folder contains project maintenance and scaffolding utilities.
+This folder contains project maintenance and utilities.
 
 ## Commands
 

@@ -6,18 +6,25 @@ export async function seedAchievements() {
 		for (const achievement of achievements) {
 			await query(
 				`INSERT INTO achievements
-					(code, name, description, xp_reward)
+				(
+					code,
+					name,
+					description,
+					icon,
+					xp_reward
+				)
 				VALUES 
-					($1, $2, $3, $4)
+					($1, $2, $3, $4, $5)
 				ON CONFLICT (code) DO NOTHING`,
-				[achievement.code, achievement.name, achievement.description, achievement.xp_reward],
+				[achievement.code, achievement.name, achievement.description, achievement.icon, achievement.xp_reward],
 			);
 		}
 
-		console.log("Seeded Achievments items");
+		console.log("Seeded achievements");
 	} catch (err) {
-		console.error("Error seeding Achievments items:", err);
+		console.error("Error seeding achievements:", err);
 
 		process.exit(1);
 	}
 }
+

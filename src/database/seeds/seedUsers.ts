@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { query } from "../../config/database.js";
 import { hashPassword } from "../../shared/utils/auth/password.js";
 import { users } from "./data/users.js";
@@ -7,11 +8,22 @@ export async function seedUsers() {
 		for (const user of users) {
 			const hashed = await hashPassword(user.password);
 
-			await query(
+			const result = await query(
 				`INSERT INTO users 
-                	(email, password, firstname, lastname, avatar, username, role, account_status, signed_to_newsletter)
+                	(
+						email,
+						password,
+						firstname,
+						lastname,
+						avatar,
+						bio,
+						username,
+						role,
+						account_status,
+						signed_to_newsletter
+					)
                 VALUES 
-					($1, $2, $3, $4, $5, $6, $7, $8, $9)
+					($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
                 ON CONFLICT (email) DO NOTHING`,
 				[
 					user.email,
@@ -19,6 +31,7 @@ export async function seedUsers() {
 					user.firstname,
 					user.lastname,
 					user.avatar,
+					user.bio,
 					user.username,
 					user.role,
 					user.account_status,
@@ -26,7 +39,9 @@ export async function seedUsers() {
 				],
 			);
 
-			console.log(`Seeded user: ${user.email}`);
+			if ((result.rowCount ?? 0) > 0) {
+				console.log(`Seeded user: ${user.email}`);
+			}
 		}
 	} catch (err) {
 		console.error("Error seeding users:", err);
@@ -34,3 +49,4 @@ export async function seedUsers() {
 		process.exit(1);
 	}
 }
+

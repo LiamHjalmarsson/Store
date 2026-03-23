@@ -73,18 +73,6 @@ export const users: User[] = [
 		bio: "Digital marketer and content strategist.",
 	},
 	{
-		email: "sofia@example.com",
-		password: "creative456",
-		firstname: "Sofia",
-		lastname: "Nyström",
-		avatar: "https://i.pravatar.cc/150?img=5",
-		username: "sofian",
-		role: "user",
-		account_status: "active",
-		signed_to_newsletter: true,
-		bio: "Digital marketer and content strategist.",
-	},
-	{
 		email: "jonas@example.com",
 		password: "jonaspass321",
 		firstname: "Jonas",

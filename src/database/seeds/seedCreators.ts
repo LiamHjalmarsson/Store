@@ -2,9 +2,15 @@ import { query } from "../../config/database.js";
 
 export async function seedCreators() {
 	try {
-		const creators = await query(`SELECT id FROM users WHERE role = 'creator'`);
+		const creators = await query(`
+			SELECT id FROM users
+			WHERE role = 'creator'`);
 
 		for (const user of creators.rows) {
+			const totalSales = user.id * 12;
+
+			const totalEarnings = Number((totalSales * 24.5).toFixed(2));
+
 			await query(
 				`
 				INSERT INTO creators (
@@ -36,17 +42,19 @@ export async function seedCreators() {
 					"https://example.com",
 					"Professional marketplace creator",
 					true,
-					false,
-					Math.floor(Math.random() * 200),
-					Math.floor(Math.random() * 10000),
+					user.id % 2 === 1,
+					totalSales,
+					totalEarnings,
 					user.id % 3 === 0 ? `acct_${user.id}_stripe` : null,
 					user.id % 2 === 0 ? "bank" : "stripe",
 				],
 			);
 		}
+
 		console.log("Seeded creators");
 	} catch (err) {
 		console.error("Error seeding creators:", err);
+
 		process.exit(1);
 	}
 }

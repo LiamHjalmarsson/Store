@@ -7,12 +7,16 @@ export async function seedSubcategories() {
 	for (const category of categories.rows) {
 		const match = subcategories.find((c) => c.category === category.title);
 
-		if (!match) return;
+		if (!match) continue;
 
 		for (const sub of match.items) {
 			await query(
 				`INSERT INTO subcategories 
-					(category_id, title, description)
+					(
+						category_id,
+						title,
+						description
+					)
                 VALUES 
 				 	($1, $2, $3)
                 ON CONFLICT 
@@ -21,6 +25,7 @@ export async function seedSubcategories() {
 				[category.id, sub.title, sub.description],
 			);
 
+			// eslint-disable-next-line no-console
 			console.log(`Inserted subcategory: ${sub.title} for ${category.title}`);
 		}
 	}
