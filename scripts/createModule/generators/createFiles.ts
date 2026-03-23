@@ -9,6 +9,9 @@ import { typesTemplate } from "../templates/typesTemplate.js";
 import { validationCreateTemplate } from "../templates/validationCreateTemplate.js";
 import { validationUpdateTemplate } from "../templates/validationUpdateTemplate.js";
 
+/**
+ * Creates files using the naming conventions already used in `src/modules`.
+ */
 export function createModuleFiles(config: ModuleGeneratorConfig) {
 	const createdFiles: string[] = [];
 
@@ -16,7 +19,11 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 		{
 			folder: "controller",
 			fileName: `${config.moduleNameLower}Controller.ts`,
-			content: controllerTemplate(config.moduleNameLower, config.moduleNameCapitalized, config.tableNameCapitalized),
+			content: controllerTemplate(
+				config.moduleNameLower,
+				config.moduleNameCapitalized,
+				config.tableNameCapitalized,
+			),
 		},
 		{
 			folder: "service",
@@ -26,7 +33,11 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 		{
 			folder: "repository",
 			fileName: `${config.moduleNameLower}Repository.ts`,
-			content: repositoryTemplate(config.moduleNameLower, config.moduleNameCapitalized, config.tableNameCapitalized),
+			content: repositoryTemplate(
+				config.moduleNameLower,
+				config.moduleNameCapitalized,
+				config.tableNameCapitalized,
+			),
 		},
 		{
 			folder: "routes",
@@ -60,3 +71,4 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 
 	return createdFiles;
 }
+

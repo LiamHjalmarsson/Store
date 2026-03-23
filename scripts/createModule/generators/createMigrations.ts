@@ -3,6 +3,9 @@ import fs from "node:fs";
 import type { ModuleGeneratorConfig } from "../index.js";
 import { migrationTemplate } from "../templates/migrationTemplate.js";
 
+/**
+ * Writes a migration for the module unless one already exists.
+ */
 export function createMigrationFile(config: ModuleGeneratorConfig) {
 	fs.mkdirSync(config.migrationsPath, { recursive: true });
 
@@ -16,3 +19,4 @@ export function createMigrationFile(config: ModuleGeneratorConfig) {
 
 	return filePath;
 }
+

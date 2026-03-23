@@ -1,6 +1,9 @@
 import { capitalize } from "../utils/capitalize.js";
 import { pluralize } from "../utils/pluralize.js";
 
+/**
+ * Generates a controller wired to the module service layer.
+ */
 export function controllerTemplate(
 	name: string,
 	capitalizedName = capitalize(name),
@@ -56,3 +59,4 @@ export const delete${cap}Controller = async (req: Request, res: Response) => {
 };
 `;
 }
+

@@ -1,3 +1,6 @@
+/**
+ * Generates the default CRUD route for a module.
+ */
 export function routesTemplate(name: string, capitalizedName: string, pluralizedCapitalizedName: string) {
 	return `import { Router } from "express";
 import {

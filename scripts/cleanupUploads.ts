@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { UPLOAD_ROOT } from "../src/config/storage.js";
@@ -7,6 +8,9 @@ interface CleanupSummary {
 	removedDirectories: number;
 }
 
+/**
+ * Removes zero-byte files and removes directories that become empty.
+ */
 async function cleanupFolder(folderPath: string) {
 	const summary: CleanupSummary = {
 		removedFiles: 0,
@@ -32,7 +36,6 @@ async function cleanupFolder(folderPath: string) {
 
 				summary.removedDirectories += 1;
 
-				// eslint-disable-next-line no-console
 				console.log(`Removed empty directory: ${fullPath}`);
 			}
 
@@ -46,7 +49,6 @@ async function cleanupFolder(folderPath: string) {
 
 			summary.removedFiles += 1;
 
-			// eslint-disable-next-line no-console
 			console.log(`Removed empty file: ${fullPath}`);
 		}
 	}
@@ -54,11 +56,13 @@ async function cleanupFolder(folderPath: string) {
 	return summary;
 }
 
+/**
+ * Runs cleanup against the configured upload root.
+ */
 async function run() {
 	try {
 		await fs.access(UPLOAD_ROOT);
 	} catch {
-		// eslint-disable-next-line no-console
 		console.log("Upload root does not exist, nothing to clean.");
 
 		return;
@@ -66,14 +70,12 @@ async function run() {
 
 	const summary = await cleanupFolder(UPLOAD_ROOT);
 
-	// eslint-disable-next-line no-console
 	console.log(
 		`Cleanup finished. Removed ${summary.removedFiles} empty files and ${summary.removedDirectories} empty directories.`,
 	);
 }
 
 run().catch((error) => {
-	// eslint-disable-next-line no-console
 	console.error("Cleanup failed:", error);
 
 	process.exit(1);

@@ -17,11 +17,16 @@ export interface ModuleGeneratorConfig {
 	folders: string[];
 }
 
+/**
+ * Builds config and runs the full module flow.
+ */
 function run() {
 	const config = getModuleConfig(process.argv[2]);
 
 	const createdFolders = createFolders(config);
+
 	const createdFiles = createModuleFiles(config);
+
 	const createdMigration = createMigrationFile(config);
 
 	console.log(`Module "${config.moduleNameLower}" processed.`);
@@ -51,6 +56,9 @@ function run() {
 	}
 }
 
+/**
+ * Derives naming variants and paths shared by all module generators.
+ */
 function getModuleConfig(moduleName?: string) {
 	if (!moduleName) {
 		console.error("Please provide a module name.");

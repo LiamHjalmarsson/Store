@@ -1,6 +1,9 @@
 import { capitalize } from "../utils/capitalize.js";
 import { pluralize } from "../utils/pluralize.js";
 
+/**
+ * Generates a basic migration for the module's table.
+ */
 export function migrationTemplate(name: string) {
 	const cap = capitalize(name);
 	const table = pluralize(name);

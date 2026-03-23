@@ -1,6 +1,9 @@
 import { capitalize } from "../utils/capitalize.js";
 import { pluralize } from "../utils/pluralize.js";
 
+/**
+ * Generates a service with basic not-found handling around repository calls.
+ */
 export function serviceTemplate(
 	name: string,
 	capitalizedName = capitalize(name),

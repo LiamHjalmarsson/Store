@@ -2,6 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import type { ModuleGeneratorConfig } from "../index.js";
 
+/**
+ * Creates the standard module directory and returns only newly created folders.
+ */
 export function createFolders(config: ModuleGeneratorConfig) {
 	const createdFolders: string[] = [];
 
@@ -17,3 +20,4 @@ export function createFolders(config: ModuleGeneratorConfig) {
 
 	return createdFolders;
 }
+
