@@ -1,11 +1,22 @@
 import multer from "multer";
 import type { Request } from "express";
+import { BadRequestError } from "../../errors/badRequest.js";
 
 type CreateUploadMiddlewareOptions = {
 	fieldName: string;
 	maxFileSizeInMb?: number;
 	allowedMimeTypes?: string[];
 };
+
+function buildInvalidMimeTypeError(file: Express.Multer.File, expectedFieldName: string, allowedMimeTypes: string[]) {
+	return new BadRequestError([
+		`Invalid file type for upload field "${file.fieldname}"`,
+		`Expected field name: ${expectedFieldName}`,
+		`Received file: ${file.originalname}`,
+		`Received MIME type: ${file.mimetype}`,
+		`Allowed MIME types: ${allowedMimeTypes.join(", ")}`,
+	]);
+}
 
 export function createUploadMiddleware({
 	fieldName,
@@ -14,12 +25,16 @@ export function createUploadMiddleware({
 }: CreateUploadMiddlewareOptions) {
 	const storage = multer.memoryStorage();
 
-	function fileFilter(_: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) {
-		if (!allowedMimeTypes.includes(file.mimetype)) {
-			return cb(new Error(`Invalid file type. Allowed types: ${allowedMimeTypes.join(", ")}`));
+	const normalizedAllowedMimeTypes = allowedMimeTypes.map((mimeType) => mimeType.toLowerCase());
+
+	function fileFilter(_request: Request, file: Express.Multer.File, callback: multer.FileFilterCallback) {
+		const normalizedMimeType = file.mimetype.toLowerCase();
+
+		if (!normalizedAllowedMimeTypes.includes(normalizedMimeType)) {
+			return callback(buildInvalidMimeTypeError(file, fieldName, allowedMimeTypes));
 		}
 
-		cb(null, true);
+		callback(null, true);
 	}
 
 	return multer({
@@ -30,3 +45,4 @@ export function createUploadMiddleware({
 		fileFilter,
 	}).single(fieldName);
 }
+

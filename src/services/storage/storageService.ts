@@ -6,53 +6,81 @@ import { deleteFileIfExists } from "../../shared/utils/file/deleteFileIfExists.j
 
 export type StorageDisk = keyof typeof STORAGE_PATHS;
 
-function sanitizePathSegment(value: string): string {
+function sanitizeRelativePath(value: string) {
 	return value
-		.trim()
-		.toLowerCase()
-		.replace(/[^a-z0-9/_-]+/g, "-")
-		.replace(/\/{2,}/g, "/")
-		.replace(/^\/+|\/+$/g, "");
+		.split(/[\\/]+/)
+		.map((segment) =>
+			segment
+				.trim()
+				.toLowerCase()
+				.replace(/[^a-z0-9_-]+/g, "-")
+				.replace(/^-+|-+$/g, ""),
+		)
+		.filter(Boolean)
+		.join("/");
 }
 
-function buildTargetDirectory(disk: StorageDisk, subdirectory?: string): string {
+function buildSafeAbsolutePath(baseDirectory: string, relativePath: string) {
+	const resolvedBaseDirectory = path.resolve(baseDirectory);
+
+	const resolvedTargetPath = path.resolve(resolvedBaseDirectory, relativePath);
+
+	const relativeToBase = path.relative(resolvedBaseDirectory, resolvedTargetPath);
+
+	if (relativeToBase.startsWith("..") || path.isAbsolute(relativeToBase)) {
+		throw new Error("Invalid storage path");
+	}
+
+	return resolvedTargetPath;
+}
+
+function buildTargetDirectory(disk: StorageDisk, subdirectory?: string) {
 	const baseDirectory = STORAGE_PATHS[disk];
 
 	if (!subdirectory) {
 		return baseDirectory;
 	}
 
-	return path.join(baseDirectory, sanitizePathSegment(subdirectory));
+	const sanitizedSubdirectory = sanitizeRelativePath(subdirectory);
+
+	if (!sanitizedSubdirectory) {
+		return baseDirectory;
+	}
+
+	return buildSafeAbsolutePath(baseDirectory, sanitizedSubdirectory);
 }
 
-export async function saveFile(
-	disk: StorageDisk,
-	filename: string,
-	buffer: Buffer,
-	subdirectory?: string,
-): Promise<string> {
+function sanitizeFilename(filename: string) {
+	return path.basename(filename);
+}
+
+export async function saveFile(disk: StorageDisk, filename: string, buffer: Buffer, subdirectory?: string) {
 	const targetDirectory = buildTargetDirectory(disk, subdirectory);
+
+	const safeFilename = sanitizeFilename(filename);
 
 	await ensureDirExists(targetDirectory);
 
-	const filePath = path.join(targetDirectory, filename);
+	const filePath = buildSafeAbsolutePath(targetDirectory, safeFilename);
 
 	await fs.writeFile(filePath, buffer);
 
 	return filePath;
 }
 
-export async function deleteFile(disk: StorageDisk, filename: string, subdirectory?: string): Promise<void> {
+export async function deleteFile(disk: StorageDisk, filename: string, subdirectory?: string) {
 	const filePath = getFilePath(disk, filename, subdirectory);
 
 	await deleteFileIfExists(filePath);
 }
 
-export function getFilePath(disk: StorageDisk, filename: string, subdirectory?: string): string {
-	return path.join(buildTargetDirectory(disk, subdirectory), filename);
+export function getFilePath(disk: StorageDisk, filename: string, subdirectory?: string) {
+	const targetDirectory = buildTargetDirectory(disk, subdirectory);
+
+	return buildSafeAbsolutePath(targetDirectory, sanitizeFilename(filename));
 }
 
-export async function fileExists(disk: StorageDisk, filename: string, subdirectory?: string): Promise<boolean> {
+export async function fileExists(disk: StorageDisk, filename: string, subdirectory?: string) {
 	const filePath = getFilePath(disk, filename, subdirectory);
 
 	try {
@@ -63,10 +91,19 @@ export async function fileExists(disk: StorageDisk, filename: string, subdirecto
 	}
 }
 
-export function getPublicFilePath(disk: StorageDisk, filename: string, subdirectory?: string): string {
+export function getPublicFilePath(disk: StorageDisk, filename: string, subdirectory?: string) {
+	const safeFilename = sanitizeFilename(filename);
+
 	if (!subdirectory) {
-		return `/uploads/${disk}/${filename}`;
+		return `/uploads/${disk}/${safeFilename}`;
 	}
 
-	return `/uploads/${disk}/${sanitizePathSegment(subdirectory)}/${filename}`;
+	const sanitizedSubdirectory = sanitizeRelativePath(subdirectory);
+
+	if (!sanitizedSubdirectory) {
+		return `/uploads/${disk}/${safeFilename}`;
+	}
+
+	return `/uploads/${disk}/${sanitizedSubdirectory}/${safeFilename}`;
 }
+

@@ -13,11 +13,21 @@ export const updateProductImageService = async (id: number, creatorId: number, i
 
 	const uploadedImage = await uploadSingleFile(imageFile, "creators", imageDirectory);
 
-	const updatedProduct = await updateProductByIdQuery(id, creatorId, {
-		image_url: uploadedImage.publicPath,
-	});
+	let updatedProduct;
+
+	try {
+		updatedProduct = await updateProductByIdQuery(id, creatorId, {
+			image_url: uploadedImage.publicPath,
+		});
+	} catch (error) {
+		await deleteFile("creators", uploadedImage.filename, uploadedImage.subdirectory ?? undefined);
+
+		throw error;
+	}
 
 	if (!updatedProduct) {
+		await deleteFile("creators", uploadedImage.filename, uploadedImage.subdirectory ?? undefined);
+
 		throw new NotFoundError("Product not found");
 	}
 

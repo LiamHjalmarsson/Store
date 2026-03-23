@@ -1,19 +1,20 @@
 import { Response, NextFunction } from "express";
+import { ForbiddenError } from "../errors/forbidden.js";
+import { UnauthorizedError } from "../errors/unauthorized.js";
 import { AuthenticatedRequest } from "./authenticated.js";
 
 /**
  * Middleware: only allow creator users
  */
-export function isCreator(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export function isCreator(req: AuthenticatedRequest, _: Response, next: NextFunction) {
 	if (!req.user) {
-		return res.status(401).json({ message: "Unauthorized" });
+		throw new UnauthorizedError("Unauthorized");
 	}
 
 	if (req.user.role !== "creator") {
-		return res.status(403).json({
-			message: "Access denied — only creators can perform this action",
-		});
+		throw new ForbiddenError("Forbidden: creator access required");
 	}
 
 	next();
 }
+

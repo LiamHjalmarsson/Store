@@ -1,16 +1,18 @@
 import { Response, NextFunction } from "express";
+import { ForbiddenError } from "../errors/forbidden.js";
+import { UnauthorizedError } from "../errors/unauthorized.js";
 import { AuthenticatedRequest } from "./authenticated.js";
 
 /**
- * Middleware: only allow creator users
+ * Middleware: only allow creator or admin users
  */
-export function isCreatorOrAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export function isCreatorOrAdmin(req: AuthenticatedRequest, _: Response, next: NextFunction) {
 	if (!req.user) {
-		return res.status(401).json({ message: "Unauthorized" });
+		throw new UnauthorizedError("Unauthorized");
 	}
 
 	if (req.user.role !== "creator" && req.user.role !== "admin") {
-		return res.status(403).json({ message: "Access denied — creator or admin required" });
+		throw new ForbiddenError("Forbidden: creator or admin access required");
 	}
 
 	next();
