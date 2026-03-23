@@ -2,15 +2,15 @@ import { Request, Response } from "express";
 import {
 	createProductService,
 	deleteProductService,
-	downloadProductService,
 	getAllProductsService,
 	getProductService,
-	updateProductImageService,
 	updateProductService,
 } from "../service/productService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { pagination } from "../../../shared/utils/http/pagination.js";
 import { sendError, sendSuccess } from "../../../shared/utils/http/respond.js";
+import { updateProductImageService } from "../service/updateImageService.js";
+import { downloadProductService } from "../service/downloadService.js";
 
 export const getAllProductsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
