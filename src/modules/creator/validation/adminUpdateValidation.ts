@@ -1,18 +1,32 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 import { requireAtLeastOneField } from "../../../shared/validation/utils/requireAtLeastOneField.js";
 import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFields.js";
+import { creatorExistsById } from "./rules/creatorExistsById.js";
 
-const allowedFields = ["website", "bio", "stripe_account_id", "payout_method"] as const;
+const allowedFields = [
+	"website",
+	"bio",
+	"verified_creator",
+	"featured",
+	"stripe_account_id",
+	"payout_method",
+] as const;
 
-export const updateCreatorValidation = validateRequest([
+export const adminUpdateCreatorValidation = validateRequest([
+	param("id").isInt({ min: 1 }).withMessage("Invalid creator ID").bail().custom(creatorExistsById).bail(),
+
 	body().custom(requireAtLeastOneField).bail(),
 
 	body().custom(onlyAllowedFields(allowedFields)).bail(),
 
-	body("website").optional({ nullable: true }).isURL().withMessage("Website must be valid URL"),
+	body("website").optional({ nullable: true }).isURL().withMessage("Website must be a valid URL"),
 
 	body("bio").optional({ nullable: true }).isLength({ max: 500 }).withMessage("Bio max 500 characters"),
+
+	body("verified_creator").optional().isBoolean().withMessage("verified_creator must be true or false"),
+
+	body("featured").optional().isBoolean().withMessage("featured must be true or false"),
 
 	body("stripe_account_id")
 		.optional({ nullable: true })

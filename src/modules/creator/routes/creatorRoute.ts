@@ -8,7 +8,6 @@ import {
 } from "../controller/creatorController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
 import { becomeCreatorValidation } from "../validation/createValidation.js";
-import { isCreator } from "../../../shared/middlewares/isCreator.js";
 import { updateCreatorValidation } from "../validation/updateValidation.js";
 
 const router = Router();
@@ -19,8 +18,9 @@ router.post("/become-creator", authenticated, becomeCreatorValidation, createCre
 
 router.get("/:id", getCreator);
 
-router.patch("/me", authenticated, isCreator, updateCreatorValidation, updateCreatorProfile);
+router.patch("/me", authenticated, updateCreatorValidation, updateCreatorProfile);
 
-router.delete("/me", authenticated, isCreator, deleteCreatorProfile);
+router.delete("/me", authenticated, deleteCreatorProfile);
 
 export default router;
+
