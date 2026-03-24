@@ -5,9 +5,17 @@ import { SeedProduct } from "./types/index.js";
 
 export async function seedProducts() {
 	try {
-		const subcategories = await query(`SELECT id, title, category_id FROM subcategories LIMIT 20`);
+		const subcategories = await query(`
+			SELECT 
+				id, 
+				title, 
+				category_id 
+			FROM subcategories LIMIT 20`);
 
-		const creators = await query(`SELECT user_id FROM creators ORDER BY user_id ASC`);
+		const creators = await query(`
+			SELECT user_id 
+			FROM creators
+			ORDER BY user_id ASC`);
 
 		const subcats = subcategories.rows;
 
@@ -89,3 +97,4 @@ export async function seedProducts() {
 		process.exit(1);
 	}
 }
+

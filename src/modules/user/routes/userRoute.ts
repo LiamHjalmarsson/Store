@@ -15,7 +15,7 @@ router.post("/", createValidation, createUser);
 
 router.get("/:id", getUser);
 
-router.put("/:id", updateValidation, updateUser);
+router.patch("/:id", updateValidation, updateUser);
 
 router.delete("/:id", deleteUser);
 

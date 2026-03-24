@@ -1,6 +1,6 @@
 import { query } from "../../config/database.js";
 
-export async function ensureRanksTable() {
+export async function ranksTable() {
 	await query(`
         CREATE TABLE IF NOT EXISTS ranks (
             id SERIAL PRIMARY KEY,
@@ -11,3 +11,4 @@ export async function ensureRanksTable() {
         )
     `);
 }
+

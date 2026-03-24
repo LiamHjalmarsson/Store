@@ -1,6 +1,6 @@
 import { query } from "../../config/database.js";
 
-export async function ensureSubcategoryTable() {
+export async function subcategoriesTable() {
 	await query(`
 		CREATE TABLE IF NOT EXISTS subcategories (
 			id SERIAL PRIMARY KEY,

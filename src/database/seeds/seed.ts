@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { seedCategories } from "./seedCategories.js";
 import { seedUsers } from "./seedUsers.js";
 import { seedRanks } from "./seedRanks.js";

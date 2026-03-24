@@ -19,7 +19,7 @@ export type UploadSingleFileResult = {
 	subdirectory: string | null;
 };
 
-function getExtensionFromMimeType(mimetype: string): string {
+function getExtensionFromMimeType(mimetype: string) {
 	switch (mimetype) {
 		case "image/jpeg":
 			return ".jpg";
@@ -37,11 +37,7 @@ function getExtensionFromMimeType(mimetype: string): string {
 	}
 }
 
-export async function uploadSingleFile(
-	file: UploadableFile,
-	disk: StorageDisk,
-	subdirectory?: string,
-): Promise<UploadSingleFileResult> {
+export async function uploadSingleFile(file: UploadableFile, disk: StorageDisk, subdirectory?: string) {
 	let filename = createSafeFilename(file.originalname);
 
 	if (!path.extname(filename)) {

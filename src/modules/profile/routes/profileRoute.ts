@@ -8,7 +8,7 @@ router.use(authenticated);
 
 router.get("/", getProfile);
 
-router.put("/", updateProfile);
+router.patch("/", updateProfile);
 
 router.delete("/", deleteProfile);
 

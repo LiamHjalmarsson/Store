@@ -21,7 +21,7 @@ router.post("/", createValidation, createCategoryController);
 
 router.get("/:id", getCategoryController);
 
-router.put("/:id", updateValidation, updateCategoryController);
+router.patch("/:id", updateValidation, updateCategoryController);
 
 router.delete("/:id", deleteCategoryController);
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { query } from "../../config/database.js";
 import { ranks } from "./data/ranks.js";
 

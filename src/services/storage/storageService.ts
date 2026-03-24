@@ -54,6 +54,12 @@ function sanitizeFilename(filename: string) {
 	return path.basename(filename);
 }
 
+export function getFilePath(disk: StorageDisk, filename: string, subdirectory?: string) {
+	const targetDirectory = buildTargetDirectory(disk, subdirectory);
+
+	return buildSafeAbsolutePath(targetDirectory, sanitizeFilename(filename));
+}
+
 export async function saveFile(disk: StorageDisk, filename: string, buffer: Buffer, subdirectory?: string) {
 	const targetDirectory = buildTargetDirectory(disk, subdirectory);
 
@@ -72,12 +78,6 @@ export async function deleteFile(disk: StorageDisk, filename: string, subdirecto
 	const filePath = getFilePath(disk, filename, subdirectory);
 
 	await deleteFileIfExists(filePath);
-}
-
-export function getFilePath(disk: StorageDisk, filename: string, subdirectory?: string) {
-	const targetDirectory = buildTargetDirectory(disk, subdirectory);
-
-	return buildSafeAbsolutePath(targetDirectory, sanitizeFilename(filename));
 }
 
 export async function fileExists(disk: StorageDisk, filename: string, subdirectory?: string) {

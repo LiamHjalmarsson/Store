@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { query } from "../../config/database.js";
 import { achievements } from "./data/achievements.js";
 
@@ -27,4 +28,3 @@ export async function seedAchievements() {
 		process.exit(1);
 	}
 }
-

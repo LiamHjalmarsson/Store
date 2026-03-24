@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { query } from "../../config/database.js";
 import { categories } from "./data/categories.js";
 
@@ -6,7 +7,12 @@ export async function seedCategories() {
 		for (const category of categories) {
 			await query(
 				`INSERT INTO categories 
-                	(title, description, image, is_featured)
+				(
+					title, 
+					description, 
+					image, 
+					is_featured
+				)
                 VALUES 
 					($1, $2, $3, $4)
 				ON CONFLICT (title) DO NOTHING`,
