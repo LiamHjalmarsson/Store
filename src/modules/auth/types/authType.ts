@@ -16,6 +16,10 @@ export interface AuthUser {
 	signed_to_newsletter: boolean;
 }
 
+export interface AuthUserWithPassword extends AuthUser {
+	password: string;
+}
+
 export interface AuthResponse {
 	token: string;
 	user: AuthUser;

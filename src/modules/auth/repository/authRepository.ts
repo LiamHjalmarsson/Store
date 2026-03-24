@@ -1,6 +1,5 @@
 import { query } from "../../../config/database.js";
-import { User } from "../../../shared/types/user.js";
-import { AuthUser, CreateUserPayload } from "../types/authType.js";
+import { AuthUser, AuthUserWithPassword, CreateUserPayload } from "../types/authType.js";
 
 const authUserSelect = `
 	id,
@@ -15,26 +14,31 @@ const authUserSelect = `
 `;
 
 export const findUserWithPasswordByEmailQuery = async (email: string) => {
-	const result = await query<User>(
+	const result = await query<AuthUserWithPassword>(
 		`
-		SELECT * 
-		FROM users 
-		WHERE email = $1`,
+			SELECT 
+				${authUserSelect},
+				password
+			FROM users 
+			WHERE LOWER(email) = LOWER($1)
+		`,
 		[email],
 	);
 
-	return result.rows[0];
+	return result.rows[0] ?? null;
 };
 
 export const createUserQuery = async (payload: CreateUserPayload) => {
 	const { password, email, username } = payload;
 
 	const result = await query<AuthUser>(
-		`INSERT INTO users 
-			(email, password, username) 
-		VALUES 
-			($1, $2, $3) 
-		RETURNING ${authUserSelect}`,
+		`
+			INSERT INTO users 
+				(email, password, username) 
+			VALUES 
+				($1, $2, $3) 
+			RETURNING ${authUserSelect}
+		`,
 		[email, password, username],
 	);
 
@@ -43,12 +47,26 @@ export const createUserQuery = async (payload: CreateUserPayload) => {
 
 export const findUserByIdQuery = async (id: number) => {
 	const result = await query<AuthUser>(
-		`SELECT 
-			${authUserSelect}
-		FROM users 
-		WHERE id = $1`,
+		`
+			SELECT 
+				${authUserSelect}
+			FROM users 
+			WHERE id = $1
+		`,
 		[id],
 	);
 
 	return result.rows[0];
 };
+
+export const updateUserLastLoginQuery = async (id: number) => {
+	await query(
+		`
+			UPDATE users
+			SET last_login = CURRENT_TIMESTAMP
+			WHERE id = $1
+		`,
+		[id],
+	);
+};
+

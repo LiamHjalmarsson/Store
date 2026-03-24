@@ -25,14 +25,14 @@ export const loginController = async (req: Request, res: Response) => {
 
 	const { token, user } = result;
 
-	return sendSuccess(res, "User loged in successfully", {
+	return sendSuccess(res, "User logged in successfully", {
 		token,
 		user,
 	});
 };
 
 export const logoutController = async (_: Request, res: Response) => {
-	return sendSuccess(res, "Logout was successful", null);
+	return sendSuccess(res, "Logout successful.", null);
 };
 
 export const meController = async (req: AuthenticatedRequest, res: Response) => {
@@ -48,5 +48,5 @@ export const meController = async (req: AuthenticatedRequest, res: Response) => 
 		throw new NotFoundError("User not found");
 	}
 
-	sendSuccess(res, "autenticated user", { user });
+	return sendSuccess(res, "Authenticated user", { user });
 };
