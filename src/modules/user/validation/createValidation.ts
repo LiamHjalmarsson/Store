@@ -1,10 +1,27 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
+import { onlyAllowedFields } from "../../../shared/validation/utils/onlyAllowedFields.js";
 import emailUnique from "../../../shared/validation/rules/emailUnique.js";
 import usernameUnique from "../../../shared/validation/rules/usernameUnique.js";
 
+const allowedFields = [
+	"email",
+	"password",
+	"username",
+	"firstname",
+	"lastname",
+	"avatar",
+	"role",
+	"account_status",
+	"signed_to_newsletter",
+] as const;
+
 export const createValidation = validateRequest([
+	body().custom(onlyAllowedFields(allowedFields)),
+
 	body("email")
+		.trim()
+		.toLowerCase()
 		.notEmpty()
 		.withMessage("email is required")
 		.isEmail()
@@ -18,6 +35,7 @@ export const createValidation = validateRequest([
 		.withMessage("password must be at least 6 characters"),
 
 	body("username")
+		.trim()
 		.notEmpty()
 		.withMessage("username is required")
 		.isLength({ min: 3, max: 30 })

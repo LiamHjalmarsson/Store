@@ -1,7 +1,24 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
-import { PublicUser, User } from "../../../shared/types/user.js";
-import { CreateNewUserPayload } from "../types/userType.js";
+import { PublicUser } from "../../../shared/types/user.js";
+import { CreateNewUserPayload, UpdateUserPayload } from "../types/userType.js";
+
+const publicUserSelect = `
+	id,
+	email,
+	firstname,
+	lastname,
+	avatar,
+	bio,
+	username,
+	xp,
+	role,
+	account_status,
+	signed_to_newsletter,
+	last_login,
+	created_at,
+	updated_at
+`;
 
 export const findAllUsers = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: string }>(`
@@ -14,16 +31,7 @@ export const findAllUsers = async (pagination: PaginationQuery) => {
 	const result = await query<PublicUser>(
 		`
         SELECT
-			id,
-			email,
-			firstname,
-			lastname,
-			avatar,
-			username,
-			role,
-			account_status,
-			signed_to_newsletter,
-			created_at
+			${publicUserSelect}
         FROM users
         ORDER BY created_at DESC
         LIMIT $1
@@ -60,14 +68,19 @@ export const createNewUser = async (payload: CreateNewUserPayload) => {
 
 	const result = await query<PublicUser>(
 		`INSERT INTO users (
-			email, password, username,
-			firstname, lastname, avatar,
-			role, account_status, signed_to_newsletter
-		)
-		VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-		RETURNING
-			id, email, firstname, lastname, avatar, username,
-			role, account_status, signed_to_newsletter, created_at`,
+				email,
+				password,
+				username,
+				firstname,
+				lastname,
+				avatar,
+				role,
+				account_status,
+				signed_to_newsletter
+			)
+			VALUES
+				($1,$2,$3,$4,$5,$6,$7,$8,$9)
+			RETURNING ${publicUserSelect}`,
 		[normalizedEmail, password, username, firstname, lastname, avatar, role, account_status, signed_to_newsletter],
 	);
 
@@ -77,16 +90,7 @@ export const createNewUser = async (payload: CreateNewUserPayload) => {
 export const findUserById = async (id: number) => {
 	const result = await query<PublicUser>(
 		`SELECT 
-			id,
-			email,
-			firstname,
-			lastname,
-			avatar,
-			username,
-			role,
-			account_status,
-			signed_to_newsletter,
-			created_at
+			${publicUserSelect}
         FROM users 
 		WHERE id = $1`,
 		[id],
@@ -95,8 +99,8 @@ export const findUserById = async (id: number) => {
 	return result.rows[0];
 };
 
-export const updateUserById = async (id: number, data: Partial<PublicUser>) => {
-	const allowed: (keyof PublicUser)[] = [
+export const updateUserById = async (id: number, data: UpdateUserPayload) => {
+	const allowed = [
 		"firstname",
 		"lastname",
 		"avatar",
@@ -104,7 +108,7 @@ export const updateUserById = async (id: number, data: Partial<PublicUser>) => {
 		"role",
 		"account_status",
 		"signed_to_newsletter",
-	];
+	] as const;
 
 	const fields = allowed.filter((key) => data[key] !== undefined);
 
@@ -116,17 +120,13 @@ export const updateUserById = async (id: number, data: Partial<PublicUser>) => {
 
 	const values = [id, ...fields.map((key) => data[key] ?? null)];
 
-	const returningFields = `
-        id, email, firstname, lastname, avatar, username,
-        role, account_status, signed_to_newsletter, created_at
-    `;
-
-	const result = await query<User>(
+	const result = await query<PublicUser>(
 		`
-		UPDATE users 
-		SET ${setSql} 
-		WHERE id = $1 
-		RETURNING ${returningFields}`,
+			UPDATE users 
+			SET ${setSql},
+				updated_at = CURRENT_TIMESTAMP
+			WHERE id = $1 
+			RETURNING ${publicUserSelect}`,
 		values,
 	);
 
@@ -138,3 +138,4 @@ export const deleteUserById = async (id: number) => {
 
 	return result.rowCount;
 };
+
