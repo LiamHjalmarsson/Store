@@ -1,6 +1,6 @@
 import { query } from "../../config/database.js";
 
-export async function ensureUserTable() {
+export async function usersTable() {
 	await query(`
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,

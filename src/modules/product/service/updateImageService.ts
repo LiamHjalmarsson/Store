@@ -3,7 +3,7 @@ import { uploadSingleFile } from "../../../services/upload/uploadService.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { getStorageLocationFromPublicPath } from "../../../shared/utils/path/getStorageLocationFromPublicPath.js";
 import { updateProductByIdQuery } from "../repository/productRepository.js";
-import { buildProductImageDirectory } from "./helpers/productStorage.js";
+import { buildProductImageDirectory } from "./library/productStorage.js";
 import { getCreatorProduct } from "./productService.js";
 
 export const updateProductImageService = async (id: number, creatorId: number, imageFile: Express.Multer.File) => {

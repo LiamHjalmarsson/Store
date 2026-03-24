@@ -1,9 +1,22 @@
-import { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { UnauthorizedError } from "../errors/unauthorized.js";
-import { JwtPayload, verifyToken } from "../utils/auth/jwt.js";
+import { verifyToken } from "../utils/auth/jwt.js";
+import type { JwtPayload } from "../utils/auth/jwt.js";
 
 export interface AuthenticatedRequest extends Request {
 	user?: JwtPayload;
+}
+
+export type AuthenticatedMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => void;
+
+export function getAuthenticatedUserOrThrow(req: AuthenticatedRequest): JwtPayload {
+	const user = req.user;
+
+	if (!user) {
+		throw new UnauthorizedError("Unauthorized");
+	}
+
+	return user;
 }
 
 /**
@@ -28,3 +41,4 @@ export default function authenticated(req: AuthenticatedRequest, _: Response, ne
 		throw new UnauthorizedError("authentication invalid");
 	}
 }
+

@@ -18,7 +18,7 @@ router.get("/", getAllAchievementsController);
 
 router.post("/", createAchievementValidation, createAchievementController);
 
-router.put("/:id", updateAchievementValidation, updateAchievementController);
+router.patch("/:id", updateAchievementValidation, updateAchievementController);
 
 router.delete("/:id", deleteAchievementController);
 

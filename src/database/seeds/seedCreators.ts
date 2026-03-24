@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { query } from "../../config/database.js";
 
 export async function seedCreators() {

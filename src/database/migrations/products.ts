@@ -1,6 +1,6 @@
 import { query } from "../../config/database.js";
 
-export async function ensureProductsTable() {
+export async function productsTable() {
 	await query(`CREATE TABLE IF NOT EXISTS products (
         id SERIAL PRIMARY KEY,
         title TEXT NOT NULL,

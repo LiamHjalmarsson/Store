@@ -2,10 +2,6 @@
 import { Client } from "pg";
 import config from "../config/config.js";
 
-function escapeIdentifier(value: string): string {
-	return value.replace(/"/g, '""');
-}
-
 export async function ensureDatabaseExists() {
 	const client = new Client({
 		user: config.pgUser,
@@ -22,12 +18,11 @@ export async function ensureDatabaseExists() {
 
 		if ((result.rowCount ?? 0) > 0) {
 			console.log(`Database "${config.pgDb}" already exists`);
+
 			return;
 		}
 
-		const safeDatabaseName = escapeIdentifier(config.pgDb);
-
-		await client.query(`CREATE DATABASE "${safeDatabaseName}"`);
+		await client.query(`CREATE DATABASE "${config.pgDb}"`);
 
 		console.log(`Database "${config.pgDb}" created`);
 	} finally {

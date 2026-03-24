@@ -3,7 +3,7 @@ export type StorageLocationFromPublicPath = {
 	filename: string;
 };
 
-export function getStorageLocationFromPublicPath(publicPath: string): StorageLocationFromPublicPath {
+export function getStorageLocationFromPublicPath(publicPath: string) {
 	const normalized = publicPath.replace(/^\/+/, "");
 
 	const parts = normalized.split("/");

@@ -1,6 +1,6 @@
 import { query } from "../../config/database.js";
 
-export async function ensureAchievementsTable() {
+export async function achievementsTable() {
 	await query(`
 		CREATE TABLE IF NOT EXISTS achievements (
 			id SERIAL PRIMARY KEY,

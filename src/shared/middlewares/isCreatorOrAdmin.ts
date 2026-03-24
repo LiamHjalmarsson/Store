@@ -17,3 +17,4 @@ export function isCreatorOrAdmin(req: AuthenticatedRequest, _: Response, next: N
 
 	next();
 }
+
