@@ -87,15 +87,15 @@ function getModuleConfig(moduleName?: string) {
 		moduleBasePath: path.join(rootPath, "src", "modules", moduleNameLower),
 		migrationsPath: path.join(rootPath, "src", "database", "migrations"),
 		folders: [
-			"controller",
-			"service",
-			"repository",
+			"controllers",
+			"services",
+			"repositories",
 			"routes",
-			"middleware",
+			"middlewares",
 			"types",
-			"validation",
-			"validation/fields",
-			"validation/rules",
+			"validations",
+			"validations/fields",
+			"validations/rules",
 		],
 	};
 }

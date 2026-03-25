@@ -17,7 +17,7 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 
 	const files = [
 		{
-			folder: "controller",
+			folder: "controllers",
 			fileName: `${config.moduleNameLower}Controller.ts`,
 			content: controllerTemplate(
 				config.moduleNameLower,
@@ -26,12 +26,12 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 			),
 		},
 		{
-			folder: "service",
+			folder: "services",
 			fileName: `${config.moduleNameLower}Service.ts`,
 			content: serviceTemplate(config.moduleNameLower, config.moduleNameCapitalized, config.tableNameCapitalized),
 		},
 		{
-			folder: "repository",
+			folder: "repositories",
 			fileName: `${config.moduleNameLower}Repository.ts`,
 			content: repositoryTemplate(
 				config.moduleNameLower,
@@ -50,12 +50,12 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 			content: typesTemplate(config.moduleNameCapitalized),
 		},
 		{
-			folder: "validation",
+			folder: "validations",
 			fileName: "createValidation.ts",
 			content: validationCreateTemplate(config.moduleNameCapitalized),
 		},
 		{
-			folder: "validation",
+			folder: "validations",
 			fileName: "updateValidation.ts",
 			content: validationUpdateTemplate(config.moduleNameCapitalized),
 		},
@@ -71,4 +71,3 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 
 	return createdFiles;
 }
-
