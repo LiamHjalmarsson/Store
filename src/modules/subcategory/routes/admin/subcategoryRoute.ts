@@ -7,9 +7,9 @@ import {
 	getAllSubcategories,
 	getSubcategory,
 	updateSubcategory,
-} from "../../controller/subcategoryController.js";
-import { updateValidation } from "../../validation/updateValidation.js";
-import { createValidation } from "../../validation/createValidation.js";
+} from "../../controllers/subcategoryController.js";
+import { updateValidation } from "../../validations/updateValidation.js";
+import { createValidation } from "../../validations/createValidation.js";
 
 const router = Router();
 

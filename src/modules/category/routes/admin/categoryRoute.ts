@@ -5,11 +5,11 @@ import {
 	getAllCategoriesController,
 	getCategoryController,
 	updateCategoryController,
-} from "../../controller/categoryController.js";
+} from "../../controllers/categoryController.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
-import { createValidation } from "../../validation/createValidation.js";
-import { updateValidation } from "../../validation/updateValidation.js";
+import { createValidation } from "../../validations/createValidation.js";
+import { updateValidation } from "../../validations/updateValidation.js";
 
 const router = Router();
 

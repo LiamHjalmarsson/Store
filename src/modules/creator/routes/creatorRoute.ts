@@ -5,10 +5,10 @@ import {
 	getAllCreators,
 	getCreator,
 	updateCreatorProfile,
-} from "../controller/creatorController.js";
+} from "../controllers/creatorController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
-import { becomeCreatorValidation } from "../validation/createValidation.js";
-import { updateCreatorValidation } from "../validation/updateValidation.js";
+import { becomeCreatorValidation } from "../validations/createValidation.js";
+import { updateCreatorValidation } from "../validations/updateValidation.js";
 
 const router = Router();
 
@@ -23,4 +23,3 @@ router.patch("/me", authenticated, updateCreatorValidation, updateCreatorProfile
 router.delete("/me", authenticated, deleteCreatorProfile);
 
 export default router;
-

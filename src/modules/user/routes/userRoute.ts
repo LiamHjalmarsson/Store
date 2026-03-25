@@ -1,9 +1,9 @@
 import { Router } from "express";
 import authenticated from "../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../shared/middlewares/isAdmin.js";
-import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../controller/userController.js";
-import { createValidation } from "../validation/createValidation.js";
-import { updateValidation } from "../validation/updateValidation.js";
+import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../controllers/userController.js";
+import { createValidation } from "../validations/createValidation.js";
+import { updateValidation } from "../validations/updateValidation.js";
 
 const router = Router();
 

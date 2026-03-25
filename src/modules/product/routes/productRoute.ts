@@ -7,13 +7,13 @@ import {
 	getProductController,
 	updateProductController,
 	updateProductImageController,
-} from "../controller/productController.js";
+} from "../controllers/productController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
-import { createProductValidation } from "../validation/createProductValidation.js";
+import { createProductValidation } from "../validations/createProductValidation.js";
 import { isCreatorOrAdmin } from "../../../shared/middlewares/isCreatorOrAdmin.js";
-import { updateProductValidation } from "../validation/updateProductValidation.js";
-import { uploadProductAssetsMiddleware } from "../middleware/uploadProductAssetsMiddleware.js";
-import { uploadProductImageMiddleware } from "../middleware/uploadProductImageMiddleware.js";
+import { updateProductValidation } from "../validations/updateProductValidation.js";
+import { uploadProductAssetsMiddleware } from "../middlewares/uploadProductAssetsMiddleware.js";
+import { uploadProductImageMiddleware } from "../middlewares/uploadProductImageMiddleware.js";
 
 const router = Router();
 

@@ -4,7 +4,7 @@ import {
 	awardAchievementController,
 	getAllAchievementsController,
 	getMyAchievementsController,
-} from "../controller/achievementController.js";
+} from "../controllers/achievementController.js";
 
 const router = Router();
 

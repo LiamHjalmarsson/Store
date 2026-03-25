@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { deleteCreator, getAllCreators, getCreator, updateCreator } from "../../controller/creatorController.js";
+import { deleteCreator, getAllCreators, getCreator, updateCreator } from "../../controllers/creatorController.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
-import { adminUpdateCreatorValidation } from "../../validation/adminUpdateValidation.js";
+import { adminUpdateCreatorValidation } from "../../validations/adminUpdateValidation.js";
 
 const router = Router();
 
