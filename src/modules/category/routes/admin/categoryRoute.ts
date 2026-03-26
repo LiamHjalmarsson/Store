@@ -2,8 +2,6 @@ import { Router } from "express";
 import {
 	createCategoryController,
 	deleteCategoryController,
-	getAllCategoriesController,
-	getCategoryController,
 	updateCategoryController,
 } from "../../controllers/categoryController.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
@@ -15,11 +13,7 @@ const router = Router();
 
 router.use(authenticated, isAdmin);
 
-router.get("/", getAllCategoriesController);
-
 router.post("/", createValidation, createCategoryController);
-
-router.get("/:id", getCategoryController);
 
 router.patch("/:id", updateValidation, updateCategoryController);
 
