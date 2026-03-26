@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
 	createAchievementController,
 	deleteAchievementController,
-	getAllAchievementsController,
 	updateAchievementController,
 } from "../../controllers/achievementController.js";
 import authenicated from "../../../../shared/middlewares/authenticated.js";
@@ -13,8 +12,6 @@ import { updateAchievementValidation } from "../../validations/achievementUpdate
 const router = Router();
 
 router.use(authenicated, isAdmin);
-
-router.get("/", getAllAchievementsController);
 
 router.post("/", createAchievementValidation, createAchievementController);
 
