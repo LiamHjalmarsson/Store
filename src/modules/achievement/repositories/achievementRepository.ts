@@ -1,5 +1,6 @@
 import { query } from "../../../config/database.js";
-import { Achievement, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
+import { Achievement } from "../types/achievement.js";
+import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.payloads.js";
 
 export const findAchievementsQuery = async () => {
 	const result = await query<Achievement>(`

@@ -7,8 +7,8 @@ import {
 } from "../../controllers/achievementController.js";
 import authenicated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
-import { createAchievementValidation } from "../../validations/createValidation.js";
-import { updateAchievementValidation } from "../../validations/updateValidation.js";
+import { createAchievementValidation } from "../../validations/achievementCreateValidation.js";
+import { updateAchievementValidation } from "../../validations/achievementUpdateValidation.js";
 
 const router = Router();
 

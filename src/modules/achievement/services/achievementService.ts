@@ -7,7 +7,7 @@ import {
 	findUserAchievementsQuery,
 	updateAchievementByIdQuery,
 } from "../repositories/achievementRepository.js";
-import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievementTypes.js";
+import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.payloads.js";
 
 export const getAllAchivementsService = async () => {
 	return await findAchievementsQuery();
