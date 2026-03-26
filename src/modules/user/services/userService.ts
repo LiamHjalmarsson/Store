@@ -7,7 +7,7 @@ import {
 	findUserById,
 	updateUserById,
 } from "../repositories/userRepository.js";
-import { CreateNewUserPayload, UpdateUserPayload } from "../types/userType.js";
+import { CreateNewUserPayload, UpdateUserPayload } from "../types/user.js";
 
 export const getAllUsersService = async (pagination: PaginationQuery) => {
 	return await findAllUsers(pagination);

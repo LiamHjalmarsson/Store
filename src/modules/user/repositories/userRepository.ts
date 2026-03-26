@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { PublicUser } from "../../../shared/types/user.js";
-import { CreateNewUserPayload, UpdateUserPayload } from "../types/userType.js";
+import { CreateNewUserPayload, UpdateUserPayload } from "../types/user.js";
 
 const publicUserSelect = `
 	id,
@@ -138,4 +138,3 @@ export const deleteUserById = async (id: number) => {
 
 	return result.rowCount;
 };
-
