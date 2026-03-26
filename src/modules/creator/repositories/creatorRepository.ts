@@ -134,6 +134,7 @@ export const updateCreatorById = async (creatorId: number, payload: UpdateCreato
 	}
 
 	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
+
 	const values = [creatorId, ...fields.map((key) => payload[key] ?? null)];
 
 	const result = await query(
@@ -175,4 +176,3 @@ export const deleteCreatorById = async (creatorId: number) => {
 
 	return result.rowCount === 1;
 };
-

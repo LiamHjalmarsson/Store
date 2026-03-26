@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteCreator, getAllCreators, getCreator, updateCreator } from "../../controllers/creatorController.js";
+import { deleteCreator, updateCreator } from "../../controllers/creatorController.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
 import { adminUpdateCreatorValidation } from "../../validations/adminUpdateValidation.js";
@@ -7,10 +7,6 @@ import { adminUpdateCreatorValidation } from "../../validations/adminUpdateValid
 const router = Router();
 
 router.use(authenticated, isAdmin);
-
-router.get("/", getAllCreators);
-
-router.get("/:id", getCreator);
 
 router.patch("/:id", adminUpdateCreatorValidation, updateCreator);
 
