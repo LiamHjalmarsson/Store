@@ -1,9 +1,3 @@
-export interface CreateUserPayload {
-	email: string;
-	password: string;
-	username: string;
-}
-
 export interface AuthUser {
 	id: number;
 	email: string;

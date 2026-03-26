@@ -1,5 +1,6 @@
 import { query } from "../../../config/database.js";
-import { AuthUser, AuthUserWithPassword, CreateUserPayload } from "../types/authType.js";
+import { CreateUserPayload } from "../types/auth.payload.js";
+import { AuthUser, AuthUserWithPassword } from "../types/authType.js";
 
 const authUserSelect = `
 	id,
@@ -69,4 +70,3 @@ export const updateUserLastLoginQuery = async (id: number) => {
 		[id],
 	);
 };
-
