@@ -3,14 +3,20 @@ import { validateRequest } from "../../../shared/middlewares/validateRequest.js"
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import emailUnique from "../../../shared/validations/rules/emailUnique.js";
 import usernameUnique from "../../../shared/validations/rules/usernameUnique.js";
-import { emailField } from "./fields/authValidationFields.js";
 
 const allowedFields = ["email", "password", "username"] as const;
 
 export const registerValidation = validateRequest([
 	body().custom(onlyAllowedFields(allowedFields)),
 
-	emailField().custom(emailUnique),
+	body("email")
+		.trim()
+		.toLowerCase()
+		.notEmpty()
+		.withMessage("Email is required")
+		.isEmail()
+		.withMessage("Email must be valid")
+		.custom(emailUnique),
 
 	body("password")
 		.notEmpty()

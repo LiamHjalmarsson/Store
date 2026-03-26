@@ -7,7 +7,7 @@ import {
 	findUserWithPasswordByEmailQuery,
 	updateUserLastLoginQuery,
 } from "../repositories/authRepository.js";
-import { CreateUserPayload } from "../types/auth.payload.js";
+import { CreateUserPayload } from "../types/auth.js";
 
 export async function registerService(payload: CreateUserPayload) {
 	const { password, email, username } = payload;

@@ -18,3 +18,9 @@ export interface AuthResponse {
 	token: string;
 	user: AuthUser;
 }
+
+export interface CreateUserPayload {
+	email: string;
+	password: string;
+	username: string;
+}

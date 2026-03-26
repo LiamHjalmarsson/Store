@@ -1,6 +1,5 @@
 import { query } from "../../../config/database.js";
-import { CreateUserPayload } from "../types/auth.payload.js";
-import { AuthUser, AuthUserWithPassword } from "../types/authType.js";
+import { AuthUser, AuthUserWithPassword, CreateUserPayload } from "../types/auth.js";
 
 const authUserSelect = `
 	id,
