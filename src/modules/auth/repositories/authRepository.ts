@@ -37,7 +37,8 @@ export const createUserQuery = async (payload: CreateUserPayload) => {
 				(email, password, username) 
 			VALUES 
 				($1, $2, $3) 
-			RETURNING ${authUserSelect}
+			RETURNING 
+				${authUserSelect}
 		`,
 		[email, password, username],
 	);

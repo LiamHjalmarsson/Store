@@ -1,4 +1,6 @@
 import { ForbiddenError } from "../../../shared/errors/forbidden.js";
+import { UnauthenticatedError } from "../../../shared/errors/unauthenticated.js";
+import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { generateToken } from "../../../shared/utils/auth/jwt.js";
 import { comparePassword, hashPassword } from "../../../shared/utils/auth/password.js";
 import {
@@ -25,7 +27,7 @@ export async function loginService(email: string, password: string) {
 	const userWithPassword = await findUserWithPasswordByEmailQuery(email);
 
 	if (!userWithPassword) {
-		return null;
+		throw new UnauthenticatedError("Ogiltiga inloggningsuppgifter");
 	}
 
 	if (userWithPassword.account_status !== "active") {
@@ -35,11 +37,12 @@ export async function loginService(email: string, password: string) {
 	const match = await comparePassword(password, userWithPassword.password);
 
 	if (!match) {
-		return null;
+		throw new UnauthenticatedError("Ogiltiga inloggningsuppgifter");
 	}
 
 	await updateUserLastLoginQuery(userWithPassword.id);
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { password: _, ...user } = userWithPassword;
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
@@ -48,5 +51,11 @@ export async function loginService(email: string, password: string) {
 }
 
 export async function meService(id: number) {
-	return await findUserByIdQuery(id);
+	const user = await findUserByIdQuery(id);
+
+	if (!user) {
+		throw new UnauthorizedError("Användaren hittades inte");
+	}
+
+	return user;
 }

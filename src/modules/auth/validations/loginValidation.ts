@@ -11,9 +11,9 @@ export const loginValidation = validateRequest([
 		.trim()
 		.toLowerCase()
 		.notEmpty()
-		.withMessage("Email is required")
+		.withMessage("E-post är obligatorisk")
 		.isEmail()
-		.withMessage("Email must be valid"),
+		.withMessage("E-postadressen måste vara giltig"),
 
-	body("password").notEmpty().withMessage("Password is required"),
+	body("password").notEmpty().withMessage("Lösenord är obligatoriskt"),
 ]);

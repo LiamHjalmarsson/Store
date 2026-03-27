@@ -13,22 +13,22 @@ export const registerValidation = validateRequest([
 		.trim()
 		.toLowerCase()
 		.notEmpty()
-		.withMessage("Email is required")
+		.withMessage("E-post är obligatorisk")
 		.isEmail()
-		.withMessage("Email must be valid")
+		.withMessage("E-postadressen måste vara giltig")
 		.custom(emailUnique),
 
 	body("password")
 		.notEmpty()
-		.withMessage("Password is required ")
+		.withMessage("Lösenord är obligatoriskt")
 		.isLength({ min: 6 })
-		.withMessage("Password must be at least 6 characters"),
+		.withMessage("Lösenordet måste vara minst 6 tecken långt"),
 
 	body("username")
 		.trim()
 		.notEmpty()
-		.withMessage("Username is required ")
+		.withMessage("Användarnamn är obligatoriskt")
 		.isLength({ min: 3, max: 30 })
-		.withMessage("Username must be 3-30 characters")
+		.withMessage("Användarnamn måste vara mellan 3 och 30 tecken")
 		.custom(usernameUnique),
 ]);

@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
 import { loginService, meService, registerService } from "../services/authService.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { UnauthenticatedError } from "../../../shared/errors/unauthenticated.js";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
-import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const registerController = async (req: Request, res: Response) => {
@@ -11,7 +9,15 @@ export const registerController = async (req: Request, res: Response) => {
 
 	const { token, user } = await registerService({ email, password, username });
 
-	return sendSuccess(res, "User registered successfully", { token, user }, 201);
+	return sendSuccess(
+		res,
+		`Användare ${user.username} har registrerats`,
+		{
+			token,
+			user,
+		},
+		201,
+	);
 };
 
 export const loginController = async (req: Request, res: Response) => {
@@ -19,34 +25,26 @@ export const loginController = async (req: Request, res: Response) => {
 
 	const result = await loginService(email, password);
 
-	if (!result) {
-		throw new UnauthenticatedError("Invalid credentials");
-	}
-
 	const { token, user } = result;
 
-	return sendSuccess(res, "User logged in successfully", {
+	return sendSuccess(res, `Användaren ${user.username} loggades in`, {
 		token,
 		user,
 	});
 };
 
-export const logoutController = async (_: Request, res: Response) => {
-	return sendSuccess(res, "Logout successful.", null);
+export const logoutController = async (_: AuthenticatedRequest, res: Response) => {
+	return sendSuccess(res, `loggades ut.`, null);
 };
 
 export const meController = async (req: AuthenticatedRequest, res: Response) => {
 	const id = req.user?.id;
 
 	if (!id) {
-		throw new UnauthorizedError("Unauthorized");
+		throw new UnauthorizedError("Obehörig");
 	}
 
 	const user = await meService(id);
 
-	if (!user) {
-		throw new NotFoundError("User not found");
-	}
-
-	return sendSuccess(res, "Authenticated user", { user });
+	return sendSuccess(res, "Autentiserad användare hämtades", { user });
 };
