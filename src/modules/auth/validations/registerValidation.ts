@@ -4,31 +4,31 @@ import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowe
 import emailUnique from "../../../shared/validations/rules/emailUnique.js";
 import usernameUnique from "../../../shared/validations/rules/usernameUnique.js";
 
-const allowedFields = ["email", "password", "username"] as const;
+const REGISTER_FIELDS = ["email", "password", "username"] as const;
 
-export const registerValidation = validateRequest([
-	body().custom(onlyAllowedFields(allowedFields)),
+export const validateRegisterRequest = validateRequest([
+	body().custom(onlyAllowedFields(REGISTER_FIELDS)),
 
 	body("email")
 		.trim()
 		.toLowerCase()
 		.notEmpty()
-		.withMessage("E-post är obligatorisk")
+		.withMessage("Email is required")
 		.isEmail()
-		.withMessage("E-postadressen måste vara giltig")
+		.withMessage("Email must be valid")
 		.custom(emailUnique),
 
 	body("password")
 		.notEmpty()
-		.withMessage("Lösenord är obligatoriskt")
+		.withMessage("Password is required")
 		.isLength({ min: 6 })
-		.withMessage("Lösenordet måste vara minst 6 tecken långt"),
+		.withMessage("Password must be at least 6 characters long"),
 
 	body("username")
 		.trim()
 		.notEmpty()
-		.withMessage("Användarnamn är obligatoriskt")
+		.withMessage("Username is required")
 		.isLength({ min: 3, max: 30 })
-		.withMessage("Användarnamn måste vara mellan 3 och 30 tecken")
+		.withMessage("Username must be between 3 and 30 characters")
 		.custom(usernameUnique),
 ]);

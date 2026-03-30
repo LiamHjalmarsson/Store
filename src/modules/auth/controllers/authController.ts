@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
-import { loginService, meService, registerService } from "../services/authService.js";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
+import { getCurrentUserService, loginService, registerService } from "../services/authService.js";
+import { LoginPayload, RegisterPayload } from "../types/auth.js";
 
 export const registerController = async (req: Request, res: Response) => {
-	const { email, password, username } = req.body;
+	const { email, password, username } = req.body as RegisterPayload;
 
 	const { token, user } = await registerService({ email, password, username });
 
 	return sendSuccess(
 		res,
-		`Användare ${user.username} har registrerats`,
+		`User ${user.username} registered successfully`,
 		{
 			token,
 			user,
@@ -21,30 +22,29 @@ export const registerController = async (req: Request, res: Response) => {
 };
 
 export const loginController = async (req: Request, res: Response) => {
-	const { email, password } = req.body;
+	const { email, password } = req.body as LoginPayload;
 
-	const result = await loginService(email, password);
+	const { token, user } = await loginService({ email, password });
 
-	const { token, user } = result;
-
-	return sendSuccess(res, `Användaren ${user.username} loggades in`, {
+	return sendSuccess(res, `User ${user.username} logged in successfully`, {
 		token,
 		user,
 	});
 };
 
 export const logoutController = async (_: AuthenticatedRequest, res: Response) => {
-	return sendSuccess(res, `loggades ut.`, null);
+	return sendSuccess(res, "User logged out successfully", null);
 };
 
 export const meController = async (req: AuthenticatedRequest, res: Response) => {
-	const id = req.user?.id;
+	const userId = req.user?.id;
 
-	if (!id) {
-		throw new UnauthorizedError("Obehörig");
+	if (!userId) {
+		throw new UnauthorizedError("Authentication required");
 	}
 
-	const user = await meService(id);
+	const user = await getCurrentUserService(userId);
 
-	return sendSuccess(res, "Autentiserad användare hämtades", { user });
+	return sendSuccess(res, "Authenticated user retrieved successfully", { user });
 };
+

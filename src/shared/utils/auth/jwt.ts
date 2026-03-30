@@ -8,13 +8,15 @@ export interface JwtPayload {
 	role: AccountRole;
 }
 
+const ACCESS_TOKEN_OPTIONS: SignOptions = {
+	expiresIn: config.jwtExpiresIn ?? "7d",
+};
+
 /**
  * Generate a signed JWT access token
  */
 export function generateToken(payload: JwtPayload): string {
-	const options: SignOptions = { expiresIn: config.jwtExpiresIn ?? "7d" };
-
-	return jwt.sign(payload, config.jwtSecret, options);
+	return jwt.sign(payload, config.jwtSecret, ACCESS_TOKEN_OPTIONS);
 }
 
 /**

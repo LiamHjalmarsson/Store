@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { UnauthorizedError } from "../errors/unauthorized.js";
 import { JwtPayload, verifyToken } from "../utils/auth/jwt.js";
 
+const BEARER_PREFIX = "Bearer ";
+
 export interface AuthenticatedRequest extends Request {
 	user?: JwtPayload;
 }
@@ -10,21 +12,26 @@ export interface AuthenticatedRequest extends Request {
  * Middleware: only allow logged in users
  */
 export default function authenticated(req: AuthenticatedRequest, _: Response, next: NextFunction) {
-	const authHeader = req.headers["authorization"];
-
-	if (!authHeader) {
-		throw new UnauthorizedError("authentication invalid");
-	}
-
-	const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : authHeader.trim();
+	const token = getAuthorizationToken(req.headers.authorization);
 
 	try {
-		const decoded = verifyToken(token);
-
-		req.user = decoded;
+		req.user = verifyToken(token);
 
 		next();
 	} catch {
-		throw new UnauthorizedError("authentication invalid");
+		throw new UnauthorizedError("Authentication required");
 	}
 }
+
+function getAuthorizationToken(authorizationHeader?: string) {
+	if (!authorizationHeader) {
+		throw new UnauthorizedError("Authentication required");
+	}
+
+	if (authorizationHeader.startsWith(BEARER_PREFIX)) {
+		return authorizationHeader.slice(BEARER_PREFIX.length).trim();
+	} else {
+		return authorizationHeader.trim();
+	}
+}
+

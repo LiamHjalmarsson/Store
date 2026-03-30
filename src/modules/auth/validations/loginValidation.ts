@@ -2,18 +2,18 @@ import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 
-const allowedFields = ["email", "password"] as const;
+const LOGIN_FIELDS = ["email", "password"] as const;
 
-export const loginValidation = validateRequest([
-	body().custom(onlyAllowedFields(allowedFields)),
+export const validateLoginRequest = validateRequest([
+	body().custom(onlyAllowedFields(LOGIN_FIELDS)),
 
 	body("email")
 		.trim()
 		.toLowerCase()
 		.notEmpty()
-		.withMessage("E-post är obligatorisk")
+		.withMessage("Email is required")
 		.isEmail()
-		.withMessage("E-postadressen måste vara giltig"),
+		.withMessage("Email must be valid"),
 
-	body("password").notEmpty().withMessage("Lösenord är obligatoriskt"),
+	body("password").notEmpty().withMessage("Password is required"),
 ]);

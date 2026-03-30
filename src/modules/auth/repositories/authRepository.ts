@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
-import { AuthUser, AuthUserWithPassword, CreateUserPayload } from "../types/auth.js";
+import { AuthUser, AuthUserCredentials, CreateAuthUserPayload } from "../types/auth.js";
 
-const authUserSelect = `
+const AUTH_USER = `
 	id,
 	email,
 	firstname,
@@ -13,60 +13,66 @@ const authUserSelect = `
 	signed_to_newsletter
 `;
 
-export const findUserWithPasswordByEmailQuery = async (email: string) => {
-	const result = await query<AuthUserWithPassword>(
+const normalizeValueToLowerCase = (value: string) => value.trim().toLowerCase();
+
+export const findAuthUserCredentialsByEmailQuery = async (email: string) => {
+	const normalizedEmail = normalizeValueToLowerCase(email);
+
+	const result = await query<AuthUserCredentials>(
 		`
-			SELECT 
-				${authUserSelect},
+			SELECT
+				${AUTH_USER},
 				password
-			FROM users 
-			WHERE LOWER(email) = LOWER($1)
+			FROM users
+			WHERE email = $1
 		`,
-		[email],
+		[normalizedEmail],
 	);
 
 	return result.rows[0] ?? null;
 };
 
-export const createUserQuery = async (payload: CreateUserPayload) => {
+export const createAuthUserQuery = async (payload: CreateAuthUserPayload) => {
 	const { password, email, username } = payload;
 
+	const normalizedEmail = normalizeValueToLowerCase(email);
+
 	const result = await query<AuthUser>(
 		`
-			INSERT INTO users 
-				(email, password, username) 
-			VALUES 
-				($1, $2, $3) 
-			RETURNING 
-				${authUserSelect}
+			INSERT INTO users
+				(email, password, username)
+			VALUES
+				($1, $2, $3)
+			RETURNING
+				${AUTH_USER}
 		`,
-		[email, password, username],
+		[normalizedEmail, password, username],
 	);
 
 	return result.rows[0];
 };
 
-export const findUserByIdQuery = async (id: number) => {
+export const findAuthUserByIdQuery = async (userId: number) => {
 	const result = await query<AuthUser>(
 		`
-			SELECT 
-				${authUserSelect}
-			FROM users 
+			SELECT
+				${AUTH_USER}
+			FROM users
 			WHERE id = $1
 		`,
-		[id],
+		[userId],
 	);
 
-	return result.rows[0];
+	return result.rows[0] ?? null;
 };
 
-export const updateUserLastLoginQuery = async (id: number) => {
+export const updateUserLastLoginQuery = async (userId: number) => {
 	await query(
 		`
 			UPDATE users
 			SET last_login = CURRENT_TIMESTAMP
 			WHERE id = $1
 		`,
-		[id],
+		[userId],
 	);
 };

@@ -4,58 +4,59 @@ import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { generateToken } from "../../../shared/utils/auth/jwt.js";
 import { comparePassword, hashPassword } from "../../../shared/utils/auth/password.js";
 import {
-	createUserQuery,
-	findUserByIdQuery,
-	findUserWithPasswordByEmailQuery,
+	createAuthUserQuery,
+	findAuthUserByIdQuery,
+	findAuthUserCredentialsByEmailQuery,
 	updateUserLastLoginQuery,
 } from "../repositories/authRepository.js";
-import { CreateUserPayload } from "../types/auth.js";
+import { LoginPayload, RegisterPayload } from "../types/auth.js";
 
-export async function registerService(payload: CreateUserPayload) {
-	const { password, email, username } = payload;
-
+export const registerService = async (payload: RegisterPayload) => {
+	const { email, password, username } = payload;
 	const hashedPassword = await hashPassword(password);
-
-	const user = await createUserQuery({ email, password: hashedPassword, username });
+	const user = await createAuthUserQuery({ email, password: hashedPassword, username });
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
 	return { user, token };
-}
+};
 
-export async function loginService(email: string, password: string) {
-	const userWithPassword = await findUserWithPasswordByEmailQuery(email);
+export const loginService = async (payload: LoginPayload) => {
+	const { email, password } = payload;
 
-	if (!userWithPassword) {
-		throw new UnauthenticatedError("Ogiltiga inloggningsuppgifter");
+	const userCredentials = await findAuthUserCredentialsByEmailQuery(email);
+
+	if (!userCredentials) {
+		throw new UnauthenticatedError("Invalid email or password");
 	}
 
-	if (userWithPassword.account_status !== "active") {
-		throw new ForbiddenError(`Account is ${userWithPassword.account_status}`);
+	if (userCredentials.account_status !== "active") {
+		throw new ForbiddenError(`Account is ${userCredentials.account_status}`);
 	}
 
-	const match = await comparePassword(password, userWithPassword.password);
+	const isPasswordMatching = await comparePassword(password, userCredentials.password);
 
-	if (!match) {
-		throw new UnauthenticatedError("Ogiltiga inloggningsuppgifter");
+	if (!isPasswordMatching) {
+		throw new UnauthenticatedError("Invalid email or password");
 	}
 
-	await updateUserLastLoginQuery(userWithPassword.id);
+	await updateUserLastLoginQuery(userCredentials.id);
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { password: _, ...user } = userWithPassword;
+	const { password: _, ...user } = userCredentials;
 
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
 	return { user, token };
-}
+};
 
-export async function meService(id: number) {
-	const user = await findUserByIdQuery(id);
+export const getCurrentUserService = async (userId: number) => {
+	const user = await findAuthUserByIdQuery(userId);
 
 	if (!user) {
-		throw new UnauthorizedError("Användaren hittades inte");
+		throw new UnauthorizedError("User not found");
 	}
 
 	return user;
-}
+};
+
