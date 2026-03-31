@@ -46,26 +46,56 @@ Create a .env file or use .env.example in the root:
 
 ### Authentication
 
-### Profile
+| Method | Endpoint        | Access | Description      |
+| ------ | --------------- | ------ | ---------------- |
+| POST   | `/api/login`    | Public | Login            |
+| POST   | `/api/register` | Public | Register         |
+| POST   | `/api/logout`   | Public | Logout           |
+| GET    | `/api/me`       | Public | Get user profile |
+
+### Achievements
+
+#### Public
+
+| Method | Endpoint                  | Access | Description               |
+| ------ | ------------------------- | ------ | ------------------------- |
+| GET    | `/api/achievements`       | Public | Get all achievements      |
+| GET    | `/api/achievements/me`    | Public | Get one achievement by id |
+| GET    | `/api/achievements/award` | Public | Get one achievement by id |
+
+#### ADMIN
+
+| Method | Endpoint                | Access | Description          |
+| ------ | ----------------------- | ------ | -------------------- |
+| POST   | `/api/achievements`     | ADMIN  | Get all achievements |
+| PATCH  | `/api/achievements/:id` | ADMIN  | Update achievement   |
+| DELETE | `/api/achievements/:id` | ADMIN  | Delete achievement   |
+
+### Categories
+
+#### Public
+
+| Method | Endpoint              | Access | Description            |
+| ------ | --------------------- | ------ | ---------------------- |
+| GET    | `/api/categories`     | Public | Get all categories     |
+| GET    | `/api/categories/:id` | Public | Get one category by id |
+
+#### ADMIN
+
+| Method | Endpoint              | Access | Description        |
+| ------ | --------------------- | ------ | ------------------ |
+| POST   | `/api/categories`     | ADMIN  | Get all categories |
+| PATCH  | `/api/categories/:id` | ADMIN  | Update category    |
+| DELETE | `/api/categories/:id` | ADMIN  | Delete category    |
 
 ### Creators
 
 ### Products
 
-| Method | Endpoint                     | Access        | Description           |
-| ------ | ---------------------------- | ------------- | --------------------- |
-| GET    | `/api/products`              | Public        | Get all products      |
-| GET    | `/api/products/:id`          | Public        | Get one product by id |
-| PATCH  | `/api/products/:id/download` | Public        | Download              |
-| POST   | `/api/products`              | Creator/Admin | Create product        |
-| PATCH  | `/api/products/:id`          | Creator/Admin | Update product        |
-| DELETE | `/api/products/:id`          | Creator/Admin | Delete product        |
-| PATCH  | `/api/products/:id/image`    | Creator/Admin | Update image          |
+### Profile
 
-### Categories
+### Ranks
 
 ### Subcategories
 
-### Achievements
-
-### Ranks
+### User

@@ -20,4 +20,3 @@ router.patch("/:id", updateValidation, updateAchievementController);
 router.delete("/:id", deleteAchievementController);
 
 export default router;
-
