@@ -6,9 +6,9 @@ import { getCurrentUserService, loginService, registerService } from "../service
 import { LoginPayload, RegisterPayload } from "../types/auth.js";
 
 export const registerController = async (req: Request, res: Response) => {
-	const { email, password, username } = req.body as RegisterPayload;
+	const payload = req.body as RegisterPayload;
 
-	const { token, user } = await registerService({ email, password, username });
+	const { token, user } = await registerService(payload);
 
 	return sendSuccess(
 		res,
@@ -22,9 +22,9 @@ export const registerController = async (req: Request, res: Response) => {
 };
 
 export const loginController = async (req: Request, res: Response) => {
-	const { email, password } = req.body as LoginPayload;
+	const payload = req.body as LoginPayload;
 
-	const { token, user } = await loginService({ email, password });
+	const { token, user } = await loginService(payload);
 
 	return sendSuccess(res, `User ${user.username} logged in successfully`, {
 		token,
@@ -37,14 +37,19 @@ export const logoutController = async (_: AuthenticatedRequest, res: Response) =
 };
 
 export const meController = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = req.user?.id;
-
-	if (!userId) {
-		throw new UnauthorizedError("Authentication required");
-	}
+	const userId = getAuthenticatedUserId(req);
 
 	const user = await getCurrentUserService(userId);
 
 	return sendSuccess(res, "Authenticated user retrieved successfully", { user });
 };
 
+function getAuthenticatedUserId(req: AuthenticatedRequest) {
+	const userId = req.user?.id;
+
+	if (!userId) {
+		throw new UnauthorizedError("Authentication required");
+	}
+
+	return userId;
+}

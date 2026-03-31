@@ -9,16 +9,16 @@ import {
 	findAuthUserCredentialsByEmailQuery,
 	updateUserLastLoginQuery,
 } from "../repositories/authRepository.js";
-import { LoginPayload, RegisterPayload } from "../types/auth.js";
+import { AuthUser, LoginPayload, RegisterPayload } from "../types/auth.js";
 
 export const registerService = async (payload: RegisterPayload) => {
 	const { email, password, username } = payload;
+
 	const hashedPassword = await hashPassword(password);
+
 	const user = await createAuthUserQuery({ email, password: hashedPassword, username });
 
-	const token = generateToken({ id: user.id, email: user.email, role: user.role });
-
-	return { user, token };
+	return createAuthResponse(user);
 };
 
 export const loginService = async (payload: LoginPayload) => {
@@ -45,9 +45,7 @@ export const loginService = async (payload: LoginPayload) => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { password: _, ...user } = userCredentials;
 
-	const token = generateToken({ id: user.id, email: user.email, role: user.role });
-
-	return { user, token };
+	return createAuthResponse(user);
 };
 
 export const getCurrentUserService = async (userId: number) => {
@@ -59,4 +57,10 @@ export const getCurrentUserService = async (userId: number) => {
 
 	return user;
 };
+
+function createAuthResponse(user: AuthUser) {
+	const token = generateToken({ id: user.id, email: user.email, role: user.role });
+
+	return { user, token };
+}
 

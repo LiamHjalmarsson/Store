@@ -1,18 +1,17 @@
 import { Router } from "express";
 import authenticated from "../../../shared/middlewares/authenticated.js";
 import { loginController, logoutController, meController, registerController } from "../controllers/authController.js";
-import { validateLoginRequest } from "../validations/loginValidation.js";
-import { validateRegisterRequest } from "../validations/registerValidation.js";
+import { loginValidation } from "../validations/loginValidation.js";
+import { registerValidation } from "../validations/registerValidation.js";
 
-const authRouter = Router();
+const router = Router();
 
-authRouter.post("/login", validateLoginRequest, loginController);
+router.post("/login", loginValidation, loginController);
 
-authRouter.post("/register", validateRegisterRequest, registerController);
+router.post("/register", registerValidation, registerController);
 
-authRouter.post("/logout", authenticated, logoutController);
+router.post("/logout", authenticated, logoutController);
 
-authRouter.get("/me", authenticated, meController);
+router.get("/me", authenticated, meController);
 
-export default authRouter;
-
+export default router;
