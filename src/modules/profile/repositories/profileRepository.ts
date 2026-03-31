@@ -1,59 +1,64 @@
 import { query } from "../../../config/database.js";
-import { PublicUser } from "../../../shared/types/user.js";
+import { Profile, UpdateProfilePayload } from "../types/profile.js";
 
-export const findUserById = async (id: number) => {
-	const result = await query<PublicUser>(
-		`SELECT 
-        id,
-        email,
-        firstname,
-        lastname,
-        avatar,
-        username,
-        role,
-        account_status,
-        signed_to_newsletter,
-        created_at
-        FROM users 
-		WHERE id = $1`,
-		[id],
+const PROFILE = `
+	id,
+	email,
+	firstname,
+	lastname,
+	avatar,
+	username,
+	role,
+	account_status,
+	signed_to_newsletter,
+	created_at,
+	updated_at
+`;
+
+const UPDATABLE_PROFILE_FIELDS = ["firstname", "lastname", "avatar", "username", "signed_to_newsletter"] as const;
+
+export const findProfileByUserIdQuery = async (userId: number) => {
+	const result = await query<Profile>(
+		`
+			SELECT
+				${PROFILE}
+			FROM users
+			WHERE id = $1
+		`,
+		[userId],
 	);
 
 	return result.rows[0];
 };
 
-export const updateUserById = async (id: number, payload: Partial<PublicUser>) => {
-	const allowedFields = ["firstname", "lastname", "avatar", "username", "signed_to_newsletter"] as const;
-
-	const fields = allowedFields.filter((key) => payload[key] !== undefined);
+export const updateProfileByUserIdQuery = async (userId: number, payload: UpdateProfilePayload) => {
+	const fields = UPDATABLE_PROFILE_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
 	}
 
-	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
+	const setSql = fields.map((field, index) => `${field} = $${index + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => payload[key] ?? null)];
+	const values = [userId, ...fields.map((field) => payload[field] ?? null)];
 
-	const returningFields = `
-        id, email, firstname, lastname, avatar, username,
-        signed_to_newsletter, created_at
-    `;
-
-	const result = await query<PublicUser>(
+	const result = await query<Profile>(
 		`
-		UPDATE users 
-		SET ${setSql} 
-		WHERE id = $1 
-		RETURNING ${returningFields}`,
+			UPDATE users
+			SET ${setSql},
+				updated_at = CURRENT_TIMESTAMP
+			WHERE id = $1
+			RETURNING
+				${PROFILE}
+		`,
 		values,
 	);
 
 	return result.rows[0] ?? null;
 };
 
-export const deleteUserById = async (id: number) => {
-	const result = await query("DELETE FROM users WHERE id = $1", [id]);
+export const deleteProfileByUserIdQuery = async (userId: number) => {
+	const result = await query("DELETE FROM users WHERE id = $1", [userId]);
 
-	return result.rowCount;
+	return result.rowCount === 1;
 };

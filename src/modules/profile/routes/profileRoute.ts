@@ -1,15 +1,21 @@
 import { Router } from "express";
+import {
+	deleteProfileController,
+	getProfileController,
+	updateProfileController,
+} from "../controllers/profileController.js";
+import { updateValidation } from "../validations/updateValidation.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
-import { deleteProfile, getProfile, updateProfile } from "../controllers/profileController.js";
 
 const router = Router();
 
 router.use(authenticated);
 
-router.get("/", getProfile);
+router.get("/", getProfileController);
 
-router.patch("/", updateProfile);
+router.patch("/", updateValidation, updateProfileController);
 
-router.delete("/", deleteProfile);
+router.delete("/", deleteProfileController);
 
 export default router;
+

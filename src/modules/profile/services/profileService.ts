@@ -1,16 +1,38 @@
-import { PublicUser } from "../../../shared/types/user.js";
-import { deleteUserById, findUserById, updateUserById } from "../repositories/profileRepository.js";
+import { NotFoundError } from "../../../shared/errors/notFound.js";
+import {
+	deleteProfileByUserIdQuery,
+	findProfileByUserIdQuery,
+	updateProfileByUserIdQuery,
+} from "../repositories/profileRepository.js";
+import { UpdateProfilePayload } from "../types/profile.js";
 
 export async function getProfileService(userId: number) {
-	return await findUserById(userId);
+	const profile = await findProfileByUserIdQuery(userId);
+
+	if (!profile) {
+		throw new NotFoundError("User not found");
+	}
+
+	return profile;
 }
 
-export async function updateProfileService(userId: number, data: Partial<PublicUser>) {
-	return await updateUserById(userId, data);
+export async function updateProfileService(userId: number, payload: UpdateProfilePayload) {
+	const profile = await updateProfileByUserIdQuery(userId, payload);
+
+	if (!profile) {
+		throw new NotFoundError("User not found");
+	}
+
+	return profile;
 }
 
 export async function deleteProfileService(userId: number) {
-	const deleted = await deleteUserById(userId);
+	const deleted = await deleteProfileByUserIdQuery(userId);
 
-	return !!deleted;
+	if (!deleted) {
+		throw new NotFoundError("User not found");
+	}
+
+	return true;
 }
+

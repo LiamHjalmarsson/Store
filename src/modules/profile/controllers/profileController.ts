@@ -1,35 +1,43 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { deleteProfileService, getProfileService, updateProfileService } from "../services/profileService.js";
-import { NotFoundError } from "../../../shared/errors/notFound.js";
+import { UpdateProfilePayload } from "../types/profile.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
+import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 
-export const getProfile = async (req: AuthenticatedRequest, res: Response) => {
-	const user = await getProfileService(req.user!.id);
+export const getProfileController = async (req: AuthenticatedRequest, res: Response) => {
+	const userId = getAuthenticatedUserId(req);
 
-	if (!user) {
-		throw new NotFoundError("User not found");
-	}
+	const user = await getProfileService(userId);
 
 	return sendSuccess(res, "Profile retrieved successfully", { user });
 };
 
-export const updateProfile = async (req: AuthenticatedRequest, res: Response) => {
-	const user = await updateProfileService(req.user!.id, req.body);
+export const updateProfileController = async (req: AuthenticatedRequest, res: Response) => {
+	const userId = getAuthenticatedUserId(req);
 
-	if (!user) {
-		throw new NotFoundError("User not found");
-	}
+	const payload = req.body as UpdateProfilePayload;
+
+	const user = await updateProfileService(userId, payload);
 
 	return sendSuccess(res, "Profile updated successfully", { user });
 };
 
-export const deleteProfile = async (req: AuthenticatedRequest, res: Response) => {
-	const deleted = await deleteProfileService(req.user!.id);
+export const deleteProfileController = async (req: AuthenticatedRequest, res: Response) => {
+	const userId = getAuthenticatedUserId(req);
 
-	if (!deleted) {
-		throw new NotFoundError("User not found");
-	}
+	await deleteProfileService(userId);
 
 	return sendSuccess(res, "Profile deleted successfully", null);
 };
+
+function getAuthenticatedUserId(req: AuthenticatedRequest) {
+	const userId = req.user?.id;
+
+	if (!userId) {
+		throw new UnauthorizedError("Authentication required");
+	}
+
+	return userId;
+}
+
