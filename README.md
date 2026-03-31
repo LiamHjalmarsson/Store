@@ -32,11 +32,15 @@ Create a .env file or use .env.example in the root:
 
 ## Install dependencies
 
-- npm run dev
+- npm run install
 
-## Run database seeds
+## Run database migrations
+
+- npm run setup
 
 - npm run seed
+
+- npm run reset
 
 ## start server
 

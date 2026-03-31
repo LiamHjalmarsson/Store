@@ -9,9 +9,9 @@
 		"dev": "tsx watch src/server.ts",
 		"build": "tsc",
 		"start": "node dist/server.js",
-		"db:setup": "tsx src/database/setup.ts",
-		"db:reset": "tsx src/database/reset.ts",
-		"db:seed": "tsx src/database/seeds/seed.ts",
+		"setup": "tsx src/database/setup.ts",
+		"reset": "tsx src/database/reset.ts",
+		"seed": "tsx src/database/seeds/seed.ts",
 		"lint": "eslint src",
 		"cleanup": "tsx scripts/cleanupUploads.ts",
 		"module": "tsx scripts/createModule/index.ts"
