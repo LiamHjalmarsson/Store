@@ -1,46 +1,25 @@
-import { body, CustomValidator } from "express-validator";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { BadRequestError } from "../../../shared/errors/badRequest.js";
-import { query } from "../../../config/database.js";
+import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
+import {
+	CREATOR_FIELDS,
+	bioField,
+	payoutMethodField,
+	stripeAccountIdField,
+	websiteField,
+} from "./fields/validationFields.js";
+import { notAlreadyCreator } from "./rules/notAlreadyCreator.js";
 
-const allowedFields = ["website", "bio", "stripe_account_id", "payout_method"] as const;
-
-const notAlreadyCreator: CustomValidator = async (_, { req }) => {
-	const userId = (req as AuthenticatedRequest).user?.id;
-
-	if (!userId) {
-		throw new BadRequestError("Authentication required");
-	}
-
-	const result = await query(`SELECT 1 FROM creators WHERE user_id = $1`, [userId]);
-
-	if (result.rowCount !== null && result.rowCount > 0) {
-		throw new BadRequestError("You are already a creator");
-	}
-
-	return true;
-};
-
-export const becomeCreatorValidation = validateRequest([
-	body().custom(onlyAllowedFields(allowedFields)).bail(),
+export const createValidation = validateRequest([
+	body().custom(onlyAllowedFields(CREATOR_FIELDS)).bail(),
 
 	body().custom(notAlreadyCreator).bail(),
 
-	body("website").optional({ nullable: true }).isURL().withMessage("Website must be a valid URL"),
+	websiteField(),
 
-	body("bio").optional({ nullable: true }).isLength({ max: 500 }).withMessage("Bio max 500 characters"),
+	bioField(),
 
-	body("stripe_account_id")
-		.optional({ nullable: true })
-		.isString()
-		.withMessage("stripe_account_id must be a string")
-		.isLength({ max: 100 })
-		.withMessage("stripe_account_id must be at most 100 characters"),
+	stripeAccountIdField(),
 
-	body("payout_method")
-		.optional({ nullable: true })
-		.isIn(["stripe", "bank", "other"])
-		.withMessage("Invalid payout method"),
+	payoutMethodField(),
 ]);

@@ -1,25 +1,25 @@
 import { Router } from "express";
 import {
-	createCreator,
-	deleteCreatorProfile,
-	getAllCreators,
-	getCreator,
-	updateCreatorProfile,
+	createCreatorController,
+	deleteMyCreatorController,
+	getAllCreatorsController,
+	getCreatorController,
+	updateMyCreatorController,
 } from "../controllers/creatorController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
-import { becomeCreatorValidation } from "../validations/createValidation.js";
-import { updateCreatorValidation } from "../validations/updateValidation.js";
+import { createValidation } from "../validations/createValidation.js";
+import { updateValidation } from "../validations/updateValidation.js";
 
 const router = Router();
 
-router.get("/", getAllCreators);
+router.get("/", getAllCreatorsController);
 
-router.post("/become-creator", authenticated, becomeCreatorValidation, createCreator);
+router.post("/become-creator", authenticated, createValidation, createCreatorController);
 
-router.get("/:id", getCreator);
+router.get("/:id", getCreatorController);
 
-router.patch("/me", authenticated, updateCreatorValidation, updateCreatorProfile);
+router.patch("/me", authenticated, updateValidation, updateMyCreatorController);
 
-router.delete("/me", authenticated, deleteCreatorProfile);
+router.delete("/me", authenticated, deleteMyCreatorController);
 
 export default router;

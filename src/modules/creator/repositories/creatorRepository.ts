@@ -3,7 +3,7 @@ import { BadRequestError } from "../../../shared/errors/badRequest.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { CreateCreatorPayload, PublicCreator, UpdateCreatorPayload } from "../types/creator.js";
 
-const creatorProfileSelect = `
+const CREATOR_PROFILE = `
 	u.id,
 	u.email,
 	u.firstname,
@@ -24,7 +24,16 @@ const creatorProfileSelect = `
 	c.updated_at
 `;
 
-export const findAllCreators = async (pagination: PaginationQuery) => {
+const UPDATABLE_CREATOR_FIELDS = [
+	"website",
+	"bio",
+	"verified_creator",
+	"featured",
+	"stripe_account_id",
+	"payout_method",
+] as const;
+
+export const findAllCreatorsQuery = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: string }>(
 		`
 		SELECT COUNT(*)::text AS count
@@ -39,7 +48,7 @@ export const findAllCreators = async (pagination: PaginationQuery) => {
 	const result = await query<PublicCreator>(
 		`
 		SELECT
-			${creatorProfileSelect}
+			${CREATOR_PROFILE}
 		FROM users u
 		INNER JOIN creators c ON c.user_id = u.id
 		WHERE u.role = 'creator'
@@ -61,7 +70,7 @@ export const findAllCreators = async (pagination: PaginationQuery) => {
 	};
 };
 
-export const createNewCreator = async (payload: CreateCreatorPayload): Promise<PublicCreator> => {
+export const createCreatorQuery = async (payload: CreateCreatorPayload) => {
 	const { user_id, website = null, bio = null, stripe_account_id = null, payout_method = null } = payload;
 
 	await query(
@@ -92,7 +101,7 @@ export const createNewCreator = async (payload: CreateCreatorPayload): Promise<P
 		[user_id, website, bio, false, false, 0, 0, stripe_account_id, payout_method],
 	);
 
-	const creator = await findCreatorById(user_id);
+	const creator = await findCreatorByIdQuery(user_id);
 
 	if (!creator) {
 		throw new BadRequestError("Creator could not be created");
@@ -101,11 +110,11 @@ export const createNewCreator = async (payload: CreateCreatorPayload): Promise<P
 	return creator;
 };
 
-export const findCreatorById = async (creatorId: number) => {
+export const findCreatorByIdQuery = async (creatorId: number) => {
 	const result = await query<PublicCreator>(
 		`
 		SELECT
-			${creatorProfileSelect}
+			${CREATOR_PROFILE}
 		FROM users u
 		INNER JOIN creators c ON c.user_id = u.id
 		WHERE u.id = $1
@@ -117,25 +126,16 @@ export const findCreatorById = async (creatorId: number) => {
 	return result.rows[0];
 };
 
-export const updateCreatorById = async (creatorId: number, payload: UpdateCreatorPayload) => {
-	const allowedFields = [
-		"website",
-		"bio",
-		"verified_creator",
-		"featured",
-		"stripe_account_id",
-		"payout_method",
-	] as const;
-
-	const fields = allowedFields.filter((key) => payload[key] !== undefined);
+export const updateCreatorByIdQuery = async (creatorId: number, payload: UpdateCreatorPayload) => {
+	const fields = UPDATABLE_CREATOR_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
 	}
 
-	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
+	const setSql = fields.map((field, index) => `${field} = $${index + 2}`).join(", ");
 
-	const values = [creatorId, ...fields.map((key) => payload[key] ?? null)];
+	const values = [creatorId, ...fields.map((field) => payload[field] ?? null)];
 
 	const result = await query(
 		`
@@ -152,10 +152,10 @@ export const updateCreatorById = async (creatorId: number, payload: UpdateCreato
 		return null;
 	}
 
-	return await findCreatorById(creatorId);
+	return findCreatorByIdQuery(creatorId);
 };
 
-export const deleteCreatorById = async (creatorId: number) => {
+export const deleteCreatorByIdQuery = async (creatorId: number) => {
 	const result = await query(
 		`
 			DELETE FROM creators
@@ -164,6 +164,10 @@ export const deleteCreatorById = async (creatorId: number) => {
 		`,
 		[creatorId],
 	);
+
+	if (result.rowCount !== 1) {
+		return false;
+	}
 
 	await query(
 		`
@@ -174,5 +178,6 @@ export const deleteCreatorById = async (creatorId: number) => {
 		[creatorId],
 	);
 
-	return result.rowCount === 1;
+	return true;
 };
+

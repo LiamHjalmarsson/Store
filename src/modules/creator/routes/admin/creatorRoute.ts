@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { deleteCreator, updateCreator } from "../../controllers/creatorController.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
-import { adminUpdateCreatorValidation } from "../../validations/adminUpdateValidation.js";
+import { deleteCreatorController, updateCreatorController } from "../../controllers/creatorController.js";
+import { adminUpdateValidation } from "../../validations/adminUpdateValidation.js";
 
 const router = Router();
 
 router.use(authenticated, isAdmin);
 
-router.patch("/:id", adminUpdateCreatorValidation, updateCreator);
+router.patch("/:id", adminUpdateValidation, updateCreatorController);
 
-router.delete("/:id", deleteCreator);
+router.delete("/:id", deleteCreatorController);
 
 export default router;

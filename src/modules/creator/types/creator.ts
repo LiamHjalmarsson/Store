@@ -45,6 +45,8 @@ export interface CreateCreatorPayload {
 	payout_method?: PayoutMethod;
 }
 
+export type CreateCreatorData = Omit<CreateCreatorPayload, "user_id">;
+
 export interface UpdateCreatorPayload {
 	website?: string | null;
 	bio?: string | null;
@@ -53,4 +55,3 @@ export interface UpdateCreatorPayload {
 	stripe_account_id?: string | null;
 	payout_method?: PayoutMethod;
 }
-

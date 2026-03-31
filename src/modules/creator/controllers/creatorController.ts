@@ -1,4 +1,8 @@
 import { Request, Response } from "express";
+import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
+import { pagination } from "../../../shared/utils/http/pagination.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import {
 	createCreatorService,
 	deleteCreatorService,
@@ -6,13 +10,9 @@ import {
 	getCreatorService,
 	updateCreatorService,
 } from "../services/creatorService.js";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { CreateCreatorPayload } from "../types/creator.js";
-import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { pagination } from "../../../shared/utils/http/pagination.js";
-import { sendSuccess } from "../../../shared/utils/http/respond.js";
+import { CreateCreatorData, CreateCreatorPayload, UpdateCreatorPayload } from "../types/creator.js";
 
-export const getAllCreators = async (req: Request, res: Response) => {
+export const getAllCreatorsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllCreatorsService({ page, limit, offset });
@@ -28,12 +28,14 @@ export const getAllCreators = async (req: Request, res: Response) => {
 	});
 };
 
-export const createCreator = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user?.id);
+export const createCreatorController = async (req: AuthenticatedRequest, res: Response) => {
+	const userId = getAuthenticatedUserId(req);
+
+	const data = req.body as CreateCreatorData;
 
 	const payload: CreateCreatorPayload = {
 		user_id: userId,
-		...req.body,
+		...data,
 	};
 
 	const creator = await createCreatorService(payload);
@@ -41,62 +43,57 @@ export const createCreator = async (req: AuthenticatedRequest, res: Response) =>
 	return sendSuccess(res, "Creator created successfully", { creator }, 201);
 };
 
-export const getCreator = async (req: Request, res: Response) => {
+export const getCreatorController = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
 	const creator = await getCreatorService(id);
 
-	if (!creator) {
-		throw new NotFoundError("Creator not found");
-	}
-
 	return sendSuccess(res, "Creator retrieved successfully", { creator });
 };
 
-export const updateCreatorProfile = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user?.id);
+export const updateMyCreatorController = async (req: AuthenticatedRequest, res: Response) => {
+	const userId = getAuthenticatedUserId(req);
 
-	const creator = await updateCreatorService(userId, req.body);
+	const payload = req.body as UpdateCreatorPayload;
 
-	if (!creator) {
-		throw new NotFoundError("Creator not found");
-	}
+	const creator = await updateCreatorService(userId, payload);
 
 	return sendSuccess(res, "Creator profile updated successfully", { creator });
 };
 
-export const updateCreator = async (req: Request, res: Response) => {
-	const userId = Number(req.params.id);
+export const updateCreatorController = async (req: Request, res: Response) => {
+	const creatorId = Number(req.params.id);
 
-	const creator = await updateCreatorService(userId, req.body);
+	const payload = req.body as UpdateCreatorPayload;
 
-	if (!creator) {
-		throw new NotFoundError("Creator not found");
-	}
+	const creator = await updateCreatorService(creatorId, payload);
 
 	return sendSuccess(res, "Creator updated successfully", { creator });
 };
 
-export const deleteCreatorProfile = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user?.id);
+export const deleteMyCreatorController = async (req: AuthenticatedRequest, res: Response) => {
+	const userId = getAuthenticatedUserId(req);
 
-	const deleted = await deleteCreatorService(userId);
-
-	if (!deleted) {
-		throw new NotFoundError("Creator profile not found");
-	}
+	await deleteCreatorService(userId);
 
 	return sendSuccess(res, "Creator profile deleted successfully", null);
 };
 
-export const deleteCreator = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.params.id);
+export const deleteCreatorController = async (req: Request, res: Response) => {
+	const creatorId = Number(req.params.id);
 
-	const deleted = await deleteCreatorService(userId);
-
-	if (!deleted) {
-		throw new NotFoundError("Creator profile not found");
-	}
+	await deleteCreatorService(creatorId);
 
 	return sendSuccess(res, "Creator deleted successfully", null);
 };
+
+function getAuthenticatedUserId(req: AuthenticatedRequest) {
+	const userId = req.user?.id;
+
+	if (!userId) {
+		throw new UnauthorizedError("Authentication required");
+	}
+
+	return userId;
+}
+

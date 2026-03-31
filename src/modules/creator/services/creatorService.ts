@@ -1,29 +1,48 @@
+import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import {
-	createNewCreator,
-	deleteCreatorById,
-	findAllCreators,
-	findCreatorById,
-	updateCreatorById,
+	createCreatorQuery,
+	deleteCreatorByIdQuery,
+	findAllCreatorsQuery,
+	findCreatorByIdQuery,
+	updateCreatorByIdQuery,
 } from "../repositories/creatorRepository.js";
 import { CreateCreatorPayload, UpdateCreatorPayload } from "../types/creator.js";
 
 export const getAllCreatorsService = async (pagination: PaginationQuery) => {
-	return await findAllCreators(pagination);
+	return findAllCreatorsQuery(pagination);
 };
 
 export const createCreatorService = async (payload: CreateCreatorPayload) => {
-	return await createNewCreator(payload);
+	return createCreatorQuery(payload);
 };
 
-export const getCreatorService = async (userId: number) => {
-	return await findCreatorById(userId);
+export const getCreatorService = async (creatorId: number) => {
+	const creator = await findCreatorByIdQuery(creatorId);
+
+	if (!creator) {
+		throw new NotFoundError("Creator not found");
+	}
+
+	return creator;
 };
 
 export const updateCreatorService = async (creatorId: number, payload: UpdateCreatorPayload) => {
-	return updateCreatorById(creatorId, payload);
+	const creator = await updateCreatorByIdQuery(creatorId, payload);
+
+	if (!creator) {
+		throw new NotFoundError("Creator not found");
+	}
+
+	return creator;
 };
 
 export const deleteCreatorService = async (creatorId: number) => {
-	return deleteCreatorById(creatorId);
+	const deleted = await deleteCreatorByIdQuery(creatorId);
+
+	if (!deleted) {
+		throw new NotFoundError("Creator profile not found");
+	}
+
+	return deleted;
 };
