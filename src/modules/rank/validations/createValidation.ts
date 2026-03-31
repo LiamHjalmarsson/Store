@@ -1,22 +1,14 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
-import { rankNameUnique } from "./rules/rankNameUnique.js";
+import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
+import { RANK_FIELDS, badgeUrlField, minXpField, nameField } from "./fields/validationFields.js";
 
 export const createValidation = validateRequest([
-	body("name")
-		.trim()
-		.notEmpty()
-		.withMessage("Name is required")
-		.isLength({ min: 2, max: 100 })
-		.withMessage("Name must be 2-100")
-		.custom(rankNameUnique),
+	body().custom(onlyAllowedFields(RANK_FIELDS)).bail(),
 
-	body("min_xp")
-		.notEmpty()
-		.withMessage("min_xp is required")
-		.isInt({ min: 0 })
-		.withMessage("min_xp must be 0 or higher")
-		.toInt(),
+	nameField(),
 
-	body("badge_url").optional({ nullable: true }).isURL().withMessage("badge_url must be a valid URL"),
+	minXpField(),
+
+	badgeUrlField(),
 ]);

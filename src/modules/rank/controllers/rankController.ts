@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { BadRequestError } from "../../../shared/errors/badRequest.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import {
 	createRankService,
 	deleteRankService,
@@ -7,22 +9,23 @@ import {
 	resolveRankService,
 	updateRankService,
 } from "../services/rankService.js";
-import { BadRequestError } from "../../../shared/errors/badRequest.js";
-import { sendSuccess } from "../../../shared/utils/http/respond.js";
+import { CreateRankPayload, RankParams, UpdateRankPayload } from "../types/rank.js";
 
-export const getAllRanks = async (_: Request, res: Response) => {
+export const getAllRanksController = async (_: Request, res: Response) => {
 	const ranks = await getAllRanksService();
 
 	return sendSuccess(res, "Ranks retrieved successfully", { ranks });
 };
 
-export const createRank = async (req: Request, res: Response) => {
-	const rank = await createRankService(req.body);
+export const createRankController = async (req: Request, res: Response) => {
+	const payload = req.body as CreateRankPayload;
+
+	const rank = await createRankService(payload);
 
 	return sendSuccess(res, "Rank created successfully", { rank }, 201);
 };
 
-export const getRank = async (req: Request, res: Response) => {
+export const getRankController = async (req: Request<RankParams>, res: Response) => {
 	const id = Number(req.params.id);
 
 	const rank = await getRankService(id);
@@ -30,27 +33,25 @@ export const getRank = async (req: Request, res: Response) => {
 	return sendSuccess(res, "Rank retrieved successfully", { rank });
 };
 
-export const updateRank = async (req: Request, res: Response) => {
+export const updateRankController = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
-	const rank = await updateRankService(id, req.body);
+	const payload = req.body as UpdateRankPayload;
+
+	const rank = await updateRankService(id, payload);
 
 	return sendSuccess(res, "Rank updated successfully", { rank });
 };
 
-export const deleteRank = async (req: Request, res: Response) => {
+export const deleteRankController = async (req: Request<RankParams>, res: Response) => {
 	const id = Number(req.params.id);
 
-	const rank = await deleteRankService(id);
-
-	if (!rank) {
-		throw new BadRequestError("No rank to delete");
-	}
+	await deleteRankService(id);
 
 	return sendSuccess(res, "Rank deleted successfully", null);
 };
 
-export const resolveRank = async (req: Request, res: Response) => {
+export const resolveRankController = async (req: Request, res: Response) => {
 	const xp = Number(req.query.xp);
 
 	if (Number.isNaN(xp) || xp < 0) {
@@ -61,3 +62,4 @@ export const resolveRank = async (req: Request, res: Response) => {
 
 	return sendSuccess(res, "Rank resolved successfully", { rank });
 };
+

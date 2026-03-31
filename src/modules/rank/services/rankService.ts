@@ -1,33 +1,53 @@
+import { NotFoundError } from "../../../shared/errors/notFound.js";
 import {
-	createNewRank,
-	deleteRankById,
-	findAllRanks,
-	findRankById,
-	resolveRankByXp,
-	updateRankById,
+	createRankQuery,
+	deleteRankByIdQuery,
+	findAllRanksQuery,
+	findRankByIdQuery,
+	resolveRankByXpQuery,
+	updateRankByIdQuery,
 } from "../repositories/rankRepository.js";
 import { CreateRankPayload, UpdateRankPayload } from "../types/rank.js";
 
 export const getAllRanksService = async () => {
-	return await findAllRanks();
+	return findAllRanksQuery();
 };
 
 export const createRankService = async (payload: CreateRankPayload) => {
-	return await createNewRank(payload);
+	return createRankQuery(payload);
 };
 
-export const getRankService = async (id: number) => {
-	return await findRankById(id);
+export const getRankService = async (rankId: number) => {
+	const rank = await findRankByIdQuery(rankId);
+
+	if (!rank) {
+		throw new NotFoundError("Rank not found");
+	}
+
+	return rank;
 };
 
-export const updateRankService = async (id: number, payload: UpdateRankPayload) => {
-	return await updateRankById(id, payload);
+export const updateRankService = async (rankId: number, payload: UpdateRankPayload) => {
+	const rank = await updateRankByIdQuery(rankId, payload);
+
+	if (!rank) {
+		throw new NotFoundError("Rank not found");
+	}
+
+	return rank;
 };
 
-export const deleteRankService = async (id: number) => {
-	return await deleteRankById(id);
+export const deleteRankService = async (rankId: number) => {
+	const deleted = await deleteRankByIdQuery(rankId);
+
+	if (!deleted) {
+		throw new NotFoundError("Rank not found");
+	}
+
+	return deleted;
 };
 
 export const resolveRankService = async (xp: number) => {
-	return await resolveRankByXp(xp);
+	return resolveRankByXpQuery(xp);
 };
+

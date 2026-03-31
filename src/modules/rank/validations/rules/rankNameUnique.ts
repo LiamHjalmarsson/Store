@@ -4,8 +4,10 @@ import { BadRequestError } from "../../../../shared/errors/badRequest.js";
 export const rankNameUnique = async (name: string) => {
 	const result = await query(
 		`
-        SELECT 1 FROM ranks 
-        WHERE LOWER(name) = LOWER($1)`,
+			SELECT 1
+			FROM ranks
+			WHERE LOWER(name) = LOWER($1)
+		`,
 		[name],
 	);
 

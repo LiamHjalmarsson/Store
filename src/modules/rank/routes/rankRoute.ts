@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { getAllRanks, getRank, resolveRank } from "../controllers/rankController.js";
+import { getAllRanksController, getRankController, resolveRankController } from "../controllers/rankController.js";
 
 const router = Router();
 
-router.get("/", getAllRanks);
-router.get("/resolve", resolveRank);
-router.get("/:id", getRank);
+router.get("/", getAllRanksController);
+
+router.get("/resolve", resolveRankController);
+
+router.get("/:id", getRankController);
 
 export default router;
+
