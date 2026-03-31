@@ -25,4 +25,3 @@ export interface AwardAchievementPayload {
 export interface AwardAchievementResult {
 	awarded: boolean;
 }
-

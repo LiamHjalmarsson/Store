@@ -7,6 +7,7 @@ import {
 	updateAchievementController,
 } from "../../controllers/achievementController.js";
 import { createValidation } from "../../validations/createValidation.js";
+import { deleteValidation } from "../../validations/deleteValidation.js";
 import { updateValidation } from "../../validations/updateValidation.js";
 
 const router = Router();
@@ -17,6 +18,6 @@ router.post("/", createValidation, createAchievementController);
 
 router.patch("/:id", updateValidation, updateAchievementController);
 
-router.delete("/:id", deleteAchievementController);
+router.delete("/:id", deleteValidation, deleteAchievementController);
 
 export default router;

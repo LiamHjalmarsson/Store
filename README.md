@@ -61,19 +61,19 @@ Create a .env file or use .env.example in the root:
 
 #### Public
 
-| Method | Endpoint                  | Access | Description               |
-| ------ | ------------------------- | ------ | ------------------------- |
-| GET    | `/api/achievements`       | Public | Get all achievements      |
-| GET    | `/api/achievements/me`    | Public | Get one achievement by id |
-| GET    | `/api/achievements/award` | Public | Get one achievement by id |
+| Method | Endpoint                  | Access | Description                       |
+| ------ | ------------------------- | ------ | --------------------------------- |
+| GET    | `/api/achievements`       | Public | Get all achievements              |
+| GET    | `/api/achievements/me`    | Public | Get logged in user's achievements |
+| GET    | `/api/achievements/award` | Public | _ongoing_                         |
 
 #### ADMIN
 
-| Method | Endpoint                | Access | Description          |
-| ------ | ----------------------- | ------ | -------------------- |
-| POST   | `/api/achievements`     | ADMIN  | Get all achievements |
-| PATCH  | `/api/achievements/:id` | ADMIN  | Update achievement   |
-| DELETE | `/api/achievements/:id` | ADMIN  | Delete achievement   |
+| Method | Endpoint                | Access | Description        |
+| ------ | ----------------------- | ------ | ------------------ |
+| POST   | `/api/achievements`     | ADMIN  | Create achievement |
+| PATCH  | `/api/achievements/:id` | ADMIN  | Update achievement |
+| DELETE | `/api/achievements/:id` | ADMIN  | Delete achievement |
 
 ### Categories
 
