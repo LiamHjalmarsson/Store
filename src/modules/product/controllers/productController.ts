@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
+import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import {
 	createProductService,
 	deleteProductService,
@@ -6,11 +8,11 @@ import {
 	getProductService,
 	updateProductService,
 } from "../services/productService.js";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { pagination } from "../../../shared/utils/http/pagination.js";
 import { sendError, sendSuccess } from "../../../shared/utils/http/respond.js";
 import { updateProductImageService } from "../services/updateImageService.js";
 import { downloadProductService } from "../services/downloadService.js";
+import { CreateProductPayload, ProductUploadFiles, UpdateProductPayload } from "../types/product.js";
 
 export const getAllProductsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
@@ -29,20 +31,13 @@ export const getAllProductsController = async (req: Request, res: Response) => {
 };
 
 export const createProductController = async (req: AuthenticatedRequest, res: Response) => {
-	const creatorId = req.user!.id;
+	const creatorId = getAuthenticatedUserId(req);
 
-	const files = req.files as
-		| {
-				image?: Express.Multer.File[];
-				file?: Express.Multer.File[];
-		  }
-		| undefined;
+	const payload = req.body as CreateProductPayload;
 
-	const imageFile = files?.image?.[0];
+	const { imageFile, productFile } = getProductUploadFiles(req);
 
-	const productFile = files?.file?.[0];
-
-	const product = await createProductService(creatorId, req.body, imageFile, productFile);
+	const product = await createProductService(creatorId, payload, imageFile, productFile);
 
 	return sendSuccess(res, "Product created successfully", { product }, 201);
 };
@@ -58,9 +53,11 @@ export const getProductController = async (req: Request, res: Response) => {
 export const updateProductController = async (req: AuthenticatedRequest, res: Response) => {
 	const id = Number(req.params.id);
 
-	const creatorId = req.user!.id;
+	const creatorId = getAuthenticatedUserId(req);
 
-	const product = await updateProductService(id, creatorId, req.body);
+	const payload = req.body as UpdateProductPayload;
+
+	const product = await updateProductService(id, creatorId, payload);
 
 	return sendSuccess(res, "Product updated successfully", { product });
 };
@@ -68,7 +65,7 @@ export const updateProductController = async (req: AuthenticatedRequest, res: Re
 export const deleteProductController = async (req: AuthenticatedRequest, res: Response) => {
 	const id = Number(req.params.id);
 
-	const creatorId = req.user!.id;
+	const creatorId = getAuthenticatedUserId(req);
 
 	await deleteProductService(id, creatorId);
 
@@ -78,7 +75,7 @@ export const deleteProductController = async (req: AuthenticatedRequest, res: Re
 export const updateProductImageController = async (req: AuthenticatedRequest, res: Response) => {
 	const id = Number(req.params.id);
 
-	const creatorId = req.user!.id;
+	const creatorId = getAuthenticatedUserId(req);
 
 	if (!req.file) {
 		return sendError(res, "No file uploaded");
@@ -92,13 +89,33 @@ export const updateProductImageController = async (req: AuthenticatedRequest, re
 export const downloadProductController = async (req: AuthenticatedRequest, res: Response) => {
 	const productId = Number(req.params.id);
 
-	const userId = Number(req.user?.id);
+	const userId = getAuthenticatedUserId(req);
 
-	if (!productId) {
-		return sendError(res, "Invalid Id");
+	if (Number.isNaN(productId) || productId < 1) {
+		return sendError(res, "Invalid product ID");
 	}
 
 	const result = await downloadProductService(productId, userId);
 
 	return res.download(result.filePath, result.filename);
 };
+
+function getAuthenticatedUserId(req: AuthenticatedRequest) {
+	const userId = req.user?.id;
+
+	if (!userId) {
+		throw new UnauthorizedError("Authentication required");
+	}
+
+	return userId;
+}
+
+function getProductUploadFiles(req: AuthenticatedRequest) {
+	const files = req.files as ProductUploadFiles | undefined;
+
+	return {
+		imageFile: files?.image?.[0],
+		productFile: files?.file?.[0],
+	};
+}
+

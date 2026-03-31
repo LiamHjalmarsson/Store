@@ -2,13 +2,28 @@ import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
 
+const UPDATABLE_PRODUCT_FIELDS = [
+	"title",
+	"description",
+	"price",
+	"category_id",
+	"subcategory_id",
+	"image_url",
+	"file_url",
+	"file_size",
+	"is_featured",
+	"is_discounted",
+	"discounted",
+	"status",
+] as const;
+
 export const findProductsQuery = async (pagination: PaginationQuery) => {
-	const totalResult = await query<{ count: string }>(`
+	const totalResult = await query<{ count: number }>(`
 		SELECT COUNT(*)::int AS count
         FROM products
     `);
 
-	const total = Number(totalResult.rows[0].count);
+	const total = totalResult.rows[0].count;
 
 	const result = await query<Product>(
 		`
@@ -89,22 +104,7 @@ export const findProductByIdQuery = async (id: number) => {
 };
 
 export const updateProductByIdQuery = async (id: number, creatorId: number, payload: UpdateProductPayload) => {
-	const allowedFields = [
-		"title",
-		"description",
-		"price",
-		"category_id",
-		"subcategory_id",
-		"image_url",
-		"file_url",
-		"file_size",
-		"is_featured",
-		"is_discounted",
-		"discounted",
-		"status",
-	] as const;
-
-	const fieldsToUpdate = allowedFields.filter((fieldName) => payload[fieldName] !== undefined);
+	const fieldsToUpdate = UPDATABLE_PRODUCT_FIELDS.filter((fieldName) => payload[fieldName] !== undefined);
 
 	if (fieldsToUpdate.length === 0) {
 		return null;
@@ -141,7 +141,7 @@ export const deleteProductByIdQuery = async (id: number, creatorId: number) => {
 };
 
 export const findProductByIdForCreatorQuery = async (id: number, creatorId: number) => {
-	const result = await query(
+	const result = await query<Product>(
 		`
 			SELECT *
 			FROM products

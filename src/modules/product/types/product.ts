@@ -1,5 +1,10 @@
 export type ProductStatus = "draft" | "published" | "archived";
 
+export interface ProductUploadFiles {
+	image?: Express.Multer.File[];
+	file?: Express.Multer.File[];
+}
+
 export interface Product {
 	id: number;
 	title: string;

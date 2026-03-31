@@ -1,5 +1,19 @@
 import { body } from "express-validator";
 
+export const PRODUCT_FIELDS = [
+	"title",
+	"description",
+	"price",
+	"category_id",
+	"subcategory_id",
+	"image_url",
+	"file_url",
+	"file_size",
+	"is_featured",
+	"is_discounted",
+	"discounted",
+] as const;
+
 export const productTitleField = () =>
 	body("title")
 		.trim()

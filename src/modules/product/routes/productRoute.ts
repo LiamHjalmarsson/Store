@@ -9,11 +9,11 @@ import {
 	updateProductImageController,
 } from "../controllers/productController.js";
 import authenticated from "../../../shared/middlewares/authenticated.js";
-import { createProductValidation } from "../validations/createProductValidation.js";
 import { isCreatorOrAdmin } from "../../../shared/middlewares/isCreatorOrAdmin.js";
-import { updateProductValidation } from "../validations/updateProductValidation.js";
 import { uploadProductAssetsMiddleware } from "../middlewares/uploadProductAssetsMiddleware.js";
 import { uploadProductImageMiddleware } from "../middlewares/uploadProductImageMiddleware.js";
+import { createValidation } from "../validations/createValidation.js";
+import { updateValidation } from "../validations/updateValidation.js";
 
 const router = Router();
 
@@ -24,7 +24,7 @@ router.post(
 	authenticated,
 	isCreatorOrAdmin,
 	uploadProductAssetsMiddleware,
-	createProductValidation,
+	createValidation,
 	createProductController,
 );
 
@@ -34,7 +34,7 @@ router.patch("/:id/image", authenticated, isCreatorOrAdmin, uploadProductImageMi
 
 router.get("/:id", getProductController);
 
-router.patch("/:id", authenticated, isCreatorOrAdmin, updateProductValidation, updateProductController);
+router.patch("/:id", authenticated, isCreatorOrAdmin, updateValidation, updateProductController);
 
 router.delete("/:id", authenticated, isCreatorOrAdmin, deleteProductController);
 

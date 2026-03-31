@@ -22,7 +22,7 @@ export async function getCreatorProduct(productId: number, creatorId: number) {
 }
 
 export const getAllProductsService = async (pagination: PaginationQuery) => {
-	return await findProductsQuery(pagination);
+	return findProductsQuery(pagination);
 };
 
 export const createProductService = async (
@@ -90,9 +90,9 @@ export const deleteProductService = async (id: number, creatorId: number) => {
 
 	await deleteStoredFileByPublicPath(existingProduct.file_url);
 
-	const wasDeleted = await deleteProductByIdQuery(id, creatorId);
+	const deleted = await deleteProductByIdQuery(id, creatorId);
 
-	if (!wasDeleted) {
+	if (!deleted) {
 		throw new NotFoundError("Product not found");
 	}
 
