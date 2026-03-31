@@ -1,9 +1,9 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { PublicUser } from "../../../shared/types/user.js";
-import { CreateNewUserPayload, UpdateUserPayload } from "../types/user.js";
+import { CreateUserPayload, UpdateUserPayload } from "../types/user.js";
 
-const publicUserSelect = `
+const PUBLIC_USER = `
 	id,
 	email,
 	firstname,
@@ -20,18 +20,28 @@ const publicUserSelect = `
 	updated_at
 `;
 
-export const findAllUsers = async (pagination: PaginationQuery) => {
-	const totalResult = await query<{ count: string }>(`
-        SELECT COUNT(*)::text AS count
+const UPDATABLE_USER_FIELDS = [
+	"firstname",
+	"lastname",
+	"avatar",
+	"username",
+	"role",
+	"account_status",
+	"signed_to_newsletter",
+] as const;
+
+export const findAllUsersQuery = async (pagination: PaginationQuery) => {
+	const totalResult = await query<{ count: number }>(`
+        SELECT COUNT(*)::int AS count
         FROM users
     `);
 
-	const total = Number(totalResult.rows[0].count);
+	const total = totalResult.rows[0].count;
 
 	const result = await query<PublicUser>(
 		`
         SELECT
-			${publicUserSelect}
+			${PUBLIC_USER}
         FROM users
         ORDER BY created_at DESC
         LIMIT $1
@@ -51,7 +61,7 @@ export const findAllUsers = async (pagination: PaginationQuery) => {
 	};
 };
 
-export const createNewUser = async (payload: CreateNewUserPayload) => {
+export const createUserQuery = async (payload: CreateUserPayload) => {
 	const {
 		email,
 		password,
@@ -80,45 +90,35 @@ export const createNewUser = async (payload: CreateNewUserPayload) => {
 			)
 			VALUES
 				($1,$2,$3,$4,$5,$6,$7,$8,$9)
-			RETURNING ${publicUserSelect}`,
+			RETURNING ${PUBLIC_USER}`,
 		[normalizedEmail, password, username, firstname, lastname, avatar, role, account_status, signed_to_newsletter],
 	);
 
 	return result.rows[0];
 };
 
-export const findUserById = async (id: number) => {
+export const findUserByIdQuery = async (userId: number) => {
 	const result = await query<PublicUser>(
 		`SELECT 
-			${publicUserSelect}
+			${PUBLIC_USER}
         FROM users 
 		WHERE id = $1`,
-		[id],
+		[userId],
 	);
 
-	return result.rows[0];
+	return result.rows[0] ?? null;
 };
 
-export const updateUserById = async (id: number, data: UpdateUserPayload) => {
-	const allowed = [
-		"firstname",
-		"lastname",
-		"avatar",
-		"username",
-		"role",
-		"account_status",
-		"signed_to_newsletter",
-	] as const;
-
-	const fields = allowed.filter((key) => data[key] !== undefined);
+export const updateUserByIdQuery = async (userId: number, payload: UpdateUserPayload) => {
+	const fields = UPDATABLE_USER_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
 	}
 
-	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
+	const setSql = fields.map((field, index) => `${field} = $${index + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => data[key] ?? null)];
+	const values = [userId, ...fields.map((field) => payload[field] ?? null)];
 
 	const result = await query<PublicUser>(
 		`
@@ -126,15 +126,15 @@ export const updateUserById = async (id: number, data: UpdateUserPayload) => {
 			SET ${setSql},
 				updated_at = CURRENT_TIMESTAMP
 			WHERE id = $1 
-			RETURNING ${publicUserSelect}`,
+			RETURNING ${PUBLIC_USER}`,
 		values,
 	);
 
 	return result.rows[0] ?? null;
 };
 
-export const deleteUserById = async (id: number) => {
-	const result = await query("DELETE FROM users WHERE id = $1", [id]);
+export const deleteUserByIdQuery = async (userId: number) => {
+	const result = await query("DELETE FROM users WHERE id = $1", [userId]);
 
-	return result.rowCount;
+	return result.rowCount === 1;
 };

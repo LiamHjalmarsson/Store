@@ -3,52 +3,35 @@ import { validateRequest } from "../../../shared/middlewares/validateRequest.js"
 import { requireAtLeastOneField } from "../../../shared/validations/fields/requireAtLeastOneField.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import { userExistsById } from "./rules/userExistsById.js";
-import { usernameUnique } from "./rules/usernameUnique.js";
-
-const allowedFields = [
-	"firstname",
-	"lastname",
-	"avatar",
-	"username",
-	"role",
-	"account_status",
-	"signed_to_newsletter",
-] as const;
+import {
+	UPDATE_USER_FIELDS,
+	avatarField,
+	firstnameField,
+	lastnameField,
+	roleField,
+	signedToNewsletterField,
+	updateAccountStatusField,
+	updateUsernameField,
+} from "./fields/validationFields.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid user ID").bail().custom(userExistsById).bail(),
 
+	body().custom(onlyAllowedFields(UPDATE_USER_FIELDS)).bail(),
+
 	body().custom(requireAtLeastOneField).bail(),
 
-	body().custom(onlyAllowedFields(allowedFields)).bail(),
+	firstnameField(),
 
-	body("firstname")
-		.optional({ nullable: true })
-		.trim()
-		.isLength({ max: 80 })
-		.withMessage("firstname max 80 characters"),
+	lastnameField(),
 
-	body("lastname")
-		.optional({ nullable: true })
-		.trim()
-		.isLength({ max: 80 })
-		.withMessage("lastname max 80 characters"),
+	avatarField(),
 
-	body("avatar").optional({ nullable: true }).isURL().withMessage("avatar must be a valid URL"),
+	updateUsernameField(),
 
-	body("username")
-		.optional({ nullable: true })
-		.trim()
-		.isLength({ min: 3, max: 30 })
-		.withMessage("username must be 3-30 characters")
-		.custom(usernameUnique),
+	signedToNewsletterField(),
 
-	body("signed_to_newsletter").optional().isBoolean().withMessage("signed_to_newsletter must be true/false"),
+	updateAccountStatusField(),
 
-	body("account_status")
-		.optional()
-		.isIn(["active", "suspended", "banned"])
-		.withMessage("account_status must be one of: active, suspended, banned"),
-
-	body("role").optional().isIn(["user", "admin", "creator"]).withMessage("role must be one of: user, admin, creator"),
+	roleField().withMessage("role must be one of: user, admin, creator"),
 ]);

@@ -1,7 +1,13 @@
 import { Router } from "express";
 import authenticated from "../../../shared/middlewares/authenticated.js";
 import { isAdmin } from "../../../shared/middlewares/isAdmin.js";
-import { createUser, deleteUser, getAllUsers, getUser, updateUser } from "../controllers/userController.js";
+import {
+	createUserController,
+	deleteUserController,
+	getAllUsersController,
+	getUserController,
+	updateUserController,
+} from "../controllers/userController.js";
 import { createValidation } from "../validations/createValidation.js";
 import { updateValidation } from "../validations/updateValidation.js";
 
@@ -9,14 +15,14 @@ const router = Router();
 
 router.use(authenticated, isAdmin);
 
-router.get("/", getAllUsers);
+router.get("/", getAllUsersController);
 
-router.post("/", createValidation, createUser);
+router.post("/", createValidation, createUserController);
 
-router.get("/:id", getUser);
+router.get("/:id", getUserController);
 
-router.patch("/:id", updateValidation, updateUser);
+router.patch("/:id", updateValidation, updateUserController);
 
-router.delete("/:id", deleteUser);
+router.delete("/:id", deleteUserController);
 
 export default router;

@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { pagination } from "../../../shared/utils/http/pagination.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import {
 	createUserService,
 	deleteUserService,
@@ -6,11 +8,9 @@ import {
 	getUserService,
 	updateUserService,
 } from "../services/userService.js";
-import { NotFoundError } from "../../../shared/errors/notFound.js";
-import { pagination } from "../../../shared/utils/http/pagination.js";
-import { sendSuccess } from "../../../shared/utils/http/respond.js";
+import { CreateUserPayload, UpdateUserPayload, UserParams } from "../types/user.js";
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsersController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllUsersService({ page, limit, offset });
@@ -26,44 +26,36 @@ export const getAllUsers = async (req: Request, res: Response) => {
 	});
 };
 
-export const createUser = async (req: Request, res: Response) => {
-	const user = await createUserService(req.body);
+export const createUserController = async (req: Request, res: Response) => {
+	const payload = req.body as CreateUserPayload;
+
+	const user = await createUserService(payload);
 
 	return sendSuccess(res, "User created successfully", { user }, 201);
 };
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUserController = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
 	const user = await getUserService(id);
 
-	if (!user) {
-		throw new NotFoundError("User not found");
-	}
-
 	return sendSuccess(res, "User retrieved successfully", { user });
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUserController = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
-	const user = await updateUserService(id, req.body);
+	const payload = req.body as UpdateUserPayload;
 
-	if (!user) {
-		throw new NotFoundError("User not found");
-	}
+	const user = await updateUserService(id, payload);
 
 	return sendSuccess(res, "User updated successfully", { user });
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUserController = async (req: Request, res: Response) => {
 	const id = Number(req.params.id);
 
-	const deleted = await deleteUserService(id);
-
-	if (!deleted) {
-		throw new NotFoundError("User not found");
-	}
+	await deleteUserService(id);
 
 	return sendSuccess(res, "User deleted successfully", null);
 };
