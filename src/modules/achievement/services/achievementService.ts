@@ -3,22 +3,22 @@ import {
 	awardAchievementToUserQuery,
 	createAchievementQuery,
 	deleteAchievementByIdQuery,
-	findAchievementsQuery,
-	findUserAchievementsQuery,
-	updateAchievementByIdQuery,
+	findAchievementsByUserIdQuery,
+	findAllAchievementsQuery,
+	updateAchievementById,
 } from "../repositories/achievementRepository.js";
 import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.js";
 
-export const getAllAchivementsService = async () => {
-	return await findAchievementsQuery();
+export const getAllAchievementsService = async () => {
+	return findAllAchievementsQuery();
 };
 
 export const createAchievementService = async (payload: CreateAchievementPayload) => {
-	return await createAchievementQuery(payload);
+	return createAchievementQuery(payload);
 };
 
-export const updateAchievementService = async (id: number, payload: UpdateAchievementPayload) => {
-	const achievement = await updateAchievementByIdQuery(id, payload);
+export const updateAchievementService = async (achievementId: number, payload: UpdateAchievementPayload) => {
+	const achievement = await updateAchievementById(achievementId, payload);
 
 	if (!achievement) {
 		throw new NotFoundError("Achievement not found");
@@ -27,20 +27,21 @@ export const updateAchievementService = async (id: number, payload: UpdateAchiev
 	return achievement;
 };
 
-export const deleteAchievementService = async (id: number) => {
-	const deleted = await deleteAchievementByIdQuery(id);
+export const deleteAchievementService = async (achievementId: number) => {
+	const deleted = await deleteAchievementByIdQuery(achievementId);
 
 	if (!deleted) {
 		throw new NotFoundError("Achievement not found");
 	}
 
-	return true;
+	return deleted;
 };
 
-export const awardAchievementService = async (userId: number, achievement_id: number) => {
-	await awardAchievementToUserQuery(userId, achievement_id);
+export const awardAchievementService = async (userId: number, achievementId: number) => {
+	return awardAchievementToUserQuery(userId, achievementId);
 };
 
 export const getUserAchievementsService = async (userId: number) => {
-	return await findUserAchievementsQuery(userId);
+	return findAchievementsByUserIdQuery(userId);
 };
+

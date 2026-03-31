@@ -8,18 +8,21 @@ export interface Achievement {
 	created_at: Date | string;
 }
 
-export interface UserAchievement {
-	user_id: number;
-	achievement_id: number;
-	earned_at: Date;
-}
-
 export interface CreateAchievementPayload {
 	code: string;
 	name: string;
-	description: string | null;
-	icon: string | null;
+	description?: string | null;
+	icon?: string | null;
 	xp_reward: number;
 }
 
 export type UpdateAchievementPayload = Partial<CreateAchievementPayload>;
+
+export interface AwardAchievementPayload {
+	achievement_id: number;
+}
+
+export interface AwardAchievementResult {
+	awarded: boolean;
+}
+

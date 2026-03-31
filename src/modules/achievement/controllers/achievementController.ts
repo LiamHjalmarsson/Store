@@ -1,45 +1,51 @@
 import { Request, Response } from "express";
+import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
+import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
+import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import {
 	awardAchievementService,
 	createAchievementService,
 	deleteAchievementService,
-	getAllAchivementsService,
+	getAllAchievementsService,
 	getUserAchievementsService,
 	updateAchievementService,
 } from "../services/achievementService.js";
-import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { sendSuccess } from "../../../shared/utils/http/respond.js";
+import { AwardAchievementPayload, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.js";
 
 export const getAllAchievementsController = async (_: Request, res: Response) => {
-	const achievements = await getAllAchivementsService();
+	const achievements = await getAllAchievementsService();
 
 	return sendSuccess(res, "Achievements retrieved successfully", { achievements });
 };
 
 export const createAchievementController = async (req: Request, res: Response) => {
-	const achievement = await createAchievementService(req.body);
+	const payload = req.body as CreateAchievementPayload;
+
+	const achievement = await createAchievementService(payload);
 
 	return sendSuccess(res, "Achievement created successfully", { achievement }, 201);
 };
 
 export const updateAchievementController = async (req: Request, res: Response) => {
-	const id = Number(req.params.id);
+	const achievementId = Number(req.params.id);
 
-	const achievement = await updateAchievementService(id, req.body);
+	const payload = req.body as UpdateAchievementPayload;
+
+	const achievement = await updateAchievementService(achievementId, payload);
 
 	return sendSuccess(res, "Achievement updated successfully", { achievement });
 };
 
 export const deleteAchievementController = async (req: Request, res: Response) => {
-	const id = Number(req.params.id);
+	const achievementId = Number(req.params.id);
 
-	await deleteAchievementService(id);
+	await deleteAchievementService(achievementId);
 
 	return sendSuccess(res, "Achievement deleted successfully", null);
 };
 
 export const getMyAchievementsController = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user!.id);
+	const userId = getAuthenticatedUserId(req);
 
 	const achievements = await getUserAchievementsService(userId);
 
@@ -47,11 +53,24 @@ export const getMyAchievementsController = async (req: AuthenticatedRequest, res
 };
 
 export const awardAchievementController = async (req: AuthenticatedRequest, res: Response) => {
-	const userId = Number(req.user!.id);
+	const userId = getAuthenticatedUserId(req);
 
-	const { achievement_id } = req.body;
+	const { achievement_id } = req.body as AwardAchievementPayload;
 
-	await awardAchievementService(userId, achievement_id);
+	const { awarded } = await awardAchievementService(userId, achievement_id);
 
-	return sendSuccess(res, "Achievement awarded successfully", null);
+	const message = awarded ? "Achievement awarded successfully" : "Achievement already awarded";
+
+	return sendSuccess(res, message, null);
 };
+
+function getAuthenticatedUserId(req: AuthenticatedRequest) {
+	const userId = req.user?.id;
+
+	if (!userId) {
+		throw new UnauthorizedError("Authentication required");
+	}
+
+	return userId;
+}
+

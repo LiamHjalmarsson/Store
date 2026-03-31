@@ -5,12 +5,12 @@ import { categoryTitleNotUsed } from "./rules/categoryTitleNotUsed.js";
 import { requireAtLeastOneField } from "../../../shared/validations/fields/requireAtLeastOneField.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 
-const allowed = ["title", "description", "image", "is_featured"] as const;
+const CATEGORY_FIELDS = ["title", "description", "image", "is_featured"] as const;
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid category ID").bail().custom(categoryExistsById).bail(),
 
-	body().custom(onlyAllowedFields(allowed)),
+	body().custom(onlyAllowedFields(CATEGORY_FIELDS)),
 
 	body().custom(requireAtLeastOneField),
 

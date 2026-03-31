@@ -3,10 +3,10 @@ import { validateRequest } from "../../../shared/middlewares/validateRequest.js"
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import { categoryTitleNotUsed } from "./rules/categoryTitleNotUsed.js";
 
-const allowed = ["title", "description", "image", "is_featured"] as const;
+const CATEGORY_FIELDS = ["title", "description", "image", "is_featured"] as const;
 
 export const createValidation = validateRequest([
-	body().custom(onlyAllowedFields(allowed)),
+	body().custom(onlyAllowedFields(CATEGORY_FIELDS)),
 
 	body("title")
 		.trim()

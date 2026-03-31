@@ -5,6 +5,7 @@ import {
 	getAllAchievementsController,
 	getMyAchievementsController,
 } from "../controllers/achievementController.js";
+import { awardValidation } from "../validations/awardValidation.js";
 
 const router = Router();
 
@@ -14,6 +15,7 @@ router.get("/", getAllAchievementsController);
 
 router.get("/me", getMyAchievementsController);
 
-router.post("/award", awardAchievementController);
+router.post("/award", awardValidation, awardAchievementController);
 
 export default router;
+
