@@ -1,28 +1,48 @@
+import { NotFoundError } from "../../../shared/errors/notFound.js";
 import {
-	createNewSubcategory,
-	deleteSubcategoryById,
-	findAllSubcategories,
-	findSubcategoryById,
-	updateSubcategoryById,
+	createSubcategoryQuery,
+	deleteSubcategoryByIdQuery,
+	findAllSubcategoriesQuery,
+	findSubcategoryByIdQuery,
+	updateSubcategoryByIdQuery,
 } from "../repositories/subcategoryRepository.js";
 import { CreateSubcategoryPayload, UpdateSubcategoryPayload } from "../types/subcategory.js";
 
-export async function getAllSubcategoriesService(id?: number) {
-	return await findAllSubcategories(id);
+export async function getAllSubcategoriesService(categoryId?: number) {
+	return findAllSubcategoriesQuery(categoryId);
 }
 
 export async function createSubcategoryService(payload: CreateSubcategoryPayload) {
-	return await createNewSubcategory(payload);
+	return createSubcategoryQuery(payload);
 }
 
-export async function getSubcategoryService(id: number) {
-	return await findSubcategoryById(id);
+export async function getSubcategoryService(subcategoryId: number) {
+	const subcategory = await findSubcategoryByIdQuery(subcategoryId);
+
+	if (!subcategory) {
+		throw new NotFoundError("Subcategory not found");
+	}
+
+	return subcategory;
 }
 
-export async function updateSubcategoryService(id: number, payload: UpdateSubcategoryPayload) {
-	return await updateSubcategoryById(id, payload);
+export async function updateSubcategoryService(subcategoryId: number, payload: UpdateSubcategoryPayload) {
+	const subcategory = await updateSubcategoryByIdQuery(subcategoryId, payload);
+
+	if (!subcategory) {
+		throw new NotFoundError("Subcategory not found");
+	}
+
+	return subcategory;
 }
 
-export async function deleteSubcategoryService(id: number) {
-	return deleteSubcategoryById(id);
+export async function deleteSubcategoryService(subcategoryId: number) {
+	const deleted = await deleteSubcategoryByIdQuery(subcategoryId);
+
+	if (!deleted) {
+		throw new NotFoundError("Subcategory not found");
+	}
+
+	return deleted;
 }
+

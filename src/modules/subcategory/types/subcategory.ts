@@ -13,3 +13,11 @@ export interface CreateSubcategoryPayload {
 }
 
 export type UpdateSubcategoryPayload = Partial<CreateSubcategoryPayload>;
+
+export interface SubcategoryParams {
+	id: string;
+}
+
+export interface SubcategoryQuery {
+	category_id?: string;
+}

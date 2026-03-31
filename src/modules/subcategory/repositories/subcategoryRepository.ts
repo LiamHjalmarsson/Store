@@ -1,78 +1,98 @@
 import { query } from "../../../config/database.js";
 import { CreateSubcategoryPayload, Subcategory, UpdateSubcategoryPayload } from "../types/subcategory.js";
 
-export const findAllSubcategories = async (id?: number) => {
-	if (id) {
+const SUBCATEGORY = `
+	id,
+	title,
+	category_id,
+	description,
+	created_at
+`;
+
+const UPDATABLE_SUBCATEGORY_FIELDS = ["title", "description", "category_id"] as const;
+
+export const findAllSubcategoriesQuery = async (categoryId?: number) => {
+	if (categoryId !== undefined) {
 		const result = await query<Subcategory>(
-			`SELECT * 
-                                FROM subcategories 
-                        WHERE 
-                                category_id = $1 
-                        ORDER BY 
-                                created_at DESC`,
-			[id],
+			`
+				SELECT
+					${SUBCATEGORY}
+				FROM subcategories
+				WHERE category_id = $1
+				ORDER BY created_at DESC
+			`,
+			[categoryId],
 		);
 
 		return result.rows;
 	}
 
 	const result = await query<Subcategory>(`
-        SELECT * 
-                FROM subcategories 
-        ORDER BY 
-                created_at DESC`);
+		SELECT
+			${SUBCATEGORY}
+		FROM subcategories
+		ORDER BY created_at DESC
+	`);
 
 	return result.rows;
 };
 
-export const createNewSubcategory = async (payload: CreateSubcategoryPayload) => {
+export const createSubcategoryQuery = async (payload: CreateSubcategoryPayload) => {
 	const result = await query<Subcategory>(
-		`INSERT INTO subcategories 
-                        (title, category_id, description)
-                VALUES 
-                        ($1, $2, $3)
-                RETURNING *`,
+		`
+			INSERT INTO subcategories
+				(title, category_id, description)
+			VALUES
+				($1, $2, $3)
+			RETURNING
+				${SUBCATEGORY}
+		`,
 		[payload.title, payload.category_id, payload.description ?? null],
 	);
 
 	return result.rows[0];
 };
 
-export const findSubcategoryById = async (id: number) => {
+export const findSubcategoryByIdQuery = async (id: number) => {
 	const result = await query<Subcategory>(
 		`
-		SELECT * 
-		FROM subcategories 
-		WHERE id = $1`,
+			SELECT
+				${SUBCATEGORY}
+			FROM subcategories
+			WHERE id = $1
+		`,
 		[id],
 	);
 
 	return result.rows[0] ?? null;
 };
 
-export const updateSubcategoryById = async (id: number, payload: UpdateSubcategoryPayload) => {
-	const allowed: (keyof UpdateSubcategoryPayload)[] = ["title", "description", "category_id"];
+export const updateSubcategoryByIdQuery = async (id: number, payload: UpdateSubcategoryPayload) => {
+	const fields = UPDATABLE_SUBCATEGORY_FIELDS.filter((field) => payload[field] !== undefined);
 
-	const fields = allowed.filter((k) => payload[k] !== undefined);
+	if (fields.length === 0) {
+		return null;
+	}
 
-	if (fields.length === 0) return null;
+	const setSql = fields.map((field, index) => `${field} = $${index + 2}`).join(", ");
 
-	const setSql = fields.map((k, i) => `${k} = $${i + 2}`).join(", ");
-
-	const values = [id, ...fields.map((k) => payload[k] ?? null)];
+	const values = [id, ...fields.map((field) => payload[field] ?? null)];
 
 	const result = await query<Subcategory>(
 		`
-		UPDATE subcategories 
-		SET ${setSql}
-		WHERE id = $1 RETURNING *`,
+			UPDATE subcategories
+			SET ${setSql}
+			WHERE id = $1
+			RETURNING
+				${SUBCATEGORY}
+		`,
 		values,
 	);
 
 	return result.rows[0] ?? null;
 };
 
-export const deleteSubcategoryById = async (id: number) => {
+export const deleteSubcategoryByIdQuery = async (id: number) => {
 	const result = await query(`DELETE FROM subcategories WHERE id = $1`, [id]);
 
 	return result.rowCount === 1;

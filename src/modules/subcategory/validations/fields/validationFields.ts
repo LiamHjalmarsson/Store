@@ -1,0 +1,31 @@
+import { body } from "express-validator";
+import { subcategoryTitleUniquePerCategory } from "../rules/subcategoryTitleUniquePerCategory.js";
+
+export const SUBCATEGORY_FIELDS = ["title", "description", "category_id"] as const;
+
+export function titleField() {
+	return body("title")
+		.trim()
+		.notEmpty()
+		.withMessage("Title is required")
+		.isLength({ min: 2, max: 100 })
+		.withMessage("Title must be 2-100 characters")
+		.custom(subcategoryTitleUniquePerCategory);
+}
+
+export function categoryIdField() {
+	return body("category_id")
+		.notEmpty()
+		.withMessage("category_id is required")
+		.isInt({ min: 1 })
+		.withMessage("Invalid category_id")
+		.toInt();
+}
+
+export function descriptionField() {
+	return body("description")
+		.optional({ nullable: true })
+		.trim()
+		.isLength({ max: 1000 })
+		.withMessage("Description max 1000 characters");
+}

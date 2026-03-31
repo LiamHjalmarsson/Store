@@ -1,18 +1,22 @@
 import { Router } from "express";
 import { isAdmin } from "../../../../shared/middlewares/isAdmin.js";
 import authenticated from "../../../../shared/middlewares/authenticated.js";
-import { createSubcategory, deleteSubcategory, updateSubcategory } from "../../controllers/subcategoryController.js";
-import { updateValidation } from "../../validations/updateValidation.js";
+import {
+	createSubcategoryController,
+	deleteSubcategoryController,
+	updateSubcategoryController,
+} from "../../controllers/subcategoryController.js";
 import { createValidation } from "../../validations/createValidation.js";
+import { updateValidation } from "../../validations/updateValidation.js";
 
 const router = Router();
 
 router.use(authenticated, isAdmin);
 
-router.post("/", createValidation, createSubcategory);
+router.post("/", createValidation, createSubcategoryController);
 
-router.patch("/:id", updateValidation, updateSubcategory);
+router.patch("/:id", updateValidation, updateSubcategoryController);
 
-router.delete("/:id", deleteSubcategory);
+router.delete("/:id", deleteSubcategoryController);
 
 export default router;

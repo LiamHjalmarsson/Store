@@ -3,29 +3,18 @@ import { validateRequest } from "../../../shared/middlewares/validateRequest.js"
 import { requireAtLeastOneField } from "../../../shared/validations/fields/requireAtLeastOneField.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import { subcategoryExistsById } from "./rules/subcategoryExistsById.js";
-import { subcategoryTitleUniquePerCategory } from "./rules/subcategoryTitleUniquePerCategory.js";
-
-const allowedFields = ["title", "description", "category_id"] as const;
+import { SUBCATEGORY_FIELDS, categoryIdField, descriptionField, titleField } from "./fields/validationFields.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid subcategory ID").bail().custom(subcategoryExistsById).bail(),
 
+	body().custom(onlyAllowedFields(SUBCATEGORY_FIELDS)).bail(),
+
 	body().custom(requireAtLeastOneField).bail(),
 
-	body().custom(onlyAllowedFields(allowedFields)).bail(),
+	titleField().optional(),
 
-	body("title")
-		.optional()
-		.trim()
-		.notEmpty()
-		.withMessage("Title cannot be empty")
-		.custom(subcategoryTitleUniquePerCategory),
+	categoryIdField().optional(),
 
-	body("category_id").optional().isInt({ min: 1 }).withMessage("Invalid category_id").toInt(),
-
-	body("description")
-		.optional({ nullable: true })
-		.trim()
-		.isLength({ max: 1000 })
-		.withMessage("Description max 1000 characters"),
+	descriptionField(),
 ]);
