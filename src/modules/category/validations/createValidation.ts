@@ -1,28 +1,22 @@
 import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
-import { categoryTitleNotUsed } from "./rules/categoryTitleNotUsed.js";
-
-const CATEGORY_FIELDS = ["title", "description", "image", "is_featured"] as const;
+import {
+	CATEGORY_FIELDS,
+	descriptionField,
+	imageField,
+	isFeaturedField,
+	titleField,
+} from "./fields/validationFields.js";
 
 export const createValidation = validateRequest([
-	body().custom(onlyAllowedFields(CATEGORY_FIELDS)),
+	body().custom(onlyAllowedFields(CATEGORY_FIELDS)).bail(),
 
-	body("title")
-		.trim()
-		.notEmpty()
-		.withMessage("Title of category is required")
-		.isLength({ min: 3, max: 100 })
-		.withMessage("Title must be between 3 and 100 characters")
-		.custom(categoryTitleNotUsed),
+	titleField(),
 
-	body("description")
-		.optional()
-		.trim()
-		.isLength({ max: 1000 })
-		.withMessage("Description can be up to 1000 characters"),
+	descriptionField(),
 
-	body("image").optional().isURL().withMessage("Must be a valid image URL"),
+	imageField(),
 
-	body("is_featured").optional().isBoolean().withMessage("is_featured must be true or false"),
+	isFeaturedField(),
 ]);

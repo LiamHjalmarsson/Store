@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
-import { Category, CreateCategoryPayload, UpdateCategoryPayload } from "../types/categoryTypes.js";
+import { Category, CreateCategoryPayload, UpdateCategoryPayload } from "../types/category.js";
 
-const categorySelect = `
+const CATEGORY = `
 	id,
 	title,
 	description,
@@ -11,11 +11,13 @@ const categorySelect = `
 	updated_at
 `;
 
+const UPDATABLE_CATEGORY_FIELDS = ["title", "description", "image", "is_featured"] as const;
+
 export const findCategoriesQuery = async () => {
 	const result = await query<Category>(
 		`
 		SELECT
-			${categorySelect}
+			${CATEGORY}
 		FROM categories
 		ORDER BY created_at DESC
 	`,
@@ -36,7 +38,7 @@ export const createCategoryQuery = async (payload: CreateCategoryPayload) => {
 				is_featured
 			)
 			VALUES ($1, $2, $3, $4)
-			RETURNING ${categorySelect}
+			RETURNING ${CATEGORY}
 		`,
 		[title, description ?? null, image ?? null, is_featured ?? false],
 	);
@@ -48,7 +50,7 @@ export const findCategoryByIdQuery = async (id: number) => {
 	const result = await query<Category>(
 		`
 		SELECT
-			${categorySelect}
+			${CATEGORY}
 		FROM categories
 		WHERE id = $1
 	`,
@@ -59,17 +61,15 @@ export const findCategoryByIdQuery = async (id: number) => {
 };
 
 export const updateCategoryByIdQuery = async (id: number, payload: UpdateCategoryPayload) => {
-	const allowedFields = ["title", "description", "image", "is_featured"] as const;
-
-	const fields = allowedFields.filter((key) => payload[key] !== undefined);
+	const fields = UPDATABLE_CATEGORY_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
 	}
 
-	const setSql = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
+	const setSql = fields.map((field, index) => `${field} = $${index + 2}`).join(", ");
 
-	const values = [id, ...fields.map((key) => payload[key] ?? null)];
+	const values = [id, ...fields.map((field) => payload[field] ?? null)];
 
 	const result = await query<Category>(
 		`
@@ -77,7 +77,7 @@ export const updateCategoryByIdQuery = async (id: number, payload: UpdateCategor
 			SET ${setSql},
 				updated_at = CURRENT_TIMESTAMP
 			WHERE id = $1
-			RETURNING ${categorySelect}
+			RETURNING ${CATEGORY}
 		`,
 		values,
 	);
@@ -96,4 +96,3 @@ export const deleteCategoryByIdQuery = async (id: number) => {
 
 	return result.rowCount === 1;
 };
-

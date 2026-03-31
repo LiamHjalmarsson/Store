@@ -6,14 +6,14 @@ import {
 	findCategoryByIdQuery,
 	updateCategoryByIdQuery,
 } from "../repositories/categoryRepository.js";
-import { CreateCategoryPayload, UpdateCategoryPayload } from "../types/categoryTypes.js";
+import { CreateCategoryPayload, UpdateCategoryPayload } from "../types/category.js";
 
 export const getAllCategoriesService = async () => {
-	return await findCategoriesQuery();
+	return findCategoriesQuery();
 };
 
 export const createCategoryService = async (payload: CreateCategoryPayload) => {
-	return await createCategoryQuery(payload);
+	return createCategoryQuery(payload);
 };
 
 export const getCategoryService = async (categoryId: number) => {
@@ -26,8 +26,8 @@ export const getCategoryService = async (categoryId: number) => {
 	return category;
 };
 
-export const updateCategoryService = async (categoryId: number, data: UpdateCategoryPayload) => {
-	const category = await updateCategoryByIdQuery(categoryId, data);
+export const updateCategoryService = async (categoryId: number, payload: UpdateCategoryPayload) => {
+	const category = await updateCategoryByIdQuery(categoryId, payload);
 
 	if (!category) {
 		throw new NotFoundError("Category not found");

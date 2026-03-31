@@ -10,8 +10,8 @@ export interface Category {
 
 export interface CreateCategoryPayload {
 	title: string;
-	description?: string;
-	image?: string;
+	description?: string | null;
+	image?: string | null;
 	is_featured?: boolean;
 }
 
