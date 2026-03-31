@@ -52,6 +52,16 @@ Create a .env file or use .env.example in the root:
 
 ### Products
 
+| Method | Endpoint                     | Access        | Description           |
+| ------ | ---------------------------- | ------------- | --------------------- |
+| GET    | `/api/products`              | Public        | Get all products      |
+| GET    | `/api/products/:id`          | Public        | Get one product by id |
+| PATCH  | `/api/products/:id/download` | Public        | Download              |
+| POST   | `/api/products`              | Creator/Admin | Create product        |
+| PATCH  | `/api/products/:id`          | Creator/Admin | Update product        |
+| DELETE | `/api/products/:id`          | Creator/Admin | Delete product        |
+| PATCH  | `/api/products/:id/image`    | Creator/Admin | Update image          |
+
 ### Categories
 
 ### Subcategories
