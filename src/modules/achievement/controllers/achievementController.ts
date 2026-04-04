@@ -11,18 +11,15 @@ import {
 	updateAchievementService,
 } from "../services/achievementService.js";
 import { AwardAchievementPayload, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.js";
+import { IdParams, NoParams, NoResponseBody } from "../../../shared/types/request.js";
 
-type AchievementIdParams = {
-	id: string;
-};
+type CreateAchievementRequest = Request<NoParams, NoResponseBody, CreateAchievementPayload>;
 
-type CreateAchievementRequest = Request<Record<string, never>, unknown, CreateAchievementPayload>;
+type UpdateAchievementRequest = Request<IdParams, NoResponseBody, UpdateAchievementPayload>;
 
-type UpdateAchievementRequest = Request<AchievementIdParams, unknown, UpdateAchievementPayload>;
+type DeleteAchievementRequest = Request<IdParams>;
 
-type DeleteAchievementRequest = Request<AchievementIdParams>;
-
-type AwardAchievementRequest = AuthenticatedRequest<Record<string, never>, unknown, AwardAchievementPayload>;
+type AwardAchievementRequest = AuthenticatedRequest<NoParams, NoResponseBody, AwardAchievementPayload>;
 
 export const getAllAchievementsController = async (_: Request, res: Response) => {
 	const achievements = await getAllAchievementsService();
@@ -85,3 +82,4 @@ function getAuthenticatedUserId(req: AuthenticatedRequest) {
 
 	return userId;
 }
+

@@ -1,12 +1,17 @@
 import { Request, Response } from "express";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
+import { NoParams, NoResponseBody } from "../../../shared/types/request.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import { getCurrentUserService, loginService, registerService } from "../services/authService.js";
 import { LoginPayload, RegisterPayload } from "../types/auth.js";
 
-export const registerController = async (req: Request, res: Response) => {
-	const payload = req.body as RegisterPayload;
+type RegisterRequest = Request<NoParams, NoResponseBody, RegisterPayload>;
+
+type LoginRequest = Request<NoParams, NoResponseBody, LoginPayload>;
+
+export const registerController = async (req: RegisterRequest, res: Response) => {
+	const payload = req.body;
 
 	const { token, user } = await registerService(payload);
 
@@ -21,8 +26,8 @@ export const registerController = async (req: Request, res: Response) => {
 	);
 };
 
-export const loginController = async (req: Request, res: Response) => {
-	const payload = req.body as LoginPayload;
+export const loginController = async (req: LoginRequest, res: Response) => {
+	const payload = req.body;
 
 	const { token, user } = await loginService(payload);
 
