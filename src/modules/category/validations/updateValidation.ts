@@ -3,13 +3,8 @@ import { validateRequest } from "../../../shared/middlewares/validateRequest.js"
 import { requireAtLeastOneField } from "../../../shared/validations/fields/requireAtLeastOneField.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import { categoryExistsById } from "./rules/categoryExistsById.js";
-import {
-	CATEGORY_FIELDS,
-	descriptionField,
-	imageField,
-	isFeaturedField,
-	titleField,
-} from "./fields/validationFields.js";
+import { descriptionField, imageField, isFeaturedField, titleField } from "./fields/validationFields.js";
+import { CATEGORY_FIELDS } from "../constants/categoryFields.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid category ID").bail().custom(categoryExistsById).bail(),

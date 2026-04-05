@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { pagination } from "../../../shared/utils/http/pagination.js";
@@ -10,14 +11,21 @@ import {
 	getCreatorService,
 	updateCreatorService,
 } from "../services/creatorService.js";
-import { CreateCreatorData, CreateCreatorPayload, UpdateCreatorPayload } from "../types/creator.js";
+import { CREATOR_MESSAGES } from "../constants/creatorMessages.js";
+import { CreateCreatorPayload } from "../types/creator.js";
+import {
+	CreateCreatorRequest,
+	DeleteCreatorRequest,
+	UpdateCreatorRequest,
+	UpdateMyCreatorRequest,
+} from "../types/creatorRequest.js";
 
 export const getAllCreatorsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllCreatorsService({ page, limit, offset });
 
-	return sendSuccess(res, "Creators retrieved successfully", {
+	return sendSuccess(res, CREATOR_MESSAGES.RETRIEVED_ALL, {
 		creators: result.items,
 		meta: {
 			page: result.page,
@@ -28,10 +36,10 @@ export const getAllCreatorsController = async (req: Request, res: Response) => {
 	});
 };
 
-export const createCreatorController = async (req: AuthenticatedRequest, res: Response) => {
+export const createCreatorController = async (req: CreateCreatorRequest, res: Response) => {
 	const userId = getAuthenticatedUserId(req);
 
-	const data = req.body as CreateCreatorData;
+	const data = req.body;
 
 	const payload: CreateCreatorPayload = {
 		user_id: userId,
@@ -40,7 +48,7 @@ export const createCreatorController = async (req: AuthenticatedRequest, res: Re
 
 	const creator = await createCreatorService(payload);
 
-	return sendSuccess(res, "Creator created successfully", { creator }, 201);
+	return sendSuccess(res, CREATOR_MESSAGES.CREATED, { creator }, 201);
 };
 
 export const getCreatorController = async (req: Request, res: Response) => {
@@ -48,27 +56,27 @@ export const getCreatorController = async (req: Request, res: Response) => {
 
 	const creator = await getCreatorService(id);
 
-	return sendSuccess(res, "Creator retrieved successfully", { creator });
+	return sendSuccess(res, CREATOR_MESSAGES.RETRIEVED, { creator });
 };
 
-export const updateMyCreatorController = async (req: AuthenticatedRequest, res: Response) => {
+export const updateMyCreatorController = async (req: UpdateMyCreatorRequest, res: Response) => {
 	const userId = getAuthenticatedUserId(req);
 
-	const payload = req.body as UpdateCreatorPayload;
+	const payload = req.body;
 
 	const creator = await updateCreatorService(userId, payload);
 
-	return sendSuccess(res, "Creator profile updated successfully", { creator });
+	return sendSuccess(res, CREATOR_MESSAGES.UPDATED_OWNER, { creator });
 };
 
-export const updateCreatorController = async (req: Request, res: Response) => {
+export const updateCreatorController = async (req: UpdateCreatorRequest, res: Response) => {
 	const creatorId = Number(req.params.id);
 
-	const payload = req.body as UpdateCreatorPayload;
+	const payload = req.body;
 
 	const creator = await updateCreatorService(creatorId, payload);
 
-	return sendSuccess(res, "Creator updated successfully", { creator });
+	return sendSuccess(res, CREATOR_MESSAGES.UPDATED, { creator });
 };
 
 export const deleteMyCreatorController = async (req: AuthenticatedRequest, res: Response) => {
@@ -76,24 +84,23 @@ export const deleteMyCreatorController = async (req: AuthenticatedRequest, res: 
 
 	await deleteCreatorService(userId);
 
-	return sendSuccess(res, "Creator profile deleted successfully", null);
+	return sendSuccess(res, CREATOR_MESSAGES.DELETED_OWNER, null);
 };
 
-export const deleteCreatorController = async (req: Request, res: Response) => {
+export const deleteCreatorController = async (req: DeleteCreatorRequest, res: Response) => {
 	const creatorId = Number(req.params.id);
 
 	await deleteCreatorService(creatorId);
 
-	return sendSuccess(res, "Creator deleted successfully", null);
+	return sendSuccess(res, CREATOR_MESSAGES.DELETED, null);
 };
 
 function getAuthenticatedUserId(req: AuthenticatedRequest) {
 	const userId = req.user?.id;
 
 	if (!userId) {
-		throw new UnauthorizedError("Authentication required");
+		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
 	}
 
 	return userId;
 }
-

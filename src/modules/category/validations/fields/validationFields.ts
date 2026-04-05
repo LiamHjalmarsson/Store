@@ -1,8 +1,6 @@
 import { body } from "express-validator";
 import { categoryTitleNotUsed } from "../rules/categoryTitleNotUsed.js";
 
-export const CATEGORY_FIELDS = ["title", "description", "image", "is_featured"] as const;
-
 export function titleField() {
 	return body("title")
 		.trim()
@@ -28,4 +26,3 @@ export function imageField() {
 export function isFeaturedField() {
 	return body("is_featured").optional().isBoolean().withMessage("is_featured must be true or false");
 }
-

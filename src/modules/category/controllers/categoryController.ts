@@ -7,20 +7,21 @@ import {
 	updateCategoryService,
 } from "../services/categoryService.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
-import { CreateCategoryPayload, UpdateCategoryPayload } from "../types/category.js";
+import { CATEGORY_MESSAGES } from "../constants/categoryMessages.js";
+import { CreateCategoryRequest, DeleteCategoryRequest, UpdateCategoryRequest } from "../types/categoryRequest.js";
 
 export const getAllCategoriesController = async (_: Request, res: Response) => {
 	const categories = await getAllCategoriesService();
 
-	return sendSuccess(res, "Categories retrieved successfully", { categories });
+	return sendSuccess(res, CATEGORY_MESSAGES.RETRIEVED_ALL, { categories });
 };
 
-export const createCategoryController = async (req: Request, res: Response) => {
-	const payload = req.body as CreateCategoryPayload;
+export const createCategoryController = async (req: CreateCategoryRequest, res: Response) => {
+	const payload = req.body;
 
 	const category = await createCategoryService(payload);
 
-	return sendSuccess(res, "Category created successfully", { category }, 201);
+	return sendSuccess(res, CATEGORY_MESSAGES.CREATED, { category }, 201);
 };
 
 export const getCategoryController = async (req: Request, res: Response) => {
@@ -28,23 +29,23 @@ export const getCategoryController = async (req: Request, res: Response) => {
 
 	const category = await getCategoryService(id);
 
-	return sendSuccess(res, "Category retrieved successfully", { category });
+	return sendSuccess(res, CATEGORY_MESSAGES.RETRIEVED, { category });
 };
 
-export const updateCategoryController = async (req: Request, res: Response) => {
+export const updateCategoryController = async (req: UpdateCategoryRequest, res: Response) => {
 	const id = Number(req.params.id);
 
-	const payload = req.body as UpdateCategoryPayload;
+	const payload = req.body;
 
 	const category = await updateCategoryService(id, payload);
 
-	return sendSuccess(res, "Category updated successfully", { category });
+	return sendSuccess(res, CATEGORY_MESSAGES.UPDATED, { category });
 };
 
-export const deleteCategoryController = async (req: Request, res: Response) => {
+export const deleteCategoryController = async (req: DeleteCategoryRequest, res: Response) => {
 	const id = Number(req.params.id);
 
 	await deleteCategoryService(id);
 
-	return sendSuccess(res, "Category deleted successfully", null);
+	return sendSuccess(res, CATEGORY_MESSAGES.DELETED, null);
 };

@@ -1,3 +1,4 @@
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import {
 	createCategoryQuery,
@@ -20,7 +21,7 @@ export const getCategoryService = async (categoryId: number) => {
 	const category = await findCategoryByIdQuery(categoryId);
 
 	if (!category) {
-		throw new NotFoundError("Category not found");
+		throw new NotFoundError(`Category ${ERROR_MESSAGES.NOT_FOUND}`);
 	}
 
 	return category;
@@ -30,7 +31,7 @@ export const updateCategoryService = async (categoryId: number, payload: UpdateC
 	const category = await updateCategoryByIdQuery(categoryId, payload);
 
 	if (!category) {
-		throw new NotFoundError("Category not found");
+		throw new NotFoundError(`Category ${ERROR_MESSAGES.NOT_FOUND}`);
 	}
 
 	return category;
@@ -40,7 +41,7 @@ export const deleteCategoryService = async (categoryId: number) => {
 	const category = await deleteCategoryByIdQuery(categoryId);
 
 	if (!category) {
-		throw new NotFoundError("Category not found");
+		throw new NotFoundError(`Category ${ERROR_MESSAGES.NOT_FOUND}`);
 	}
 
 	return true;

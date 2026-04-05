@@ -22,7 +22,7 @@ import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 export const getAllAchievementsController = async (_: Request, res: Response) => {
 	const achievements = await getAllAchievementsService();
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.RETRIEVED_ALL, achievements);
+	return sendSuccess(res, ACHIEVEMENT_MESSAGES.RETRIEVED_ALL, { achievements });
 };
 
 export const createAchievementController = async (req: CreateAchievementRequest, res: Response) => {
@@ -30,7 +30,7 @@ export const createAchievementController = async (req: CreateAchievementRequest,
 
 	const achievement = await createAchievementService(payload);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.CREATED, achievement, 201);
+	return sendSuccess(res, ACHIEVEMENT_MESSAGES.CREATED, { achievement }, 201);
 };
 
 export const updateAchievementController = async (req: UpdateAchievementRequest, res: Response) => {
@@ -40,7 +40,7 @@ export const updateAchievementController = async (req: UpdateAchievementRequest,
 
 	const achievement = await updateAchievementService(achievementId, payload);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.UPDATED, achievement);
+	return sendSuccess(res, ACHIEVEMENT_MESSAGES.UPDATED, { achievement });
 };
 
 export const deleteAchievementController = async (req: DeleteAchievementRequest, res: Response) => {
@@ -48,7 +48,7 @@ export const deleteAchievementController = async (req: DeleteAchievementRequest,
 
 	await deleteAchievementService(achievementId);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.DELETED, null);
+	return sendSuccess(res, ACHIEVEMENT_MESSAGES.DELETED, { achievements: [] });
 };
 
 export const getMyAchievementsController = async (req: AuthenticatedRequest, res: Response) => {
@@ -56,7 +56,7 @@ export const getMyAchievementsController = async (req: AuthenticatedRequest, res
 
 	const achievements = await getUserAchievementsService(userId);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.USER_RETRIEVED, achievements);
+	return sendSuccess(res, ACHIEVEMENT_MESSAGES.USER_RETRIEVED, { achievements });
 };
 
 export const awardAchievementController = async (req: AwardAchievementRequest, res: Response) => {
@@ -66,7 +66,7 @@ export const awardAchievementController = async (req: AwardAchievementRequest, r
 
 	const message = awarded ? ACHIEVEMENT_MESSAGES.AWARDED : ACHIEVEMENT_MESSAGES.ALREADY_AWARDED;
 
-	return sendSuccess(res, message, null);
+	return sendSuccess(res, message, { awarded });
 };
 
 function getAuthenticatedUserId(req: AuthenticatedRequest) {
@@ -78,3 +78,4 @@ function getAuthenticatedUserId(req: AuthenticatedRequest) {
 
 	return userId;
 }
+

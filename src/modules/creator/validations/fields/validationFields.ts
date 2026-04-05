@@ -1,16 +1,5 @@
 import { body } from "express-validator";
 
-export const CREATOR_FIELDS = ["website", "bio", "stripe_account_id", "payout_method"] as const;
-
-export const ADMIN_CREATOR_FIELDS = [
-	"website",
-	"bio",
-	"verified_creator",
-	"featured",
-	"stripe_account_id",
-	"payout_method",
-] as const;
-
 export function websiteField() {
 	return body("website").optional({ nullable: true }).isURL().withMessage("Website must be a valid URL");
 }
@@ -42,4 +31,3 @@ export function verifiedCreatorField() {
 export function featuredField() {
 	return body("featured").optional().isBoolean().withMessage("featured must be true or false");
 }
-

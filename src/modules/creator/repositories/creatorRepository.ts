@@ -1,6 +1,7 @@
 import { query } from "../../../config/database.js";
 import { BadRequestError } from "../../../shared/errors/badRequest.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
+import { UPDATABLE_CREATOR_FIELDS } from "../constants/creatorField.js";
 import { CreateCreatorPayload, PublicCreator, UpdateCreatorPayload } from "../types/creator.js";
 
 const CREATOR_PROFILE = `
@@ -23,15 +24,6 @@ const CREATOR_PROFILE = `
 	c.created_at,
 	c.updated_at
 `;
-
-const UPDATABLE_CREATOR_FIELDS = [
-	"website",
-	"bio",
-	"verified_creator",
-	"featured",
-	"stripe_account_id",
-	"payout_method",
-] as const;
 
 export const findAllCreatorsQuery = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: string }>(
@@ -75,29 +67,29 @@ export const createCreatorQuery = async (payload: CreateCreatorPayload) => {
 
 	await query(
 		`
-			UPDATE users
-			SET role = 'creator'
-			WHERE id = $1
-		`,
+				UPDATE users
+				SET role = 'creator'
+				WHERE id = $1
+			`,
 		[user_id],
 	);
 
 	await query(
 		`
-			INSERT INTO creators (
-				user_id,
-				website,
-				bio,
-				verified_creator,
-				featured,
-				total_sales,
-				total_earnings,
-				stripe_account_id,
-				payout_method
-			)
-			VALUES 
-        ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-		`,
+				INSERT INTO creators (
+					user_id,
+					website,
+					bio,
+					verified_creator,
+					featured,
+					total_sales,
+					total_earnings,
+					stripe_account_id,
+					payout_method
+				)
+				VALUES 
+	        ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+			`,
 		[user_id, website, bio, false, false, 0, 0, stripe_account_id, payout_method],
 	);
 
@@ -158,10 +150,10 @@ export const updateCreatorByIdQuery = async (creatorId: number, payload: UpdateC
 export const deleteCreatorByIdQuery = async (creatorId: number) => {
 	const result = await query(
 		`
-			DELETE FROM creators
-			WHERE user_id = $1
-			RETURNING user_id
-		`,
+				DELETE FROM creators
+				WHERE user_id = $1
+				RETURNING user_id
+			`,
 		[creatorId],
 	);
 
@@ -171,13 +163,12 @@ export const deleteCreatorByIdQuery = async (creatorId: number) => {
 
 	await query(
 		`
-			UPDATE users
-			SET role = 'user'
-			WHERE id = $1
-		`,
+				UPDATE users
+				SET role = 'user'
+				WHERE id = $1
+			`,
 		[creatorId],
 	);
 
 	return true;
 };
-
