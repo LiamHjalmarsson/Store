@@ -59,21 +59,21 @@ Create a .env file or use .env.example in the root:
 
 ### Achievements
 
-#### Public
+#### Authenticated
 
-| Method | Endpoint                  | Access | Description                       |
-| ------ | ------------------------- | ------ | --------------------------------- |
-| GET    | `/api/achievements`       | Public | Get all achievements              |
-| GET    | `/api/achievements/me`    | Public | Get logged in user's achievements |
-| GET    | `/api/achievements/award` | Public | _ongoing_                         |
+| Method | Endpoint               | Access        | Description                       |
+| ------ | ---------------------- | ------------- | --------------------------------- |
+| GET    | `/api/achievements`    | Authenticated | Get all achievements              |
+| GET    | `/api/achievements/me` | Authenticated | Get logged in user's achievements |
 
 #### ADMIN
 
-| Method | Endpoint                | Access | Description        |
-| ------ | ----------------------- | ------ | ------------------ |
-| POST   | `/api/achievements`     | ADMIN  | Create achievement |
-| PATCH  | `/api/achievements/:id` | ADMIN  | Update achievement |
-| DELETE | `/api/achievements/:id` | ADMIN  | Delete achievement |
+| Method | Endpoint                        | Access | Description                 |
+| ------ | ------------------------------- | ------ | --------------------------- |
+| POST   | `/api/admin/achievements`       | ADMIN  | Create achievement          |
+| PATCH  | `/api/admin/achievements/:id`   | ADMIN  | Update achievement          |
+| DELETE | `/api/admin/achievements/:id`   | ADMIN  | Delete achievement          |
+| POST   | `/api/admin/achievements/award` | ADMIN  | Award achievement to a user |
 
 ### Categories
 

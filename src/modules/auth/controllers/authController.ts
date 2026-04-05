@@ -5,6 +5,7 @@ import { NoParams, NoResponseBody } from "../../../shared/types/request.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import { getCurrentUserService, loginService, registerService } from "../services/authService.js";
 import { LoginPayload, RegisterPayload } from "../types/auth.js";
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 
 type RegisterRequest = Request<NoParams, NoResponseBody, RegisterPayload>;
 
@@ -46,14 +47,14 @@ export const meController = async (req: AuthenticatedRequest, res: Response) => 
 
 	const user = await getCurrentUserService(userId);
 
-	return sendSuccess(res, "Authenticated user retrieved successfully", { user });
+	return sendSuccess(res, `User ${user.username} retrieved successfully`, { user });
 };
 
 function getAuthenticatedUserId(req: AuthenticatedRequest) {
 	const userId = req.user?.id;
 
 	if (!userId) {
-		throw new UnauthorizedError("Authentication required");
+		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
 	}
 
 	return userId;

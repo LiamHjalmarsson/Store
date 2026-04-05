@@ -10,6 +10,8 @@ import {
 	updateUserLastLoginQuery,
 } from "../repositories/authRepository.js";
 import { AuthUser, LoginPayload, RegisterPayload } from "../types/auth.js";
+import { AUTH_MESSAGES } from "../constants/authMessages.js";
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 
 export const registerService = async (payload: RegisterPayload) => {
 	const { email, password, username } = payload;
@@ -27,7 +29,7 @@ export const loginService = async (payload: LoginPayload) => {
 	const userCredentials = await findAuthUserCredentialsByEmailQuery(email);
 
 	if (!userCredentials) {
-		throw new UnauthenticatedError("Invalid email or password");
+		throw new UnauthenticatedError(AUTH_MESSAGES.INVALID_CREDENTIALS);
 	}
 
 	if (userCredentials.account_status !== "active") {
@@ -37,7 +39,7 @@ export const loginService = async (payload: LoginPayload) => {
 	const isPasswordMatching = await comparePassword(password, userCredentials.password);
 
 	if (!isPasswordMatching) {
-		throw new UnauthenticatedError("Invalid email or password");
+		throw new UnauthenticatedError(AUTH_MESSAGES.INVALID_CREDENTIALS);
 	}
 
 	await updateUserLastLoginQuery(userCredentials.id);
@@ -52,7 +54,7 @@ export const getCurrentUserService = async (userId: number) => {
 	const user = await findAuthUserByIdQuery(userId);
 
 	if (!user) {
-		throw new UnauthorizedError("User not found");
+		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
 	}
 
 	return user;
@@ -63,4 +65,3 @@ function createAuthResponse(user: AuthUser) {
 
 	return { user, token };
 }
-

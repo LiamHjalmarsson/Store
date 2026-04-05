@@ -2,10 +2,6 @@ import { body } from "express-validator";
 import emailUnique from "../../../../shared/validations/rules/emailUnique.js";
 import usernameUnique from "../../../../shared/validations/rules/usernameUnique.js";
 
-export const LOGIN_FIELDS = ["email", "password"] as const;
-
-export const REGISTER_FIELDS = ["email", "password", "username"] as const;
-
 export function emailField() {
 	return body("email")
 		.trim()
@@ -41,4 +37,3 @@ export function usernameField() {
 		.withMessage("Username must be between 3 and 30 characters")
 		.custom(usernameUnique);
 }
-
