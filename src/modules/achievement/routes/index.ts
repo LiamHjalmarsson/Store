@@ -1,5 +1,5 @@
 import { Router } from "express";
-import achievementRoutes from "./public/achievementRoute.js";
+import achievementRoutes from "./authenticated/achievementRoute.js";
 import achievementAdminRoutes from "./admin/achievementRoute.js";
 
 const router = Router();
