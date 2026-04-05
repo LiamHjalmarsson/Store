@@ -15,7 +15,7 @@ import {
 	CreateAchievementRequest,
 	DeleteAchievementRequest,
 	UpdateAchievementRequest,
-} from "../types/achivementRequest.js";
+} from "../types/achievementRequest.js";
 import { ACHIEVEMENT_MESSAGES } from "../constants/achievementMessages.js";
 import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 
