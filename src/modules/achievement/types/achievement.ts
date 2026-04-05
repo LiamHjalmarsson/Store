@@ -21,7 +21,3 @@ export type UpdateAchievementPayload = Partial<CreateAchievementPayload>;
 export interface AwardAchievementPayload {
 	achievement_id: number;
 }
-
-export interface AwardAchievementResult {
-	awarded: boolean;
-}

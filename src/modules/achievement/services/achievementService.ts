@@ -1,3 +1,4 @@
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import {
 	awardAchievementToUserQuery,
@@ -5,7 +6,7 @@ import {
 	deleteAchievementByIdQuery,
 	findAchievementsByUserIdQuery,
 	findAllAchievementsQuery,
-	updateAchievementById,
+	updateAchievementByIdQuery,
 } from "../repositories/achievementRepository.js";
 import { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.js";
 
@@ -18,10 +19,10 @@ export const createAchievementService = async (payload: CreateAchievementPayload
 };
 
 export const updateAchievementService = async (achievementId: number, payload: UpdateAchievementPayload) => {
-	const achievement = await updateAchievementById(achievementId, payload);
+	const achievement = await updateAchievementByIdQuery(achievementId, payload);
 
 	if (!achievement) {
-		throw new NotFoundError("Achievement not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return achievement;
@@ -31,7 +32,7 @@ export const deleteAchievementService = async (achievementId: number) => {
 	const deleted = await deleteAchievementByIdQuery(achievementId);
 
 	if (!deleted) {
-		throw new NotFoundError("Achievement not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return deleted;
@@ -44,4 +45,3 @@ export const awardAchievementService = async (userId: number, achievementId: num
 export const getUserAchievementsService = async (userId: number) => {
 	return findAchievementsByUserIdQuery(userId);
 };
-

@@ -1,10 +1,7 @@
 import { query } from "../../../config/database.js";
-import {
-	Achievement,
-	AwardAchievementResult,
-	CreateAchievementPayload,
-	UpdateAchievementPayload,
-} from "../types/achievement.js";
+import { ACHIEVEMENT_FIELDS } from "../constants/achievementFields.js";
+import { Achievement, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.js";
+import { AwardAchievementResponse } from "../types/achievementResponse.js";
 
 const ACHIEVEMENT = `
 	id,
@@ -16,7 +13,7 @@ const ACHIEVEMENT = `
 	created_at
 `;
 
-const UPDATABLE_ACHIEVEMENT_FIELDS = ["code", "name", "icon", "xp_reward", "description"] as const;
+const UPDATABLE_ACHIEVEMENT_FIELDS = ACHIEVEMENT_FIELDS;
 
 export const findAllAchievementsQuery = async () => {
 	const result = await query<Achievement>(
@@ -49,7 +46,7 @@ export const createAchievementQuery = async (payload: CreateAchievementPayload) 
 	return result.rows[0];
 };
 
-export const updateAchievementById = async (achievementId: number, payload: UpdateAchievementPayload) => {
+export const updateAchievementByIdQuery = async (achievementId: number, payload: UpdateAchievementPayload) => {
 	const fields = UPDATABLE_ACHIEVEMENT_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
@@ -87,7 +84,7 @@ export const deleteAchievementByIdQuery = async (achievementId: number) => {
 };
 
 export const awardAchievementToUserQuery = async (userId: number, achievementId: number) => {
-	const result = await query<AwardAchievementResult>(
+	const result = await query<AwardAchievementResponse>(
 		`
 			WITH inserted AS (
 				INSERT INTO user_achievements 
@@ -135,4 +132,3 @@ export const findAchievementsByUserIdQuery = async (userId: number) => {
 
 	return result.rows;
 };
-

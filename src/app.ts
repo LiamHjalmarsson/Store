@@ -3,6 +3,7 @@ import cors from "cors";
 import { UPLOAD_ROOT } from "./config/storage.js";
 import apiRoutes from "./routes/apiRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import achievementRoutes from "./modules/achievement/routes/index.js";
 
 const app = express();
 
@@ -14,7 +15,8 @@ app.use("/uploads", express.static(UPLOAD_ROOT));
 
 app.use("/api", apiRoutes);
 
+app.use("/api", achievementRoutes);
+
 app.use("/api/admin", adminRoutes);
 
 export default app;
-

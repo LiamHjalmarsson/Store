@@ -2,8 +2,6 @@ import { body } from "express-validator";
 import { achievementCodeUnique } from "../rules/achievementCodeUnique.js";
 import { achievementNameUnique } from "../rules/achievementNameUnique.js";
 
-export const ACHIEVEMENT_FIELDS = ["name", "code", "xp_reward", "icon", "description"] as const;
-
 export function nameField() {
 	return body("name")
 		.trim()
@@ -44,4 +42,3 @@ export function descriptionField() {
 		.isLength({ max: 1000 })
 		.withMessage("Description can be up to 1000 characters");
 }
-
