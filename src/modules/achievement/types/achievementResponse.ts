@@ -1,13 +1,17 @@
-import { Achievement } from "./achievement.js";
+import type { Achievement } from "./achievement.js";
 
-export interface AchievementResponse {
+export interface AchievementResponseData {
 	achievement: Achievement;
 }
 
-export interface AchievementsResponse {
+export interface AchievementsResponseData {
 	achievements: Achievement[];
 }
 
-export interface AwardAchievementResponse {
+export interface DeleteAchievementResponseData {
+	deleted: boolean;
+}
+
+export interface AwardAchievementResponseData {
 	awarded: boolean;
 }

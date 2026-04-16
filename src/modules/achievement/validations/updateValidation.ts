@@ -4,12 +4,12 @@ import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowe
 import { requireAtLeastOneField } from "../../../shared/validations/fields/requireAtLeastOneField.js";
 import { achievementExistsById } from "./rules/achievementExistsById.js";
 import { codeField, descriptionField, iconField, nameField, xpRewardField } from "./fields/validationFields.js";
-import { ACHIEVEMENT_FIELDS } from "../constants/achievementFields.js";
+import { UPDATE_ACHIEVEMENT_FIELDS } from "../constants/achievementFields.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid achievement ID").bail().custom(achievementExistsById).bail(),
 
-	body().custom(onlyAllowedFields(ACHIEVEMENT_FIELDS)).bail(),
+	body().custom(onlyAllowedFields(UPDATE_ACHIEVEMENT_FIELDS)).bail(),
 
 	body().custom(requireAtLeastOneField).bail(),
 

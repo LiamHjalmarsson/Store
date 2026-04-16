@@ -1,6 +1,23 @@
 import type { Response } from "express";
 
-export const sendSuccess = <T>(res: Response, message: string, data: T, statusCode = 200) => {
+export type ApiSuccessResponse<T> = {
+	status: "success";
+	message: string;
+	data: T;
+};
+
+export type ApiResponse<T> = Response<ApiSuccessResponse<T>>;
+
+export type ApiErrorResponse = {
+	status: "error";
+	message: string;
+	error: {
+		statusCode: number;
+		errors: string[];
+	};
+};
+
+export const sendSuccess = <T>(res: ApiResponse<T>, message: string, data: T, statusCode = 200): ApiResponse<T> => {
 	return res.status(statusCode).json({
 		status: "success",
 		message,
@@ -8,7 +25,12 @@ export const sendSuccess = <T>(res: Response, message: string, data: T, statusCo
 	});
 };
 
-export const sendError = (res: Response, message: string, errors: string[] = [], statusCode = 400) => {
+export const sendError = (
+	res: Response<ApiErrorResponse>,
+	message: string,
+	errors: string[] = [],
+	statusCode = 400,
+): Response<ApiErrorResponse> => {
 	return res.status(statusCode).json({
 		status: "error",
 		message,
