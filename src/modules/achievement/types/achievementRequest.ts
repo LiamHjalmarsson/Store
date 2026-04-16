@@ -1,6 +1,6 @@
-import { Request } from "express";
-import { IdParams, NoParams, NoResponseBody } from "../../../shared/types/request.js";
-import { AwardAchievementPayload, CreateAchievementPayload, UpdateAchievementPayload } from "./achievement.js";
+import type { Request } from "express";
+import type { IdParams, NoParams, NoResponseBody } from "../../../shared/types/request.js";
+import type { AwardAchievementPayload, CreateAchievementPayload, UpdateAchievementPayload } from "./achievement.js";
 
 export type CreateAchievementRequest = Request<NoParams, NoResponseBody, CreateAchievementPayload>;
 

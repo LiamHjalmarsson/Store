@@ -8,16 +8,21 @@ export interface Achievement {
 	created_at: Date | string;
 }
 
-type AchievementPayloadFields = Omit<Achievement, "id" | "created_at">;
-
-export type CreateAchievementPayload = Pick<AchievementPayloadFields, "code" | "name" | "xp_reward">;
-
-export type UpdateAchievementPayload = Partial<AchievementPayloadFields>;
-
-export interface UserAchievement {
-	user_id: number;
-	achievement_id: number;
-	earned_at: Date | string;
+export interface CreateAchievementPayload {
+	code: string;
+	name: string;
+	xp_reward: number;
+	description?: string | null;
+	icon?: string | null;
 }
 
-export type AwardAchievementPayload = Pick<UserAchievement, "user_id" | "achievement_id">;
+export type UpdateAchievementPayload = Partial<CreateAchievementPayload>;
+
+export interface AwardAchievementPayload {
+	user_id: number;
+	achievement_id: number;
+}
+
+export interface AwardAchievementResult {
+	awarded: boolean;
+}

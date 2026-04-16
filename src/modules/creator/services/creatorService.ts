@@ -1,4 +1,4 @@
-import { NotFoundError } from "../../../shared/errors/notfound.js";
+import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import {
 	createCreatorQuery,

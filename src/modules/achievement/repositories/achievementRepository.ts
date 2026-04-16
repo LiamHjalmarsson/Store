@@ -1,7 +1,11 @@
 import { query } from "../../../config/database.js";
 import { UPDATE_ACHIEVEMENT_FIELDS } from "../constants/achievementFields.js";
-import { Achievement, CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.js";
-import type { AwardAchievementResponseData } from "../types/achievementResponse.js";
+import type {
+	Achievement,
+	AwardAchievementResult,
+	CreateAchievementPayload,
+	UpdateAchievementPayload,
+} from "../types/achievement.js";
 
 const ACHIEVEMENT_COLUMNS = `
 	id,
@@ -27,18 +31,18 @@ export const findAllAchievementsQuery = async () => {
 };
 
 export const createAchievementQuery = async (payload: CreateAchievementPayload) => {
-	const { code, name, xp_reward } = payload;
+	const { code, name, description, icon, xp_reward } = payload;
 
 	const result = await query<Achievement>(
 		`
 			INSERT INTO achievements
-				(code, name, xp_reward)
+				(code, name, description, icon, xp_reward)
 			VALUES
-				($1, $2, $3)
+				($1, $2, $3, $4, $5)
 			RETURNING
 				${ACHIEVEMENT_COLUMNS}
 		`,
-		[code, name, xp_reward],
+		[code, name, description ?? null, icon ?? null, xp_reward],
 	);
 
 	return result.rows[0];
@@ -82,7 +86,7 @@ export const deleteAchievementByIdQuery = async (achievementId: number) => {
 };
 
 export const awardAchievementToUserQuery = async (userId: number, achievementId: number) => {
-	const result = await query<AwardAchievementResponseData>(
+	const result = await query<AwardAchievementResult>(
 		`
 			WITH inserted AS (
 				INSERT INTO user_achievements 
