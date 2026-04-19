@@ -3,6 +3,7 @@ import { validateRequest } from "../../../shared/middlewares/validateRequest.js"
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import { achievementExistsById } from "./rules/achievementExistsById.js";
 import { userExistsById } from "./rules/userExistsById.js";
+import { ACHIEVEMENT_MESSAGES } from "../constants/achievementMessages.js";
 
 const AWARD_FIELDS = ["user_id", "achievement_id"] as const;
 
@@ -22,9 +23,8 @@ export const awardValidation = validateRequest([
 		.notEmpty()
 		.withMessage("achievement_id is required")
 		.isInt({ min: 1 })
-		.withMessage("Invalid achievement ID")
+		.withMessage(ACHIEVEMENT_MESSAGES.INVALID_ID)
 		.toInt()
 		.bail()
 		.custom(achievementExistsById),
 ]);
-

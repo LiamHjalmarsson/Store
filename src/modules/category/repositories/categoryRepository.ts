@@ -1,7 +1,8 @@
 import { query } from "../../../config/database.js";
+import { CATEGORY_FIELDS } from "../constants/categoryFields.js";
 import { Category, CreateCategoryPayload, UpdateCategoryPayload } from "../types/category.js";
 
-const CATEGORY = `
+const CATEGORY_COLUMNS = `
 	id,
 	title,
 	description,
@@ -11,13 +12,11 @@ const CATEGORY = `
 	updated_at
 `;
 
-const UPDATABLE_CATEGORY_FIELDS = ["title", "description", "image", "is_featured"] as const;
-
 export const findCategoriesQuery = async () => {
 	const result = await query<Category>(
 		`
 		SELECT
-			${CATEGORY}
+			${CATEGORY_COLUMNS}
 		FROM categories
 		ORDER BY created_at DESC
 	`,
@@ -38,7 +37,7 @@ export const createCategoryQuery = async (payload: CreateCategoryPayload) => {
 				is_featured
 			)
 			VALUES ($1, $2, $3, $4)
-			RETURNING ${CATEGORY}
+			RETURNING ${CATEGORY_COLUMNS}
 		`,
 		[title, description ?? null, image ?? null, is_featured ?? false],
 	);
@@ -50,7 +49,7 @@ export const findCategoryByIdQuery = async (id: number) => {
 	const result = await query<Category>(
 		`
 		SELECT
-			${CATEGORY}
+			${CATEGORY_COLUMNS}
 		FROM categories
 		WHERE id = $1
 	`,
@@ -61,7 +60,7 @@ export const findCategoryByIdQuery = async (id: number) => {
 };
 
 export const updateCategoryByIdQuery = async (id: number, payload: UpdateCategoryPayload) => {
-	const fields = UPDATABLE_CATEGORY_FIELDS.filter((field) => payload[field] !== undefined);
+	const fields = CATEGORY_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
@@ -77,7 +76,7 @@ export const updateCategoryByIdQuery = async (id: number, payload: UpdateCategor
 			SET ${setSql},
 				updated_at = CURRENT_TIMESTAMP
 			WHERE id = $1
-			RETURNING ${CATEGORY}
+			RETURNING ${CATEGORY_COLUMNS}
 		`,
 		values,
 	);

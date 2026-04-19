@@ -11,6 +11,7 @@ export function controllerTemplate(
 ) {
 	const cap = capitalizedName;
 	const pluralCap = pluralizedCapitalizedName;
+	const messageConstant = `${name.toUpperCase()}_MESSAGES`;
 
 	return `import { Request, Response } from "express";
 import {
@@ -19,19 +20,20 @@ import {
 	getAll${pluralCap}Service,
 	get${cap}Service,
 	update${cap}Service,
-} from "../service/${name}Service.js";
+} from "../services/${name}Service.js";
+import { ${messageConstant} } from "../constants/${name}Messages.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 
 export const getAll${pluralize(cap)}Controller = async (_: Request, res: Response) => {
 	const ${pluralize(name)} = await getAll${pluralCap}Service();
 
-	return sendSuccess(res, "${pluralCap} retrieved successfully", { ${pluralize(name)} });
+	return sendSuccess(res, ${messageConstant}.RETRIEVED_ALL, { ${pluralize(name)} });
 };
 
 export const create${cap}Controller = async (req: Request, res: Response) => {
 	const ${name} = await create${cap}Service(req.body);
 
-	return sendSuccess(res, "${cap} created successfully", { ${name} }, 201);
+	return sendSuccess(res, ${messageConstant}.CREATED, { ${name} }, 201);
 };
 
 export const get${cap}Controller = async (req: Request, res: Response) => {
@@ -39,7 +41,7 @@ export const get${cap}Controller = async (req: Request, res: Response) => {
 
 	const ${name} = await get${cap}Service(id);
 
-	return sendSuccess(res, "${cap} retrieved successfully", { ${name} });
+	return sendSuccess(res, ${messageConstant}.RETRIEVED, { ${name} });
 };
 
 export const update${cap}Controller = async (req: Request, res: Response) => {
@@ -47,7 +49,7 @@ export const update${cap}Controller = async (req: Request, res: Response) => {
 
 	const ${name} = await update${cap}Service(id, req.body);
 
-	return sendSuccess(res, "${cap} updated successfully", { ${name} });
+	return sendSuccess(res, ${messageConstant}.UPDATED, { ${name} });
 };
 
 export const delete${cap}Controller = async (req: Request, res: Response) => {
@@ -55,7 +57,7 @@ export const delete${cap}Controller = async (req: Request, res: Response) => {
 
 	await delete${cap}Service(id);
 
-	return sendSuccess(res, "${cap} deleted successfully", null);
+	return sendSuccess(res, ${messageConstant}.DELETED, null);
 };
 `;
 }

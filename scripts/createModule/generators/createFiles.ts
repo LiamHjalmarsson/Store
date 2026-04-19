@@ -8,6 +8,7 @@ import { routesTemplate } from "../templates/routesTemplate.js";
 import { typesTemplate } from "../templates/typesTemplate.js";
 import { validationCreateTemplate } from "../templates/validationCreateTemplate.js";
 import { validationUpdateTemplate } from "../templates/validationUpdateTemplate.js";
+import { messagesTemplate } from "../templates/messagesTemplate.js";
 
 /**
  * Creates files using the naming conventions already used in `src/modules`.
@@ -48,6 +49,15 @@ export function createModuleFiles(config: ModuleGeneratorConfig) {
 			folder: "types",
 			fileName: `${config.moduleNameLower}.ts`,
 			content: typesTemplate(config.moduleNameCapitalized),
+		},
+		{
+			folder: "constants",
+			fileName: `${config.moduleNameLower}Messages.ts`,
+			content: messagesTemplate(
+				config.moduleNameLower,
+				config.moduleNameCapitalized,
+				config.tableNameCapitalized,
+			),
 		},
 		{
 			folder: "validations",

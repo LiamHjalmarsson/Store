@@ -5,9 +5,15 @@ import { requireAtLeastOneField } from "../../../shared/validations/fields/requi
 import { achievementExistsById } from "./rules/achievementExistsById.js";
 import { codeField, descriptionField, iconField, nameField, xpRewardField } from "./fields/validationFields.js";
 import { UPDATE_ACHIEVEMENT_FIELDS } from "../constants/achievementFields.js";
+import { ACHIEVEMENT_MESSAGES } from "../constants/achievementMessages.js";
 
 export const updateValidation = validateRequest([
-	param("id").isInt({ min: 1 }).withMessage("Invalid achievement ID").bail().custom(achievementExistsById).bail(),
+	param("id")
+		.isInt({ min: 1 })
+		.withMessage(ACHIEVEMENT_MESSAGES.INVALID_ID)
+		.bail()
+		.custom(achievementExistsById)
+		.bail(),
 
 	body().custom(onlyAllowedFields(UPDATE_ACHIEVEMENT_FIELDS)).bail(),
 

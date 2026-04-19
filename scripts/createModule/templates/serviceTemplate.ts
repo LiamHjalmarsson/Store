@@ -12,6 +12,7 @@ export function serviceTemplate(
 	const cap = capitalizedName;
 
 	const pluralCap = pluralizedCapitalizedName;
+	const messageConstant = `${name.toUpperCase()}_MESSAGES`;
 
 	return `import { NotFoundError } from "../../../shared/errors/notFound.js";
 import {
@@ -20,7 +21,8 @@ import {
 	find${pluralCap}Query,
 	find${cap}ByIdQuery,
 	update${cap}ByIdQuery,
-} from "../repository/${name}Repository.js";
+} from "../repositories/${name}Repository.js";
+import { ${messageConstant} } from "../constants/${name}Messages.js";
 import { Create${cap}Payload, Update${cap}Payload } from "../types/${name}.js";
 
 export const getAll${pluralize(cap)}Service = async () => {
@@ -35,7 +37,7 @@ export const get${cap}Service = async (${name}Id: number) => {
 	const ${name} = await find${cap}ByIdQuery(${name}Id);
 
 	if (!${name}) {
-		throw new NotFoundError("${cap} not found");
+		throw new NotFoundError(${messageConstant}.NOT_FOUND);
 	}
 
 	return ${name};
@@ -45,7 +47,7 @@ export const update${cap}Service = async (${name}Id: number, payload: Update${ca
 	const ${name} = await update${cap}ByIdQuery(${name}Id, payload);
 
 	if (!${name}) {
-		throw new NotFoundError("${cap} not found");
+		throw new NotFoundError(${messageConstant}.NOT_FOUND);
 	}
 
 	return ${name};
@@ -55,7 +57,7 @@ export const delete${cap}Service = async (${name}Id: number) => {
 	const ${name} = await delete${cap}ByIdQuery(${name}Id);
 
 	if (!${name}) {
-		throw new NotFoundError("${cap} not found");
+		throw new NotFoundError(${messageConstant}.NOT_FOUND);
 	}
 
 	return true;

@@ -91,6 +91,7 @@ function getModuleConfig(moduleName?: string) {
 			"services",
 			"repositories",
 			"routes",
+			"constants",
 			"middlewares",
 			"types",
 			"validations",

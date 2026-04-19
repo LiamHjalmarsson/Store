@@ -1,7 +1,8 @@
 import { query } from "../../../config/database.js";
+import { normalizeValueToLowerCase } from "../../../shared/utils/format/normalizeValueToLowerCase.js";
 import { AuthUser, AuthUserCredentials, CreateAuthUserPayload } from "../types/auth.js";
 
-const AUTH_USER = `
+const AUTH_USER_COLUMNS = `
 	id,
 	email,
 	firstname,
@@ -13,15 +14,13 @@ const AUTH_USER = `
 	signed_to_newsletter
 `;
 
-const normalizeValueToLowerCase = (value: string) => value.trim().toLowerCase();
-
 export const findAuthUserCredentialsByEmailQuery = async (email: string) => {
 	const normalizedEmail = normalizeValueToLowerCase(email);
 
 	const result = await query<AuthUserCredentials>(
 		`
 			SELECT
-				${AUTH_USER},
+				${AUTH_USER_COLUMNS},
 				password
 			FROM users
 			WHERE email = $1
@@ -44,7 +43,7 @@ export const createAuthUserQuery = async (payload: CreateAuthUserPayload) => {
 			VALUES
 				($1, $2, $3)
 			RETURNING
-				${AUTH_USER}
+				${AUTH_USER_COLUMNS}
 		`,
 		[normalizedEmail, password, username],
 	);
@@ -56,7 +55,7 @@ export const findAuthUserByIdQuery = async (userId: number) => {
 	const result = await query<AuthUser>(
 		`
 			SELECT
-				${AUTH_USER}
+				${AUTH_USER_COLUMNS}
 			FROM users
 			WHERE id = $1
 		`,

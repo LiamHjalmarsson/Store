@@ -6,4 +6,6 @@ export const ACHIEVEMENT_MESSAGES = {
 	USER_RETRIEVED: "User achievements retrieved successfully",
 	AWARDED: "Achievement awarded successfully",
 	ALREADY_AWARDED: "Achievement already awarded",
+	INVALID_ID: "Invalid achievement ID",
 } as const;
+

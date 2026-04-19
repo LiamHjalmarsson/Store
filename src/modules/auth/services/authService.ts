@@ -33,7 +33,7 @@ export const loginService = async (payload: LoginPayload) => {
 	}
 
 	if (userCredentials.account_status !== "active") {
-		throw new ForbiddenError(`Account is ${userCredentials.account_status}`);
+		throw new ForbiddenError(AUTH_MESSAGES.ACCOUNT_STATUS(userCredentials.account_status));
 	}
 
 	const isPasswordMatching = await comparePassword(password, userCredentials.password);

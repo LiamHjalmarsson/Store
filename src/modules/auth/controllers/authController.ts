@@ -1,15 +1,11 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { NoParams, NoResponseBody } from "../../../shared/types/request.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import { getCurrentUserService, loginService, registerService } from "../services/authService.js";
-import { LoginPayload, RegisterPayload } from "../types/auth.js";
 import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
-
-type RegisterRequest = Request<NoParams, NoResponseBody, RegisterPayload>;
-
-type LoginRequest = Request<NoParams, NoResponseBody, LoginPayload>;
+import { LoginRequest, RegisterRequest } from "../types/authRequest.js";
+import { AUTH_MESSAGES } from "../constants/authMessages.js";
 
 export const registerController = async (req: RegisterRequest, res: Response) => {
 	const payload = req.body;
@@ -18,7 +14,7 @@ export const registerController = async (req: RegisterRequest, res: Response) =>
 
 	return sendSuccess(
 		res,
-		`User ${user.username} registered successfully`,
+		AUTH_MESSAGES.REGISTERED(user.username),
 		{
 			token,
 			user,
@@ -32,14 +28,14 @@ export const loginController = async (req: LoginRequest, res: Response) => {
 
 	const { token, user } = await loginService(payload);
 
-	return sendSuccess(res, `User ${user.username} logged in successfully`, {
+	return sendSuccess(res, AUTH_MESSAGES.LOGGED_IN(user.username), {
 		token,
 		user,
 	});
 };
 
 export const logoutController = async (_: AuthenticatedRequest, res: Response) => {
-	return sendSuccess(res, "User logged out successfully", null);
+	return sendSuccess(res, AUTH_MESSAGES.USER_LOGGED_OUT, null);
 };
 
 export const meController = async (req: AuthenticatedRequest, res: Response) => {
@@ -47,7 +43,7 @@ export const meController = async (req: AuthenticatedRequest, res: Response) => 
 
 	const user = await getCurrentUserService(userId);
 
-	return sendSuccess(res, `User ${user.username} retrieved successfully`, { user });
+	return sendSuccess(res, AUTH_MESSAGES.CURRENT_USER_RETRIEVED(user.username), { user });
 };
 
 function getAuthenticatedUserId(req: AuthenticatedRequest) {
