@@ -1,11 +1,10 @@
 import { Response } from "express";
-import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import { getCurrentUserService, loginService, registerService } from "../services/authService.js";
-import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { LoginRequest, RegisterRequest } from "../types/authRequest.js";
 import { AUTH_MESSAGES } from "../constants/authMessages.js";
+import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
 
 export const registerController = async (req: RegisterRequest, res: Response) => {
 	const payload = req.body;
@@ -45,13 +44,3 @@ export const meController = async (req: AuthenticatedRequest, res: Response) => 
 
 	return sendSuccess(res, AUTH_MESSAGES.CURRENT_USER_RETRIEVED(user.username), { user });
 };
-
-function getAuthenticatedUserId(req: AuthenticatedRequest) {
-	const userId = req.user?.id;
-
-	if (!userId) {
-		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
-	}
-
-	return userId;
-}

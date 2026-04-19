@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
-import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { pagination } from "../../../shared/utils/http/pagination.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
@@ -19,6 +17,7 @@ import {
 	UpdateCreatorRequest,
 	UpdateMyCreatorRequest,
 } from "../types/creatorRequest.js";
+import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
 
 export const getAllCreatorsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
@@ -94,13 +93,3 @@ export const deleteCreatorController = async (req: DeleteCreatorRequest, res: Re
 
 	return sendSuccess(res, CREATOR_MESSAGES.DELETED, null);
 };
-
-function getAuthenticatedUserId(req: AuthenticatedRequest) {
-	const userId = req.user?.id;
-
-	if (!userId) {
-		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
-	}
-
-	return userId;
-}

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import {
 	createProductService,
 	deleteProductService,
@@ -14,7 +13,7 @@ import { updateProductImageService } from "../services/updateImageService.js";
 import { downloadProductService } from "../services/downloadService.js";
 import { CreateProductPayload, ProductUploadFiles, UpdateProductPayload } from "../types/product.js";
 import { PRODUCT_MESSAGES } from "../constants/productMessages.js";
-import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
+import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
 
 export const getAllProductsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
@@ -101,16 +100,6 @@ export const downloadProductController = async (req: AuthenticatedRequest, res: 
 
 	return res.download(result.filePath, result.filename);
 };
-
-function getAuthenticatedUserId(req: AuthenticatedRequest) {
-	const userId = req.user?.id;
-
-	if (!userId) {
-		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
-	}
-
-	return userId;
-}
 
 function getProductUploadFiles(req: AuthenticatedRequest) {
 	const files = req.files as ProductUploadFiles | undefined;

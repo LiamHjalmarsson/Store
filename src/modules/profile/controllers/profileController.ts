@@ -3,9 +3,8 @@ import { deleteProfileService, getProfileService, updateProfileService } from ".
 import { UpdateProfilePayload } from "../types/profile.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
-import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
-import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { PROFILE_MESSAGES } from "../constants/profileMessages.js";
+import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
 
 export const getProfileController = async (req: AuthenticatedRequest, res: Response) => {
 	const userId = getAuthenticatedUserId(req);
@@ -32,13 +31,3 @@ export const deleteProfileController = async (req: AuthenticatedRequest, res: Re
 
 	return sendSuccess(res, PROFILE_MESSAGES.DELETED, null);
 };
-
-function getAuthenticatedUserId(req: AuthenticatedRequest) {
-	const userId = req.user?.id;
-
-	if (!userId) {
-		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
-	}
-
-	return userId;
-}

@@ -1,6 +1,4 @@
 import type { Request, Response } from "express";
-import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
-import { UnauthorizedError } from "../../../shared/errors/unauthorized.js";
 import type { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import { ACHIEVEMENT_MESSAGES } from "../constants/achievementMessages.js";
@@ -18,6 +16,7 @@ import type {
 	DeleteAchievementRequest,
 	UpdateAchievementRequest,
 } from "../types/achievementRequest.js";
+import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
 
 export const getAllAchievementsController = async (_: Request, res: Response) => {
 	const achievements = await getAllAchievementsService();
@@ -68,14 +67,3 @@ export const awardAchievementController = async (req: AwardAchievementRequest, r
 
 	return sendSuccess(res, message, { awarded });
 };
-
-function getAuthenticatedUserId(req: AuthenticatedRequest) {
-	const userId = req.user?.id;
-
-	if (userId === undefined || userId === null) {
-		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
-	}
-
-	return userId;
-}
-
