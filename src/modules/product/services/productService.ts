@@ -1,3 +1,4 @@
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import {
@@ -15,7 +16,7 @@ export async function getCreatorProduct(productId: number, creatorId: number) {
 	const product = await findProductByIdForCreatorQuery(productId, creatorId);
 
 	if (!product) {
-		throw new NotFoundError("Product not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return product;
@@ -67,7 +68,7 @@ export const getProductService = async (id: number) => {
 	const product = await findProductByIdQuery(id);
 
 	if (!product) {
-		throw new NotFoundError("Product not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return product;
@@ -77,7 +78,7 @@ export const updateProductService = async (id: number, creatorId: number, payloa
 	const product = await updateProductByIdQuery(id, creatorId, payload);
 
 	if (!product) {
-		throw new NotFoundError("Product not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return product;
@@ -93,7 +94,7 @@ export const deleteProductService = async (id: number, creatorId: number) => {
 	const deleted = await deleteProductByIdQuery(id, creatorId);
 
 	if (!deleted) {
-		throw new NotFoundError("Product not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return true;

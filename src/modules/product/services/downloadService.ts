@@ -1,4 +1,5 @@
 import { fileExists, getFilePath } from "../../../services/storage/storageService.js";
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { ForbiddenError } from "../../../shared/errors/forbidden.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { getStorageLocationFromPublicPath } from "../../../shared/utils/path/getStorageLocationFromPublicPath.js";
@@ -9,7 +10,7 @@ export const downloadProductService = async (productId: number, userId: number) 
 	const product = await getProductService(productId);
 
 	if (!product.file_url) {
-		throw new NotFoundError("Product file not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	const isProductCreator = product.creator_id === userId;

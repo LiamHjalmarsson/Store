@@ -27,11 +27,7 @@ export interface RegisterPayload {
 	username: string;
 }
 
-export interface CreateAuthUserPayload {
-	email: string;
-	password: string;
-	username: string;
-}
+export type CreateAuthUserPayload = RegisterPayload;
 
 export interface AuthSession {
 	token: string;

@@ -9,7 +9,7 @@ import {
 	findAuthUserCredentialsByEmailQuery,
 	updateUserLastLoginQuery,
 } from "../repositories/authRepository.js";
-import { AuthUser, LoginPayload, RegisterPayload } from "../types/auth.js";
+import { AuthResponse, AuthUser, LoginPayload, RegisterPayload } from "../types/auth.js";
 import { AUTH_MESSAGES } from "../constants/authMessages.js";
 import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 
@@ -60,7 +60,7 @@ export const getCurrentUserService = async (userId: number) => {
 	return user;
 };
 
-function createAuthResponse(user: AuthUser) {
+function createAuthResponse(user: AuthUser): AuthResponse {
 	const token = generateToken({ id: user.id, email: user.email, role: user.role });
 
 	return { user, token };

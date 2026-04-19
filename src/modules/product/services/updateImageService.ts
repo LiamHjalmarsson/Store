@@ -1,5 +1,6 @@
 import { deleteFile } from "../../../services/storage/storageService.js";
 import { uploadSingleFile } from "../../../services/upload/uploadService.js";
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { getStorageLocationFromPublicPath } from "../../../shared/utils/path/getStorageLocationFromPublicPath.js";
 import { updateProductByIdQuery } from "../repositories/productRepository.js";
@@ -28,7 +29,7 @@ export const updateProductImageService = async (id: number, creatorId: number, i
 	if (!updatedProduct) {
 		await deleteFile("creators", uploadedImage.filename, uploadedImage.subdirectory ?? undefined);
 
-		throw new NotFoundError("Product not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	const previousImagePath = existingProduct.image_url;

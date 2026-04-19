@@ -47,6 +47,8 @@ export interface CreateCreatorPayload {
 
 export type CreateCreatorData = Omit<CreateCreatorPayload, "user_id">;
 
+export type UpdateCreatorData = Partial<CreateCreatorData>;
+
 export interface UpdateCreatorPayload {
 	website?: string | null;
 	bio?: string | null;

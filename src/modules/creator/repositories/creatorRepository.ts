@@ -4,7 +4,7 @@ import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { UPDATABLE_CREATOR_FIELDS } from "../constants/creatorField.js";
 import { CreateCreatorPayload, PublicCreator, UpdateCreatorPayload } from "../types/creator.js";
 
-const CREATOR_PROFILE = `
+const CREATOR_PROFILE_COLUMNS = `
 	u.id,
 	u.email,
 	u.firstname,
@@ -40,7 +40,7 @@ export const findAllCreatorsQuery = async (pagination: PaginationQuery) => {
 	const result = await query<PublicCreator>(
 		`
 		SELECT
-			${CREATOR_PROFILE}
+			${CREATOR_PROFILE_COLUMNS}
 		FROM users u
 		INNER JOIN creators c ON c.user_id = u.id
 		WHERE u.role = 'creator'
@@ -106,7 +106,7 @@ export const findCreatorByIdQuery = async (creatorId: number) => {
 	const result = await query<PublicCreator>(
 		`
 		SELECT
-			${CREATOR_PROFILE}
+			${CREATOR_PROFILE_COLUMNS}
 		FROM users u
 		INNER JOIN creators c ON c.user_id = u.id
 		WHERE u.id = $1

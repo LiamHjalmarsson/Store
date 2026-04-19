@@ -1,21 +1,7 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
+import { UPDATABLE_PRODUCT_FIELDS } from "../constants/productFields.js";
 import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
-
-const UPDATABLE_PRODUCT_FIELDS = [
-	"title",
-	"description",
-	"price",
-	"category_id",
-	"subcategory_id",
-	"image_url",
-	"file_url",
-	"file_size",
-	"is_featured",
-	"is_discounted",
-	"discounted",
-	"status",
-] as const;
 
 export const findProductsQuery = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: number }>(`

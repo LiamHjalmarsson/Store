@@ -10,7 +10,7 @@ export const discountConsistencyRule = async (_: unknown, { req }: Meta) => {
 		const value = Number(discounted);
 
 		if (Number.isNaN(value) || value <= 0) {
-			throw new BadRequestError("discounted must be > 0 when is_discounted is true");
+			throw new BadRequestError("discounted must be more than 0 when discounted is true");
 		}
 	}
 

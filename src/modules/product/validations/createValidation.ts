@@ -4,7 +4,6 @@ import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowe
 import { discountConsistencyRule } from "./rules/discountRule.js";
 import { productTitleUniqueForCreatorRule } from "./rules/productTitleUniqueForCreatorRule.js";
 import {
-	PRODUCT_FIELDS,
 	productCategoryField,
 	productDescriptionField,
 	productDiscountedField,
@@ -17,6 +16,7 @@ import {
 	productSubcategoryField,
 	productTitleField,
 } from "./fields/validationFields.js";
+import { PRODUCT_FIELDS } from "../constants/productFields.js";
 
 export const createValidation = validateRequest([
 	body().custom(onlyAllowedFields(PRODUCT_FIELDS)).bail(),
