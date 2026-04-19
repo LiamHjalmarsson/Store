@@ -1,3 +1,4 @@
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 import { NotFoundError } from "../../../shared/errors/notFound.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { hashPassword } from "../../../shared/utils/auth/password.js";
@@ -24,7 +25,7 @@ export const getUserService = async (userId: number) => {
 	const user = await findUserByIdQuery(userId);
 
 	if (!user) {
-		throw new NotFoundError("User not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return user;
@@ -34,7 +35,7 @@ export const updateUserService = async (userId: number, payload: UpdateUserPaylo
 	const user = await updateUserByIdQuery(userId, payload);
 
 	if (!user) {
-		throw new NotFoundError("User not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return user;
@@ -44,7 +45,7 @@ export const deleteUserService = async (userId: number) => {
 	const deleted = await deleteUserByIdQuery(userId);
 
 	if (!deleted) {
-		throw new NotFoundError("User not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
 	}
 
 	return deleted;

@@ -1,9 +1,10 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { PublicUser } from "../../../shared/types/user.js";
+import { UPDATE_USER_FIELDS, USER_FIELDS } from "../constants/userFields.js";
 import { CreateUserPayload, UpdateUserPayload } from "../types/user.js";
 
-const PUBLIC_USER = `
+const PUBLIC_USER_COLUMNS = `
 	id,
 	email,
 	firstname,
@@ -20,16 +21,6 @@ const PUBLIC_USER = `
 	updated_at
 `;
 
-const UPDATABLE_USER_FIELDS = [
-	"firstname",
-	"lastname",
-	"avatar",
-	"username",
-	"role",
-	"account_status",
-	"signed_to_newsletter",
-] as const;
-
 export const findAllUsersQuery = async (pagination: PaginationQuery) => {
 	const totalResult = await query<{ count: number }>(`
         SELECT COUNT(*)::int AS count
@@ -41,7 +32,7 @@ export const findAllUsersQuery = async (pagination: PaginationQuery) => {
 	const result = await query<PublicUser>(
 		`
         SELECT
-			${PUBLIC_USER}
+			${PUBLIC_USER_COLUMNS}
         FROM users
         ORDER BY created_at DESC
         LIMIT $1
@@ -90,7 +81,7 @@ export const createUserQuery = async (payload: CreateUserPayload) => {
 			)
 			VALUES
 				($1,$2,$3,$4,$5,$6,$7,$8,$9)
-			RETURNING ${PUBLIC_USER}`,
+			RETURNING ${PUBLIC_USER_COLUMNS}`,
 		[normalizedEmail, password, username, firstname, lastname, avatar, role, account_status, signed_to_newsletter],
 	);
 
@@ -100,7 +91,7 @@ export const createUserQuery = async (payload: CreateUserPayload) => {
 export const findUserByIdQuery = async (userId: number) => {
 	const result = await query<PublicUser>(
 		`SELECT 
-			${PUBLIC_USER}
+			${PUBLIC_USER_COLUMNS}
         FROM users 
 		WHERE id = $1`,
 		[userId],
@@ -110,7 +101,7 @@ export const findUserByIdQuery = async (userId: number) => {
 };
 
 export const updateUserByIdQuery = async (userId: number, payload: UpdateUserPayload) => {
-	const fields = UPDATABLE_USER_FIELDS.filter((field) => payload[field] !== undefined);
+	const fields = UPDATE_USER_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
@@ -126,7 +117,7 @@ export const updateUserByIdQuery = async (userId: number, payload: UpdateUserPay
 			SET ${setSql},
 				updated_at = CURRENT_TIMESTAMP
 			WHERE id = $1 
-			RETURNING ${PUBLIC_USER}`,
+			RETURNING ${PUBLIC_USER_COLUMNS}`,
 		values,
 	);
 

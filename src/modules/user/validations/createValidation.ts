@@ -2,7 +2,6 @@ import { body } from "express-validator";
 import { validateRequest } from "../../../shared/middlewares/validateRequest.js";
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import {
-	CREATE_USER_FIELDS,
 	accountStatusField,
 	avatarField,
 	createUsernameField,
@@ -13,6 +12,7 @@ import {
 	roleField,
 	signedToNewsletterField,
 } from "./fields/validationFields.js";
+import { CREATE_USER_FIELDS } from "../constants/userFields.js";
 
 export const createValidation = validateRequest([
 	body().custom(onlyAllowedFields(CREATE_USER_FIELDS)).bail(),
@@ -35,3 +35,4 @@ export const createValidation = validateRequest([
 
 	signedToNewsletterField(),
 ]);
+

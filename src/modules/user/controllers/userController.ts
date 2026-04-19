@@ -9,13 +9,14 @@ import {
 	updateUserService,
 } from "../services/userService.js";
 import { CreateUserPayload, UpdateUserPayload } from "../types/user.js";
+import { USER_MESSAGES } from "../constants/userMessages.js";
 
 export const getAllUsersController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllUsersService({ page, limit, offset });
 
-	return sendSuccess(res, "Users retrieved successfully", {
+	return sendSuccess(res, USER_MESSAGES.RETRIEVED_ALL, {
 		users: result.items,
 		meta: {
 			page: result.page,
@@ -31,7 +32,7 @@ export const createUserController = async (req: Request, res: Response) => {
 
 	const user = await createUserService(payload);
 
-	return sendSuccess(res, "User created successfully", { user }, 201);
+	return sendSuccess(res, USER_MESSAGES.CREATED, { user }, 201);
 };
 
 export const getUserController = async (req: Request, res: Response) => {
@@ -39,7 +40,7 @@ export const getUserController = async (req: Request, res: Response) => {
 
 	const user = await getUserService(id);
 
-	return sendSuccess(res, "User retrieved successfully", { user });
+	return sendSuccess(res, USER_MESSAGES.RETRIEVED, { user });
 };
 
 export const updateUserController = async (req: Request, res: Response) => {
@@ -49,7 +50,7 @@ export const updateUserController = async (req: Request, res: Response) => {
 
 	const user = await updateUserService(id, payload);
 
-	return sendSuccess(res, "User updated successfully", { user });
+	return sendSuccess(res, USER_MESSAGES.UPDATED, { user });
 };
 
 export const deleteUserController = async (req: Request, res: Response) => {
@@ -57,5 +58,5 @@ export const deleteUserController = async (req: Request, res: Response) => {
 
 	await deleteUserService(id);
 
-	return sendSuccess(res, "User deleted successfully", null);
+	return sendSuccess(res, USER_MESSAGES.DELETED, null);
 };

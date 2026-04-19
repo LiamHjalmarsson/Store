@@ -4,7 +4,6 @@ import { requireAtLeastOneField } from "../../../shared/validations/fields/requi
 import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowedFields.js";
 import { userExistsById } from "./rules/userExistsById.js";
 import {
-	UPDATE_USER_FIELDS,
 	avatarField,
 	firstnameField,
 	lastnameField,
@@ -13,6 +12,7 @@ import {
 	updateAccountStatusField,
 	updateUsernameField,
 } from "./fields/validationFields.js";
+import { UPDATE_USER_FIELDS } from "../constants/userFields.js";
 
 export const updateValidation = validateRequest([
 	param("id").isInt({ min: 1 }).withMessage("Invalid user ID").bail().custom(userExistsById).bail(),

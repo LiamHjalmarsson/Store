@@ -3,28 +3,6 @@ import emailUnique from "../../../../shared/validations/rules/emailUnique.js";
 import usernameUnique from "../../../../shared/validations/rules/usernameUnique.js";
 import { usernameUnique as updateUsernameUnique } from "../rules/usernameUnique.js";
 
-export const CREATE_USER_FIELDS = [
-	"email",
-	"password",
-	"username",
-	"firstname",
-	"lastname",
-	"avatar",
-	"role",
-	"account_status",
-	"signed_to_newsletter",
-] as const;
-
-export const UPDATE_USER_FIELDS = [
-	"firstname",
-	"lastname",
-	"avatar",
-	"username",
-	"role",
-	"account_status",
-	"signed_to_newsletter",
-] as const;
-
 export function emailField() {
 	return body("email")
 		.trim()
@@ -76,7 +54,10 @@ export function avatarField() {
 }
 
 export function roleField() {
-	return body("role").optional().isIn(["user", "admin", "creator"]).withMessage("role must be user, admin or creator");
+	return body("role")
+		.optional()
+		.isIn(["user", "admin", "creator"])
+		.withMessage("role must be user, admin or creator");
 }
 
 export function accountStatusField() {
