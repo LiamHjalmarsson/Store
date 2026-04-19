@@ -21,4 +21,3 @@ export interface UpdateProfilePayload {
 	username?: string | null;
 	signed_to_newsletter?: boolean;
 }
-

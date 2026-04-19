@@ -1,7 +1,8 @@
 import { query } from "../../../config/database.js";
+import { PROFILE_FIELDS } from "../constants/profilefields.js";
 import { Profile, UpdateProfilePayload } from "../types/profile.js";
 
-const PROFILE = `
+const PROFILE_COLUMNS = `
 	id,
 	email,
 	firstname,
@@ -15,13 +16,11 @@ const PROFILE = `
 	updated_at
 `;
 
-const UPDATABLE_PROFILE_FIELDS = ["firstname", "lastname", "avatar", "username", "signed_to_newsletter"] as const;
-
 export const findProfileByUserIdQuery = async (userId: number) => {
 	const result = await query<Profile>(
 		`
 			SELECT
-				${PROFILE}
+				${PROFILE_COLUMNS}
 			FROM users
 			WHERE id = $1
 		`,
@@ -32,7 +31,7 @@ export const findProfileByUserIdQuery = async (userId: number) => {
 };
 
 export const updateProfileByUserIdQuery = async (userId: number, payload: UpdateProfilePayload) => {
-	const fields = UPDATABLE_PROFILE_FIELDS.filter((field) => payload[field] !== undefined);
+	const fields = PROFILE_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
@@ -49,7 +48,7 @@ export const updateProfileByUserIdQuery = async (userId: number, payload: Update
 				updated_at = CURRENT_TIMESTAMP
 			WHERE id = $1
 			RETURNING
-				${PROFILE}
+				${PROFILE_COLUMNS}
 		`,
 		values,
 	);

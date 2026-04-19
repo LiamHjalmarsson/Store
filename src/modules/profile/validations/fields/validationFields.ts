@@ -1,8 +1,6 @@
 import { body } from "express-validator";
 import { usernameUnique } from "../rules/usernameUnique.js";
 
-export const PROFILE_FIELDS = ["firstname", "lastname", "avatar", "username", "signed_to_newsletter"] as const;
-
 export function firstnameField() {
 	return body("firstname")
 		.optional({ nullable: true })
