@@ -1,8 +1,6 @@
 import { body } from "express-validator";
 import { rankNameUnique } from "../rules/rankNameUnique.js";
 
-export const RANK_FIELDS = ["name", "min_xp", "badge_url"] as const;
-
 export function nameField() {
 	return body("name")
 		.trim()

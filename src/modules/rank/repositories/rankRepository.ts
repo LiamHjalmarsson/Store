@@ -1,7 +1,8 @@
 import { query } from "../../../config/database.js";
+import { RANK_FIELDS } from "../constants/rankFields.js";
 import { CreateRankPayload, Rank, UpdateRankPayload } from "../types/rank.js";
 
-const RANK = `
+const RANK_COLUMNS = `
 	id,
 	name,
 	min_xp,
@@ -9,12 +10,10 @@ const RANK = `
 	created_at
 `;
 
-const UPDATABLE_RANK_FIELDS = ["name", "min_xp", "badge_url"] as const;
-
 export const findAllRanksQuery = async () => {
 	const result = await query<Rank>(`
 		SELECT
-			${RANK}
+			${RANK_COLUMNS}
 		FROM ranks
 		ORDER BY min_xp ASC
     `);
@@ -32,7 +31,7 @@ export const createRankQuery = async (payload: CreateRankPayload) => {
 			VALUES
 				($1, $2, $3)
 			RETURNING
-				${RANK}
+				${RANK_COLUMNS}
 		`,
 		[name, min_xp, badge_url],
 	);
@@ -44,7 +43,7 @@ export const findRankByIdQuery = async (id: number) => {
 	const result = await query<Rank>(
 		`
 			SELECT
-				${RANK}
+				${RANK_COLUMNS}
 			FROM ranks
 			WHERE id = $1
 		`,
@@ -55,7 +54,7 @@ export const findRankByIdQuery = async (id: number) => {
 };
 
 export const updateRankByIdQuery = async (id: number, payload: UpdateRankPayload) => {
-	const fields = UPDATABLE_RANK_FIELDS.filter((field) => payload[field] !== undefined);
+	const fields = RANK_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
@@ -71,7 +70,7 @@ export const updateRankByIdQuery = async (id: number, payload: UpdateRankPayload
 			SET ${setSql}
 			WHERE id = $1
 			RETURNING
-				${RANK}
+				${RANK_COLUMNS}
 		`,
 		values,
 	);
@@ -95,7 +94,7 @@ export const resolveRankByXpQuery = async (xp: number) => {
 	const result = await query<Rank>(
 		`
 			SELECT
-				${RANK}
+				${RANK_COLUMNS}
 			FROM ranks
 			WHERE min_xp <= $1
 			ORDER BY min_xp DESC

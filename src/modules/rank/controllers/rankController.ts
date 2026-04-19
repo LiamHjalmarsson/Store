@@ -10,11 +10,12 @@ import {
 	updateRankService,
 } from "../services/rankService.js";
 import { CreateRankPayload, RankParams, UpdateRankPayload } from "../types/rank.js";
+import { RANK_MESSAGES } from "../constants/rankMessages.js";
 
 export const getAllRanksController = async (_: Request, res: Response) => {
 	const ranks = await getAllRanksService();
 
-	return sendSuccess(res, "Ranks retrieved successfully", { ranks });
+	return sendSuccess(res, RANK_MESSAGES.RETRIEVED_ALL, { ranks });
 };
 
 export const createRankController = async (req: Request, res: Response) => {
@@ -22,7 +23,7 @@ export const createRankController = async (req: Request, res: Response) => {
 
 	const rank = await createRankService(payload);
 
-	return sendSuccess(res, "Rank created successfully", { rank }, 201);
+	return sendSuccess(res, RANK_MESSAGES.CREATED, { rank }, 201);
 };
 
 export const getRankController = async (req: Request<RankParams>, res: Response) => {
@@ -30,7 +31,7 @@ export const getRankController = async (req: Request<RankParams>, res: Response)
 
 	const rank = await getRankService(id);
 
-	return sendSuccess(res, "Rank retrieved successfully", { rank });
+	return sendSuccess(res, RANK_MESSAGES.RETRIEVED, { rank });
 };
 
 export const updateRankController = async (req: Request, res: Response) => {
@@ -40,7 +41,7 @@ export const updateRankController = async (req: Request, res: Response) => {
 
 	const rank = await updateRankService(id, payload);
 
-	return sendSuccess(res, "Rank updated successfully", { rank });
+	return sendSuccess(res, RANK_MESSAGES.UPDATED, { rank });
 };
 
 export const deleteRankController = async (req: Request<RankParams>, res: Response) => {
@@ -48,7 +49,7 @@ export const deleteRankController = async (req: Request<RankParams>, res: Respon
 
 	await deleteRankService(id);
 
-	return sendSuccess(res, "Rank deleted successfully", null);
+	return sendSuccess(res, RANK_MESSAGES.DELETED, null);
 };
 
 export const resolveRankController = async (req: Request, res: Response) => {
@@ -60,6 +61,5 @@ export const resolveRankController = async (req: Request, res: Response) => {
 
 	const rank = await resolveRankService(xp);
 
-	return sendSuccess(res, "Rank resolved successfully", { rank });
+	return sendSuccess(res, RANK_MESSAGES.RESOLVED, { rank });
 };
-
