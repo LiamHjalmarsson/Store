@@ -1,8 +1,6 @@
 import { body } from "express-validator";
 import { subcategoryTitleUniquePerCategory } from "../rules/subcategoryTitleUniquePerCategory.js";
 
-export const SUBCATEGORY_FIELDS = ["title", "description", "category_id"] as const;
-
 export function titleField() {
 	return body("title")
 		.trim()

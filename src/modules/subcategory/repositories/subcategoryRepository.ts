@@ -1,7 +1,8 @@
 import { query } from "../../../config/database.js";
+import { SUBCATEGORY_FIELDS } from "../constants/subcategoryFields.js";
 import { CreateSubcategoryPayload, Subcategory, UpdateSubcategoryPayload } from "../types/subcategory.js";
 
-const SUBCATEGORY = `
+const SUBCATEGORY_COLUMNS = `
 	id,
 	title,
 	category_id,
@@ -9,14 +10,12 @@ const SUBCATEGORY = `
 	created_at
 `;
 
-const UPDATABLE_SUBCATEGORY_FIELDS = ["title", "description", "category_id"] as const;
-
 export const findAllSubcategoriesQuery = async (categoryId?: number) => {
 	if (categoryId !== undefined) {
 		const result = await query<Subcategory>(
 			`
 				SELECT
-					${SUBCATEGORY}
+					${SUBCATEGORY_COLUMNS}
 				FROM subcategories
 				WHERE category_id = $1
 				ORDER BY created_at DESC
@@ -29,7 +28,7 @@ export const findAllSubcategoriesQuery = async (categoryId?: number) => {
 
 	const result = await query<Subcategory>(`
 		SELECT
-			${SUBCATEGORY}
+			${SUBCATEGORY_COLUMNS}
 		FROM subcategories
 		ORDER BY created_at DESC
 	`);
@@ -45,7 +44,7 @@ export const createSubcategoryQuery = async (payload: CreateSubcategoryPayload) 
 			VALUES
 				($1, $2, $3)
 			RETURNING
-				${SUBCATEGORY}
+				${SUBCATEGORY_COLUMNS}
 		`,
 		[payload.title, payload.category_id, payload.description ?? null],
 	);
@@ -57,7 +56,7 @@ export const findSubcategoryByIdQuery = async (id: number) => {
 	const result = await query<Subcategory>(
 		`
 			SELECT
-				${SUBCATEGORY}
+				${SUBCATEGORY_COLUMNS}
 			FROM subcategories
 			WHERE id = $1
 		`,
@@ -68,7 +67,7 @@ export const findSubcategoryByIdQuery = async (id: number) => {
 };
 
 export const updateSubcategoryByIdQuery = async (id: number, payload: UpdateSubcategoryPayload) => {
-	const fields = UPDATABLE_SUBCATEGORY_FIELDS.filter((field) => payload[field] !== undefined);
+	const fields = SUBCATEGORY_FIELDS.filter((field) => payload[field] !== undefined);
 
 	if (fields.length === 0) {
 		return null;
@@ -84,7 +83,7 @@ export const updateSubcategoryByIdQuery = async (id: number, payload: UpdateSubc
 			SET ${setSql}
 			WHERE id = $1
 			RETURNING
-				${SUBCATEGORY}
+				${SUBCATEGORY_COLUMNS}
 		`,
 		values,
 	);
