@@ -13,10 +13,10 @@ export const CREATE_USER_FIELDS = [
 ] as const satisfies (keyof CreateUserPayload)[];
 
 export const UPDATE_USER_FIELDS = [
+	"username",
 	"firstname",
 	"lastname",
 	"avatar",
-	"username",
 	"role",
 	"account_status",
 	"signed_to_newsletter",

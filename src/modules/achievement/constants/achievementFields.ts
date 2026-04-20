@@ -1,4 +1,4 @@
-import type { CreateAchievementPayload, UpdateAchievementPayload } from "../types/achievement.js";
+import type { CreateAchievementPayload } from "../types/achievement.js";
 
 export const ACHIEVEMENT_FIELDS = [
 	"name",
@@ -8,10 +8,5 @@ export const ACHIEVEMENT_FIELDS = [
 	"icon",
 ] as const satisfies readonly (keyof CreateAchievementPayload)[];
 
-export const UPDATE_ACHIEVEMENT_FIELDS = [
-	"name",
-	"code",
-	"xp_reward",
-	"description",
-	"icon",
-] as const satisfies readonly (keyof UpdateAchievementPayload)[];
+export const UPDATE_ACHIEVEMENT_FIELDS = ACHIEVEMENT_FIELDS;
+

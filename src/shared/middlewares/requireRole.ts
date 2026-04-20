@@ -3,12 +3,13 @@ import { ForbiddenError } from "../errors/forbidden.js";
 import { UnauthorizedError } from "../errors/unauthorized.js";
 import { AccountRole } from "../types/user.js";
 import { AuthenticatedRequest } from "./authenticated.js";
+import { ERROR_MESSAGES } from "../constants/errorMessages.js";
 
 export function requireAuthenticatedUser(req: AuthenticatedRequest) {
 	const user = req.user;
 
 	if (!user) {
-		throw new UnauthorizedError("Authentication required");
+		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
 	}
 
 	return user;

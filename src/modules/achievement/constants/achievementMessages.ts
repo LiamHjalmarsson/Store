@@ -8,4 +8,3 @@ export const ACHIEVEMENT_MESSAGES = {
 	ALREADY_AWARDED: "Achievement already awarded",
 	INVALID_ID: "Invalid achievement ID",
 } as const;
-

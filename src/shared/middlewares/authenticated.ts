@@ -3,6 +3,7 @@ import type { ParamsDictionary } from "express-serve-static-core";
 import type { ParsedQs } from "qs";
 import { UnauthorizedError } from "../errors/unauthorized.js";
 import { verifyToken, type JwtPayload } from "../utils/auth/jwt.js";
+import { ERROR_MESSAGES } from "../constants/errorMessages.js";
 
 export interface AuthenticatedRequest<
 	P extends ParamsDictionary = ParamsDictionary,
@@ -25,13 +26,13 @@ export default function authenticated(req: AuthenticatedRequest, _: Response, ne
 		req.user = verifyToken(token);
 		next();
 	} catch {
-		throw new UnauthorizedError("Authentication required");
+		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
 	}
 }
 
 function getAuthorizationToken(authorizationHeader?: string) {
 	if (!authorizationHeader) {
-		throw new UnauthorizedError("Authentication required");
+		throw new UnauthorizedError(ERROR_MESSAGES.AUTHENTICATION_REQUIRED);
 	}
 
 	if (authorizationHeader.startsWith(BEARER_PREFIX)) {

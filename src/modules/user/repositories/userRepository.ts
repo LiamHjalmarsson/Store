@@ -1,7 +1,7 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { PublicUser } from "../../../shared/types/user.js";
-import { UPDATE_USER_FIELDS, USER_FIELDS } from "../constants/userFields.js";
+import { UPDATE_USER_FIELDS } from "../constants/userFields.js";
 import { CreateUserPayload, UpdateUserPayload } from "../types/user.js";
 
 const PUBLIC_USER_COLUMNS = `
