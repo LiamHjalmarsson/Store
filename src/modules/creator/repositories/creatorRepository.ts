@@ -1,6 +1,7 @@
 import { query } from "../../../config/database.js";
 import { BadRequestError } from "../../../shared/errors/badRequest.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
+import { paginationResult } from "../../../shared/utils/http/pagination.js";
 import { UPDATABLE_CREATOR_FIELDS } from "../constants/creatorField.js";
 import { CreateCreatorPayload, PublicCreator, UpdateCreatorPayload } from "../types/creator.js";
 
@@ -51,15 +52,7 @@ export const findAllCreatorsQuery = async (pagination: PaginationQuery) => {
 		[pagination.limit, pagination.offset],
 	);
 
-	const totalPages = Math.ceil(total / pagination.limit);
-
-	return {
-		items: result.rows,
-		total,
-		page: pagination.page,
-		limit: pagination.limit,
-		totalPages,
-	};
+	return paginationResult(result.rows, total, pagination);
 };
 
 export const createCreatorQuery = async (payload: CreateCreatorPayload) => {

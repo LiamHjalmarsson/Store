@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
-import { pagination } from "../../../shared/utils/http/pagination.js";
+import { getPaginationMeta, pagination } from "../../../shared/utils/http/pagination.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import {
 	createCreatorService,
@@ -26,12 +26,7 @@ export const getAllCreatorsController = async (req: Request, res: Response) => {
 
 	return sendSuccess(res, CREATOR_MESSAGES.RETRIEVED_ALL, {
 		creators: result.items,
-		meta: {
-			page: result.page,
-			limit: result.limit,
-			total: result.total,
-			totalPages: result.totalPages,
-		},
+		meta: getPaginationMeta(result),
 	});
 };
 

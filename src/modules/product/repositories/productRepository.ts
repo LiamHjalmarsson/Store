@@ -1,5 +1,6 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
+import { paginationResult } from "../../../shared/utils/http/pagination.js";
 import { UPDATABLE_PRODUCT_FIELDS } from "../constants/productFields.js";
 import { CreateProductPayload, Product, UpdateProductPayload } from "../types/product.js";
 
@@ -22,15 +23,7 @@ export const findProductsQuery = async (pagination: PaginationQuery) => {
 		[pagination.limit, pagination.offset],
 	);
 
-	const totalPages = Math.ceil(total / pagination.limit);
-
-	return {
-		items: result.rows,
-		total,
-		page: pagination.page,
-		limit: pagination.limit,
-		totalPages,
-	};
+	return paginationResult(result.rows, total, pagination);
 };
 
 export const createProductQuery = async (creatorId: number, payload: CreateProductPayload) => {

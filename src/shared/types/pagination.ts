@@ -1,3 +1,9 @@
+export interface PaginationOptions {
+	defaultPage?: number;
+	defaultLimit?: number;
+	maxLimit?: number;
+}
+
 export interface PaginationQuery {
 	page: number;
 	limit: number;

@@ -7,7 +7,7 @@ import {
 	getProductService,
 	updateProductService,
 } from "../services/productService.js";
-import { pagination } from "../../../shared/utils/http/pagination.js";
+import { getPaginationMeta, pagination } from "../../../shared/utils/http/pagination.js";
 import { sendError, sendSuccess } from "../../../shared/utils/http/respond.js";
 import { updateProductImageService } from "../services/updateImageService.js";
 import { downloadProductService } from "../services/downloadService.js";
@@ -22,12 +22,7 @@ export const getAllProductsController = async (req: Request, res: Response) => {
 
 	return sendSuccess(res, PRODUCT_MESSAGES.RETRIEVED_ALL, {
 		products: result.items,
-		meta: {
-			page: result.page,
-			limit: result.limit,
-			total: result.total,
-			totalPages: result.totalPages,
-		},
+		meta: getPaginationMeta(result),
 	});
 };
 

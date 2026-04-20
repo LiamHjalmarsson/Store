@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { pagination } from "../../../shared/utils/http/pagination.js";
+import { getPaginationMeta, pagination } from "../../../shared/utils/http/pagination.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import {
 	createUserService,
@@ -18,12 +18,7 @@ export const getAllUsersController = async (req: Request, res: Response) => {
 
 	return sendSuccess(res, USER_MESSAGES.RETRIEVED_ALL, {
 		users: result.items,
-		meta: {
-			page: result.page,
-			limit: result.limit,
-			total: result.total,
-			totalPages: result.totalPages,
-		},
+		meta: getPaginationMeta(result),
 	});
 };
 

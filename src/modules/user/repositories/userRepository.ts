@@ -1,6 +1,7 @@
 import { query } from "../../../config/database.js";
 import { PaginationQuery } from "../../../shared/types/pagination.js";
 import { PublicUser } from "../../../shared/types/user.js";
+import { paginationResult } from "../../../shared/utils/http/pagination.js";
 import { UPDATE_USER_FIELDS } from "../constants/userFields.js";
 import { CreateUserPayload, UpdateUserPayload } from "../types/user.js";
 
@@ -41,15 +42,7 @@ export const findAllUsersQuery = async (pagination: PaginationQuery) => {
 		[pagination.limit, pagination.offset],
 	);
 
-	const totalPages = Math.ceil(total / pagination.limit);
-
-	return {
-		items: result.rows,
-		total,
-		page: pagination.page,
-		limit: pagination.limit,
-		totalPages,
-	};
+	return paginationResult(result.rows, total, pagination);
 };
 
 export const createUserQuery = async (payload: CreateUserPayload) => {
