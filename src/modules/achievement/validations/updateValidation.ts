@@ -5,12 +5,12 @@ import { requireAtLeastOneField } from "../../../shared/validations/fields/requi
 import { achievementExistsById } from "./rules/achievementExistsById.js";
 import { codeField, descriptionField, iconField, nameField, xpRewardField } from "./fields/validationFields.js";
 import { UPDATE_ACHIEVEMENT_FIELDS } from "../constants/achievementFields.js";
-import { ACHIEVEMENT_MESSAGES } from "../constants/achievementMessages.js";
+import { VALIDATION_MESSAGES } from "../../../shared/constants/validationMessages.js";
 
 export const updateValidation = validateRequest([
 	param("id")
 		.isInt({ min: 1 })
-		.withMessage(ACHIEVEMENT_MESSAGES.INVALID_ID)
+		.withMessage(VALIDATION_MESSAGES.INVALID_ID("Achievement"))
 		.bail()
 		.custom(achievementExistsById)
 		.bail(),

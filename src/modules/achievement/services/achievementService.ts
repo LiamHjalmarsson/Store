@@ -22,7 +22,7 @@ export const updateAchievementService = async (achievementId: number, payload: U
 	const achievement = await updateAchievementByIdQuery(achievementId, payload);
 
 	if (!achievement) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Achievement"));
 	}
 
 	return achievement;
@@ -32,7 +32,7 @@ export const deleteAchievementService = async (achievementId: number) => {
 	const deleted = await deleteAchievementByIdQuery(achievementId);
 
 	if (!deleted) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Achievement"));
 	}
 
 	return deleted;

@@ -1,12 +1,13 @@
 import { body } from "express-validator";
 import { achievementCodeUnique } from "../rules/achievementCodeUnique.js";
 import { achievementNameUnique } from "../rules/achievementNameUnique.js";
+import { VALIDATION_MESSAGES } from "../../../../shared/constants/validationMessages.js";
 
 export function nameField() {
 	return body("name")
 		.trim()
 		.notEmpty()
-		.withMessage("Achievement name is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Name"))
 		.isLength({ min: 3, max: 100 })
 		.withMessage("Name must be between 3 and 100 characters")
 		.custom(achievementNameUnique);
@@ -16,7 +17,7 @@ export function codeField() {
 	return body("code")
 		.trim()
 		.notEmpty()
-		.withMessage("Achievement code is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Code"))
 		.isLength({ min: 3, max: 20 })
 		.withMessage("Code must be between 3 and 20 characters")
 		.custom(achievementCodeUnique);
@@ -25,7 +26,7 @@ export function codeField() {
 export function xpRewardField() {
 	return body("xp_reward")
 		.notEmpty()
-		.withMessage("XP reward is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("XP"))
 		.isInt({ min: 1 })
 		.withMessage("XP reward must be a positive integer")
 		.toInt();

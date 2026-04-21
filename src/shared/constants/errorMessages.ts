@@ -1,5 +1,7 @@
 export const ERROR_MESSAGES = {
-	NOT_FOUND: "Resource not found",
 	AUTHENTICATION_REQUIRED: "Authentication required",
-	INVALID_ID: "Invalid ID",
+	UNAUTHORIZED: "Unauthorized",
+	FORBIDDEN: "Forbidden",
+	SERVER_ERROR: "Internal server error",
+	NOT_FOUND: (resource?: string) => (resource ? `${resource} not found` : "Not found"),
 } as const;

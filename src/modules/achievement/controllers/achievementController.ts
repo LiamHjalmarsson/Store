@@ -17,11 +17,12 @@ import type {
 	UpdateAchievementRequest,
 } from "../types/achievementRequest.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
 
 export const getAllAchievementsController = async (_: Request, res: Response) => {
 	const achievements = await getAllAchievementsService();
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.RETRIEVED_ALL, { achievements });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED_ALL("Achievements"), { achievements });
 };
 
 export const createAchievementController = async (req: CreateAchievementRequest, res: Response) => {
@@ -29,7 +30,7 @@ export const createAchievementController = async (req: CreateAchievementRequest,
 
 	const achievement = await createAchievementService(payload);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.CREATED, { achievement }, 201);
+	return sendSuccess(res, SUCCESS_MESSAGES.CREATED("Achievement"), { achievement }, 201);
 };
 
 export const updateAchievementController = async (req: UpdateAchievementRequest, res: Response) => {
@@ -39,7 +40,7 @@ export const updateAchievementController = async (req: UpdateAchievementRequest,
 
 	const achievement = await updateAchievementService(achievementId, payload);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.UPDATED, { achievement });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("Achievement"), { achievement });
 };
 
 export const deleteAchievementController = async (req: DeleteAchievementRequest, res: Response) => {
@@ -47,7 +48,7 @@ export const deleteAchievementController = async (req: DeleteAchievementRequest,
 
 	await deleteAchievementService(achievementId);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.DELETED, { deleted: true });
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("Achievement"), { deleted: true });
 };
 
 export const getMyAchievementsController = async (req: AuthenticatedRequest, res: Response) => {
@@ -55,7 +56,7 @@ export const getMyAchievementsController = async (req: AuthenticatedRequest, res
 
 	const achievements = await getUserAchievementsService(userId);
 
-	return sendSuccess(res, ACHIEVEMENT_MESSAGES.USER_RETRIEVED, { achievements });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("My Achievements"), { achievements });
 };
 
 export const awardAchievementController = async (req: AwardAchievementRequest, res: Response) => {
