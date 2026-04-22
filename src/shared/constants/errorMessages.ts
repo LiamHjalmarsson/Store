@@ -3,5 +3,7 @@ export const ERROR_MESSAGES = {
 	UNAUTHORIZED: "Unauthorized",
 	FORBIDDEN: "Forbidden",
 	SERVER_ERROR: "Internal server error",
+	INVALID_ID: "Invalid ID",
+
 	NOT_FOUND: (resource?: string) => (resource ? `${resource} not found` : "Not found"),
 } as const;

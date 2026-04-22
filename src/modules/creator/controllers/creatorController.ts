@@ -9,7 +9,6 @@ import {
 	getCreatorService,
 	updateCreatorService,
 } from "../services/creatorService.js";
-import { CREATOR_MESSAGES } from "../constants/creatorMessages.js";
 import { CreateCreatorPayload } from "../types/creator.js";
 import {
 	CreateCreatorRequest,
@@ -18,13 +17,14 @@ import {
 	UpdateMyCreatorRequest,
 } from "../types/creatorRequest.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
 
 export const getAllCreatorsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllCreatorsService({ page, limit, offset });
 
-	return sendSuccess(res, CREATOR_MESSAGES.RETRIEVED_ALL, {
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED_ALL("Creators"), {
 		creators: result.items,
 		meta: getPaginationMeta(result),
 	});
@@ -42,7 +42,7 @@ export const createCreatorController = async (req: CreateCreatorRequest, res: Re
 
 	const creator = await createCreatorService(payload);
 
-	return sendSuccess(res, CREATOR_MESSAGES.CREATED, { creator }, 201);
+	return sendSuccess(res, SUCCESS_MESSAGES.CREATED("Creator"), { creator }, 201);
 };
 
 export const getCreatorController = async (req: Request, res: Response) => {
@@ -50,7 +50,7 @@ export const getCreatorController = async (req: Request, res: Response) => {
 
 	const creator = await getCreatorService(id);
 
-	return sendSuccess(res, CREATOR_MESSAGES.RETRIEVED, { creator });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("Creator"), { creator });
 };
 
 export const updateMyCreatorController = async (req: UpdateMyCreatorRequest, res: Response) => {
@@ -60,7 +60,7 @@ export const updateMyCreatorController = async (req: UpdateMyCreatorRequest, res
 
 	const creator = await updateCreatorService(userId, payload);
 
-	return sendSuccess(res, CREATOR_MESSAGES.UPDATED_OWNER, { creator });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("Creator"), { creator });
 };
 
 export const updateCreatorController = async (req: UpdateCreatorRequest, res: Response) => {
@@ -70,7 +70,7 @@ export const updateCreatorController = async (req: UpdateCreatorRequest, res: Re
 
 	const creator = await updateCreatorService(creatorId, payload);
 
-	return sendSuccess(res, CREATOR_MESSAGES.UPDATED, { creator });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("Creator"), { creator });
 };
 
 export const deleteMyCreatorController = async (req: AuthenticatedRequest, res: Response) => {
@@ -78,7 +78,7 @@ export const deleteMyCreatorController = async (req: AuthenticatedRequest, res: 
 
 	await deleteCreatorService(userId);
 
-	return sendSuccess(res, CREATOR_MESSAGES.DELETED_OWNER, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("Creator"), null);
 };
 
 export const deleteCreatorController = async (req: DeleteCreatorRequest, res: Response) => {
@@ -86,5 +86,5 @@ export const deleteCreatorController = async (req: DeleteCreatorRequest, res: Re
 
 	await deleteCreatorService(creatorId);
 
-	return sendSuccess(res, CREATOR_MESSAGES.DELETED, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("Creator"), null);
 };

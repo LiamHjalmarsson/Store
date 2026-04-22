@@ -1,11 +1,12 @@
 import { body } from "express-validator";
 import { categoryTitleNotUsed } from "../rules/categoryTitleNotUsed.js";
+import { VALIDATION_MESSAGES } from "../../../../shared/constants/validationMessages.js";
 
 export function titleField() {
 	return body("title")
 		.trim()
 		.notEmpty()
-		.withMessage("Title of category is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Title"))
 		.isLength({ min: 3, max: 100 })
 		.withMessage("Title must be between 3 and 100 characters")
 		.custom(categoryTitleNotUsed);

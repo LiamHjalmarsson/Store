@@ -22,7 +22,7 @@ export const getCreatorService = async (creatorId: number) => {
 	const creator = await findCreatorByIdQuery(creatorId);
 
 	if (!creator) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Creator"));
 	}
 
 	return creator;
@@ -32,7 +32,7 @@ export const updateCreatorService = async (creatorId: number, payload: UpdateCre
 	const creator = await updateCreatorByIdQuery(creatorId, payload);
 
 	if (!creator) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Creator"));
 	}
 
 	return creator;
@@ -42,7 +42,7 @@ export const deleteCreatorService = async (creatorId: number) => {
 	const deleted = await deleteCreatorByIdQuery(creatorId);
 
 	if (!deleted) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Creator"));
 	}
 
 	return deleted;

@@ -11,11 +11,12 @@ import {
 } from "../services/rankService.js";
 import { CreateRankPayload, RankParams, UpdateRankPayload } from "../types/rank.js";
 import { RANK_MESSAGES } from "../constants/rankMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
 
 export const getAllRanksController = async (_: Request, res: Response) => {
 	const ranks = await getAllRanksService();
 
-	return sendSuccess(res, RANK_MESSAGES.RETRIEVED_ALL, { ranks });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED_ALL("Ranks"), { ranks });
 };
 
 export const createRankController = async (req: Request, res: Response) => {
@@ -23,7 +24,7 @@ export const createRankController = async (req: Request, res: Response) => {
 
 	const rank = await createRankService(payload);
 
-	return sendSuccess(res, RANK_MESSAGES.CREATED, { rank }, 201);
+	return sendSuccess(res, SUCCESS_MESSAGES.CREATED("Rank"), { rank }, 201);
 };
 
 export const getRankController = async (req: Request<RankParams>, res: Response) => {
@@ -31,7 +32,7 @@ export const getRankController = async (req: Request<RankParams>, res: Response)
 
 	const rank = await getRankService(id);
 
-	return sendSuccess(res, RANK_MESSAGES.RETRIEVED, { rank });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("Rank"), { rank });
 };
 
 export const updateRankController = async (req: Request, res: Response) => {
@@ -41,7 +42,7 @@ export const updateRankController = async (req: Request, res: Response) => {
 
 	const rank = await updateRankService(id, payload);
 
-	return sendSuccess(res, RANK_MESSAGES.UPDATED, { rank });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("Rank"), { rank });
 };
 
 export const deleteRankController = async (req: Request<RankParams>, res: Response) => {
@@ -49,15 +50,11 @@ export const deleteRankController = async (req: Request<RankParams>, res: Respon
 
 	await deleteRankService(id);
 
-	return sendSuccess(res, RANK_MESSAGES.DELETED, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("Rank"), null);
 };
 
 export const resolveRankController = async (req: Request, res: Response) => {
 	const xp = Number(req.query.xp);
-
-	if (Number.isNaN(xp) || xp < 0) {
-		throw new BadRequestError("Invalid xp");
-	}
 
 	const rank = await resolveRankService(xp);
 

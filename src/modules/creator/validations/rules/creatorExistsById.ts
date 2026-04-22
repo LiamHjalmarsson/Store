@@ -1,4 +1,5 @@
 import { query } from "../../../../config/database.js";
+import { ERROR_MESSAGES } from "../../../../shared/constants/errorMessages.js";
 import { BadRequestError } from "../../../../shared/errors/badRequest.js";
 import { NotFoundError } from "../../../../shared/errors/notFound.js";
 
@@ -19,7 +20,7 @@ export const creatorExistsById = async (id: string) => {
 	);
 
 	if (result.rowCount === 0) {
-		throw new NotFoundError("Creator not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Creator"));
 	}
 
 	return true;

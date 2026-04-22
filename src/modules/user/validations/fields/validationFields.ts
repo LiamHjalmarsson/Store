@@ -2,13 +2,14 @@ import { body } from "express-validator";
 import emailUnique from "../../../../shared/validations/rules/emailUnique.js";
 import usernameUnique from "../../../../shared/validations/rules/usernameUnique.js";
 import { usernameUnique as updateUsernameUnique } from "../rules/usernameUnique.js";
+import { VALIDATION_MESSAGES } from "../../../../shared/constants/validationMessages.js";
 
 export function emailField() {
 	return body("email")
 		.trim()
 		.toLowerCase()
 		.notEmpty()
-		.withMessage("email is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Email"))
 		.isEmail()
 		.withMessage("A valid email is required")
 		.custom(emailUnique);
@@ -17,7 +18,7 @@ export function emailField() {
 export function passwordField() {
 	return body("password")
 		.notEmpty()
-		.withMessage("password is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Password"))
 		.isLength({ min: 6 })
 		.withMessage("password must be at least 6 characters");
 }
@@ -26,7 +27,7 @@ export function createUsernameField() {
 	return body("username")
 		.trim()
 		.notEmpty()
-		.withMessage("username is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Username"))
 		.isLength({ min: 3, max: 30 })
 		.withMessage("username must be 3-30 characters")
 		.custom(usernameUnique);

@@ -29,7 +29,7 @@ export const updateProductImageService = async (id: number, creatorId: number, i
 	if (!updatedProduct) {
 		await deleteFile("creators", uploadedImage.filename, uploadedImage.subdirectory ?? undefined);
 
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Product"));
 	}
 
 	const previousImagePath = existingProduct.image_url;

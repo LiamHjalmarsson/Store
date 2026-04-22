@@ -3,15 +3,15 @@ import { deleteProfileService, getProfileService, updateProfileService } from ".
 import { UpdateProfilePayload } from "../types/profile.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
-import { PROFILE_MESSAGES } from "../constants/profileMessages.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
 
 export const getProfileController = async (req: AuthenticatedRequest, res: Response) => {
 	const userId = getAuthenticatedUserId(req);
 
 	const user = await getProfileService(userId);
 
-	return sendSuccess(res, PROFILE_MESSAGES.RETRIEVED, { user });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("Profile"), { user });
 };
 
 export const updateProfileController = async (req: AuthenticatedRequest, res: Response) => {
@@ -21,7 +21,7 @@ export const updateProfileController = async (req: AuthenticatedRequest, res: Re
 
 	const user = await updateProfileService(userId, payload);
 
-	return sendSuccess(res, PROFILE_MESSAGES.UPDATED, { user });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("Profile"), { user });
 };
 
 export const deleteProfileController = async (req: AuthenticatedRequest, res: Response) => {
@@ -29,5 +29,5 @@ export const deleteProfileController = async (req: AuthenticatedRequest, res: Re
 
 	await deleteProfileService(userId);
 
-	return sendSuccess(res, PROFILE_MESSAGES.DELETED, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("Profile"), null);
 };

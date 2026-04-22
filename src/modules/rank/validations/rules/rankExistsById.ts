@@ -18,7 +18,7 @@ export const rankExistsById = async (id: string) => {
 	);
 
 	if (result.rowCount === 0) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Rank"));
 	}
 
 	return true;

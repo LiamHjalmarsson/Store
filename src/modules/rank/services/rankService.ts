@@ -22,7 +22,7 @@ export const getRankService = async (rankId: number) => {
 	const rank = await findRankByIdQuery(rankId);
 
 	if (!rank) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Rank"));
 	}
 
 	return rank;
@@ -32,7 +32,7 @@ export const updateRankService = async (rankId: number, payload: UpdateRankPaylo
 	const rank = await updateRankByIdQuery(rankId, payload);
 
 	if (!rank) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Rank"));
 	}
 
 	return rank;
@@ -42,7 +42,7 @@ export const deleteRankService = async (rankId: number) => {
 	const deleted = await deleteRankByIdQuery(rankId);
 
 	if (!deleted) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Rank"));
 	}
 
 	return deleted;

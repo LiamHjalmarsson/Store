@@ -13,7 +13,7 @@ export const subcategoryExistsById = async (id: string) => {
 	const result = await query(`SELECT 1 FROM subcategories WHERE id = $1`, [subcategoryId]);
 
 	if (result.rowCount === 0) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Subcategory"));
 	}
 
 	return true;

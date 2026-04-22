@@ -19,7 +19,7 @@ export const userExistsById = async (id: string) => {
 	);
 
 	if (result.rowCount === 0) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("User"));
 	}
 
 	return true;

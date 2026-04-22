@@ -7,13 +7,13 @@ import {
 	updateCategoryService,
 } from "../services/categoryService.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
-import { CATEGORY_MESSAGES } from "../constants/categoryMessages.js";
 import { CreateCategoryRequest, DeleteCategoryRequest, UpdateCategoryRequest } from "../types/categoryRequest.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
 
 export const getAllCategoriesController = async (_: Request, res: Response) => {
 	const categories = await getAllCategoriesService();
 
-	return sendSuccess(res, CATEGORY_MESSAGES.RETRIEVED_ALL, { categories });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED_ALL("categories"), { categories });
 };
 
 export const createCategoryController = async (req: CreateCategoryRequest, res: Response) => {
@@ -21,7 +21,7 @@ export const createCategoryController = async (req: CreateCategoryRequest, res: 
 
 	const category = await createCategoryService(payload);
 
-	return sendSuccess(res, CATEGORY_MESSAGES.CREATED, { category }, 201);
+	return sendSuccess(res, SUCCESS_MESSAGES.CREATED("category"), { category }, 201);
 };
 
 export const getCategoryController = async (req: Request, res: Response) => {
@@ -29,7 +29,7 @@ export const getCategoryController = async (req: Request, res: Response) => {
 
 	const category = await getCategoryService(id);
 
-	return sendSuccess(res, CATEGORY_MESSAGES.RETRIEVED, { category });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("category"), { category });
 };
 
 export const updateCategoryController = async (req: UpdateCategoryRequest, res: Response) => {
@@ -39,7 +39,7 @@ export const updateCategoryController = async (req: UpdateCategoryRequest, res: 
 
 	const category = await updateCategoryService(id, payload);
 
-	return sendSuccess(res, CATEGORY_MESSAGES.UPDATED, { category });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("category"), { category });
 };
 
 export const deleteCategoryController = async (req: DeleteCategoryRequest, res: Response) => {
@@ -47,5 +47,5 @@ export const deleteCategoryController = async (req: DeleteCategoryRequest, res: 
 
 	await deleteCategoryService(id);
 
-	return sendSuccess(res, CATEGORY_MESSAGES.DELETED, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("category"), null);
 };

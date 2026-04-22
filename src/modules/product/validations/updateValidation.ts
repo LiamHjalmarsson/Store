@@ -18,10 +18,14 @@ import {
 } from "./fields/validationFields.js";
 import { productExistsRule } from "./rules/productExistsRule.js";
 import { UPDATABLE_PRODUCT_FIELDS } from "../constants/productFields.js";
-import { PRODUCT_MESSAGES } from "../constants/productMessages.js";
+import { VALIDATION_MESSAGES } from "../../../shared/constants/validationMessages.js";
 
 export const updateValidation = validateRequest([
-	param("id").isInt({ min: 1 }).withMessage(PRODUCT_MESSAGES.INVALID_ID).bail().custom(productExistsRule),
+	param("id")
+		.isInt({ min: 1 })
+		.withMessage(VALIDATION_MESSAGES.INVALID_ID("Product"))
+		.bail()
+		.custom(productExistsRule),
 
 	body().custom(onlyAllowedFields(UPDATABLE_PRODUCT_FIELDS)).bail(),
 

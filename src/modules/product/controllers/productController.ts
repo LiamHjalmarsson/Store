@@ -12,15 +12,16 @@ import { sendError, sendSuccess } from "../../../shared/utils/http/respond.js";
 import { updateProductImageService } from "../services/updateImageService.js";
 import { downloadProductService } from "../services/downloadService.js";
 import { CreateProductPayload, ProductUploadFiles, UpdateProductPayload } from "../types/product.js";
-import { PRODUCT_MESSAGES } from "../constants/productMessages.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 
 export const getAllProductsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllProductsService({ page, limit, offset });
 
-	return sendSuccess(res, PRODUCT_MESSAGES.RETRIEVED_ALL, {
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED_ALL("Products"), {
 		products: result.items,
 		meta: getPaginationMeta(result),
 	});
@@ -35,7 +36,7 @@ export const createProductController = async (req: AuthenticatedRequest, res: Re
 
 	const product = await createProductService(creatorId, payload, imageFile, productFile);
 
-	return sendSuccess(res, PRODUCT_MESSAGES.CREATED, { product }, 201);
+	return sendSuccess(res, SUCCESS_MESSAGES.CREATED("Product"), { product }, 201);
 };
 
 export const getProductController = async (req: Request, res: Response) => {
@@ -43,7 +44,7 @@ export const getProductController = async (req: Request, res: Response) => {
 
 	const product = await getProductService(id);
 
-	return sendSuccess(res, PRODUCT_MESSAGES.RETRIEVED, { product });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("Product"), { product });
 };
 
 export const updateProductController = async (req: AuthenticatedRequest, res: Response) => {
@@ -55,7 +56,7 @@ export const updateProductController = async (req: AuthenticatedRequest, res: Re
 
 	const product = await updateProductService(id, creatorId, payload);
 
-	return sendSuccess(res, PRODUCT_MESSAGES.UPDATED, { product });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("Product"), { product });
 };
 
 export const deleteProductController = async (req: AuthenticatedRequest, res: Response) => {
@@ -65,7 +66,7 @@ export const deleteProductController = async (req: AuthenticatedRequest, res: Re
 
 	await deleteProductService(id, creatorId);
 
-	return sendSuccess(res, PRODUCT_MESSAGES.DELETED, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("Product"), null);
 };
 
 export const updateProductImageController = async (req: AuthenticatedRequest, res: Response) => {
@@ -88,7 +89,7 @@ export const downloadProductController = async (req: AuthenticatedRequest, res: 
 	const userId = getAuthenticatedUserId(req);
 
 	if (Number.isNaN(productId) || productId < 1) {
-		return sendError(res, PRODUCT_MESSAGES.INVALID_ID);
+		return sendError(res, ERROR_MESSAGES.INVALID_ID);
 	}
 
 	const result = await downloadProductService(productId, userId);

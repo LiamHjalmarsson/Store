@@ -25,7 +25,7 @@ export const getUserService = async (userId: number) => {
 	const user = await findUserByIdQuery(userId);
 
 	if (!user) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("User"));
 	}
 
 	return user;
@@ -35,7 +35,7 @@ export const updateUserService = async (userId: number, payload: UpdateUserPaylo
 	const user = await updateUserByIdQuery(userId, payload);
 
 	if (!user) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("User"));
 	}
 
 	return user;
@@ -45,7 +45,7 @@ export const deleteUserService = async (userId: number) => {
 	const deleted = await deleteUserByIdQuery(userId);
 
 	if (!deleted) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("User"));
 	}
 
 	return deleted;

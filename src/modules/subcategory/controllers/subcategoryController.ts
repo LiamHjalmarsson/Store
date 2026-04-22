@@ -8,7 +8,7 @@ import {
 	updateSubcategoryService,
 } from "../services/subcategoryService.js";
 import { CreateSubcategoryPayload, SubcategoryQuery, UpdateSubcategoryPayload } from "../types/subcategory.js";
-import { SUBCATEGORY_MESSAGES } from "../constants/subcategoryMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
 
 export const getAllSubcategoriesController = async (req: Request, res: Response) => {
 	const query = req.query as SubcategoryQuery;
@@ -17,7 +17,7 @@ export const getAllSubcategoriesController = async (req: Request, res: Response)
 
 	const subcategories = await getAllSubcategoriesService(categoryId);
 
-	return sendSuccess(res, SUBCATEGORY_MESSAGES.RETRIEVED_ALL, { subcategories });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED_ALL("Subcategories"), { subcategories });
 };
 
 export const createSubcategoryController = async (req: Request, res: Response) => {
@@ -25,7 +25,7 @@ export const createSubcategoryController = async (req: Request, res: Response) =
 
 	const subcategory = await createSubcategoryService(payload);
 
-	return sendSuccess(res, SUBCATEGORY_MESSAGES.CREATED, { subcategory }, 201);
+	return sendSuccess(res, SUCCESS_MESSAGES.CREATED("Subcategory"), { subcategory }, 201);
 };
 
 export const getSubcategoryController = async (req: Request, res: Response) => {
@@ -33,7 +33,7 @@ export const getSubcategoryController = async (req: Request, res: Response) => {
 
 	const subcategory = await getSubcategoryService(id);
 
-	return sendSuccess(res, SUBCATEGORY_MESSAGES.RETRIEVED, { subcategory });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("Subcategory"), { subcategory });
 };
 
 export const updateSubcategoryController = async (req: Request, res: Response) => {
@@ -43,7 +43,7 @@ export const updateSubcategoryController = async (req: Request, res: Response) =
 
 	const subcategory = await updateSubcategoryService(id, payload);
 
-	return sendSuccess(res, SUBCATEGORY_MESSAGES.UPDATED, { subcategory });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("Subcategory"), { subcategory });
 };
 
 export const deleteSubcategoryController = async (req: Request, res: Response) => {
@@ -51,5 +51,5 @@ export const deleteSubcategoryController = async (req: Request, res: Response) =
 
 	await deleteSubcategoryService(id);
 
-	return sendSuccess(res, SUBCATEGORY_MESSAGES.DELETED, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("Subcategory"), null);
 };

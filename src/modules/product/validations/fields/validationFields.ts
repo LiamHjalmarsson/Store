@@ -1,17 +1,18 @@
 import { body } from "express-validator";
+import { VALIDATION_MESSAGES } from "../../../../shared/constants/validationMessages.js";
 
 export const productTitleField = () =>
 	body("title")
 		.trim()
 		.notEmpty()
-		.withMessage("Title is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Title"))
 		.isLength({ min: 3, max: 120 })
 		.withMessage("Title must be between 3 and 120 characters");
 
 export const productPriceField = () =>
 	body("price")
 		.notEmpty()
-		.withMessage("Price is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("Price"))
 		.isFloat({ min: 0 })
 		.withMessage("Price must be 0 or higher")
 		.toFloat();
@@ -19,7 +20,7 @@ export const productPriceField = () =>
 export const productCategoryField = () =>
 	body("category_id")
 		.notEmpty()
-		.withMessage("category_id is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("category id"))
 		.isInt({ min: 1 })
 		.withMessage("Invalid category_id")
 		.toInt();
@@ -27,7 +28,7 @@ export const productCategoryField = () =>
 export const productSubcategoryField = () =>
 	body("subcategory_id")
 		.notEmpty()
-		.withMessage("subcategory_id is required")
+		.withMessage(VALIDATION_MESSAGES.REQUIRED("subcategory id"))
 		.isInt({ min: 1 })
 		.withMessage("Invalid subcategory_id")
 		.toInt();

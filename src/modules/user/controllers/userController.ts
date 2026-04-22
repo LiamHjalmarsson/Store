@@ -9,14 +9,14 @@ import {
 	updateUserService,
 } from "../services/userService.js";
 import { CreateUserPayload, UpdateUserPayload } from "../types/user.js";
-import { USER_MESSAGES } from "../constants/userMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
 
 export const getAllUsersController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);
 
 	const result = await getAllUsersService({ page, limit, offset });
 
-	return sendSuccess(res, USER_MESSAGES.RETRIEVED_ALL, {
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED_ALL("Users"), {
 		users: result.items,
 		meta: getPaginationMeta(result),
 	});
@@ -27,7 +27,7 @@ export const createUserController = async (req: Request, res: Response) => {
 
 	const user = await createUserService(payload);
 
-	return sendSuccess(res, USER_MESSAGES.CREATED, { user }, 201);
+	return sendSuccess(res, SUCCESS_MESSAGES.CREATED("User"), { user }, 201);
 };
 
 export const getUserController = async (req: Request, res: Response) => {
@@ -35,7 +35,7 @@ export const getUserController = async (req: Request, res: Response) => {
 
 	const user = await getUserService(id);
 
-	return sendSuccess(res, USER_MESSAGES.RETRIEVED, { user });
+	return sendSuccess(res, SUCCESS_MESSAGES.RETRIEVED("User"), { user });
 };
 
 export const updateUserController = async (req: Request, res: Response) => {
@@ -45,7 +45,7 @@ export const updateUserController = async (req: Request, res: Response) => {
 
 	const user = await updateUserService(id, payload);
 
-	return sendSuccess(res, USER_MESSAGES.UPDATED, { user });
+	return sendSuccess(res, SUCCESS_MESSAGES.UPDATED("User"), { user });
 };
 
 export const deleteUserController = async (req: Request, res: Response) => {
@@ -53,5 +53,5 @@ export const deleteUserController = async (req: Request, res: Response) => {
 
 	await deleteUserService(id);
 
-	return sendSuccess(res, USER_MESSAGES.DELETED, null);
+	return sendSuccess(res, SUCCESS_MESSAGES.DELETED("User"), null);
 };

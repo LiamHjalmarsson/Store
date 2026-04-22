@@ -10,7 +10,7 @@ export const downloadProductService = async (productId: number, userId: number) 
 	const product = await getProductService(productId);
 
 	if (!product.file_url) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Product file"));
 	}
 
 	const isProductCreator = product.creator_id === userId;
@@ -30,7 +30,7 @@ export const downloadProductService = async (productId: number, userId: number) 
 	);
 
 	if (!fileIsStored) {
-		throw new NotFoundError("Stored file not found");
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Product file"));
 	}
 
 	const absoluteFilePath = getFilePath(

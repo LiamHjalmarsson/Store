@@ -5,10 +5,15 @@ import { onlyAllowedFields } from "../../../shared/validations/fields/onlyAllowe
 import { categoryExistsById } from "./rules/categoryExistsById.js";
 import { descriptionField, imageField, isFeaturedField, titleField } from "./fields/validationFields.js";
 import { CATEGORY_FIELDS } from "../constants/categoryFields.js";
-import { CATEGORY_MESSAGES } from "../constants/categoryMessages.js";
+import { VALIDATION_MESSAGES } from "../../../shared/constants/validationMessages.js";
 
 export const updateValidation = validateRequest([
-	param("id").isInt({ min: 1 }).withMessage(CATEGORY_MESSAGES.INVALID_ID).bail().custom(categoryExistsById).bail(),
+	param("id")
+		.isInt({ min: 1 })
+		.withMessage(VALIDATION_MESSAGES.INVALID_ID("Category"))
+		.bail()
+		.custom(categoryExistsById)
+		.bail(),
 
 	body().custom(onlyAllowedFields(CATEGORY_FIELDS)).bail(),
 

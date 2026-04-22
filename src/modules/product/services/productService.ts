@@ -16,7 +16,7 @@ export async function getCreatorProduct(productId: number, creatorId: number) {
 	const product = await findProductByIdForCreatorQuery(productId, creatorId);
 
 	if (!product) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Product"));
 	}
 
 	return product;
@@ -68,7 +68,7 @@ export const getProductService = async (id: number) => {
 	const product = await findProductByIdQuery(id);
 
 	if (!product) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Product"));
 	}
 
 	return product;
@@ -78,7 +78,7 @@ export const updateProductService = async (id: number, creatorId: number, payloa
 	const product = await updateProductByIdQuery(id, creatorId, payload);
 
 	if (!product) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Product"));
 	}
 
 	return product;
@@ -94,7 +94,7 @@ export const deleteProductService = async (id: number, creatorId: number) => {
 	const deleted = await deleteProductByIdQuery(id, creatorId);
 
 	if (!deleted) {
-		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND);
+		throw new NotFoundError(ERROR_MESSAGES.NOT_FOUND("Product"));
 	}
 
 	return true;
