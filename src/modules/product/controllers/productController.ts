@@ -13,7 +13,7 @@ import { updateProductImageService } from "../services/updateImageService.js";
 import { downloadProductService } from "../services/downloadService.js";
 import { CreateProductPayload, ProductUploadFiles, UpdateProductPayload } from "../types/product.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 import { ERROR_MESSAGES } from "../../../shared/constants/errorMessages.js";
 
 export const getAllProductsController = async (req: Request, res: Response) => {

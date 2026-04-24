@@ -17,7 +17,7 @@ import type {
 	UpdateAchievementRequest,
 } from "../types/achievementRequest.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 
 export const getAllAchievementsController = async (_: Request, res: Response) => {
 	const achievements = await getAllAchievementsService();

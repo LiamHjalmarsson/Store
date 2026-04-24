@@ -9,7 +9,7 @@ import {
 	updateUserService,
 } from "../services/userService.js";
 import { CreateUserPayload, UpdateUserPayload } from "../types/user.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 
 export const getAllUsersController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);

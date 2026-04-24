@@ -8,7 +8,7 @@ import {
 } from "../services/categoryService.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import { CreateCategoryRequest, DeleteCategoryRequest, UpdateCategoryRequest } from "../types/categoryRequest.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 
 export const getAllCategoriesController = async (_: Request, res: Response) => {
 	const categories = await getAllCategoriesService();

@@ -11,7 +11,7 @@ import {
 } from "../services/rankService.js";
 import { CreateRankPayload, RankParams, UpdateRankPayload } from "../types/rank.js";
 import { RANK_MESSAGES } from "../constants/rankMessages.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 
 export const getAllRanksController = async (_: Request, res: Response) => {
 	const ranks = await getAllRanksService();
@@ -55,6 +55,10 @@ export const deleteRankController = async (req: Request<RankParams>, res: Respon
 
 export const resolveRankController = async (req: Request, res: Response) => {
 	const xp = Number(req.query.xp);
+
+	if (Number.isNaN(xp) || xp < 0) {
+		throw new BadRequestError("Invalid xp");
+	}
 
 	const rank = await resolveRankService(xp);
 

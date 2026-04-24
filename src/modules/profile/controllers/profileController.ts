@@ -4,7 +4,7 @@ import { UpdateProfilePayload } from "../types/profile.js";
 import { AuthenticatedRequest } from "../../../shared/middlewares/authenticated.js";
 import { sendSuccess } from "../../../shared/utils/http/respond.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 
 export const getProfileController = async (req: AuthenticatedRequest, res: Response) => {
 	const userId = getAuthenticatedUserId(req);

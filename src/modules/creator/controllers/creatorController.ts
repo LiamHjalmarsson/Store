@@ -17,7 +17,7 @@ import {
 	UpdateMyCreatorRequest,
 } from "../types/creatorRequest.js";
 import { getAuthenticatedUserId } from "../../../shared/utils/auth/getAuthenticatedUserId.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 
 export const getAllCreatorsController = async (req: Request, res: Response) => {
 	const { page, limit, offset } = pagination(req.query);

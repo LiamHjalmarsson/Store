@@ -8,7 +8,7 @@ import {
 	updateSubcategoryService,
 } from "../services/subcategoryService.js";
 import { CreateSubcategoryPayload, SubcategoryQuery, UpdateSubcategoryPayload } from "../types/subcategory.js";
-import { SUCCESS_MESSAGES } from "../../../shared/constants/sucessMessages.js";
+import { SUCCESS_MESSAGES } from "../../../shared/constants/successMessages.js";
 
 export const getAllSubcategoriesController = async (req: Request, res: Response) => {
 	const query = req.query as SubcategoryQuery;
